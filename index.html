@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Years — A Memory Lane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ✏️  EDIT YOUR STORY HERE — everything personal lives below.
+   Scroll to the bottom of this file for the JavaScript CONFIG
+   object where you type in names, dates, captions and the song.
+   ============================================================ */
+
+:root{
+  --charcoal:#232320;
+  --charcoal-soft:#2f2e2a;
+  --paper:#f6efe3;
+  --paper-dark:#ecdfc8;
+  --gold:#c6a15b;
+  --gold-light:#e2c184;
+  --wine:#7b2d3b;
+  --sage:#5c6e52;
+  --ink:#2a2620;
+  --string:#a13847;
+  --shadow: 0 18px 40px rgba(0,0,0,.25);
+  --serif: 'Fraunces', serif;
+  --sans: 'Nunito', sans-serif;
+  --hand: 'Caveat', cursive;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
+:focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
+
+.section{ padding: clamp(48px,8vw,110px) 20px; position:relative; }
+.section-inner{ max-width:1000px; margin:0 auto; }
+.eyebrow{
+  font-family:var(--hand); font-size:1.4rem; color:var(--gold);
+  display:block; margin-bottom:6px;
+}
+
+/* ---------- HERO ---------- */
+#hero{
+  min-height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; background:var(--charcoal); color:var(--paper);
+  position:relative; overflow:hidden;
+}
+#hero .hearts{ position:absolute; inset:0; pointer-events:none; }
+#hero .hearts span{
+  position:absolute; bottom:-10%; font-size:1.2rem; color:var(--gold);
+  opacity:.35; animation:float-up linear infinite;
+}
+@keyframes float-up{
+  to{ transform:translateY(-120vh) rotate(20deg); opacity:0; }
+}
+.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:1.6rem; }
+.hero-num{
+  font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--gold);
+  font-weight:600; letter-spacing:-.02em;
+}
+.hero-sub{ font-size:clamp(1.4rem,4vw,2.4rem); margin-top:6px; }
+.hero-names{ margin-top:22px; font-family:var(--hand); font-size:2rem; color:var(--paper); }
+.counter{
+  margin-top:36px; display:flex; gap:clamp(10px,3vw,28px); flex-wrap:wrap; justify-content:center;
+}
+.counter div{ min-width:76px; }
+.counter .num{ font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem); color:var(--paper); font-weight:600; }
+.counter .lbl{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-light); }
+.scroll-cue{ margin-top:56px; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-light); opacity:.8; }
+.scroll-cue::after{ content:"↓"; display:block; margin-top:6px; animation:bob 1.8s ease-in-out infinite; }
+@keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+
+/* ---------- MEMORY LANE (corkboard) ---------- */
+#lane{ background:var(--paper); }
+#lane h2{ font-size:clamp(1.8rem,4vw,2.6rem); text-align:center; }
+#lane .intro{ text-align:center; max-width:520px; margin:10px auto 0; opacity:.8; }
+.board{
+  position:relative; margin-top:60px;
+}
+.thread-svg{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.thread-svg path{
+  fill:none; stroke:var(--string); stroke-width:2; stroke-dasharray:6 7;
+  opacity:.55;
+}
+.polaroids{
+  position:relative; z-index:1; display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:34px 22px;
+}
+@media (max-width:680px){
+  .thread-svg{ display:none; }
+  .polaroids{ grid-template-columns:1fr; max-width:320px; margin:0 auto; gap:44px; }
+}
+.polaroid{
+  background:#fffdf8; padding:12px 12px 18px; box-shadow:var(--shadow);
+  transform:rotate(var(--r,-3deg)); transition:transform .25s ease, box-shadow .25s ease;
+  position:relative;
+}
+.polaroid:nth-child(2n){ --r:2.5deg; }
+.polaroid:nth-child(3n){ --r:-1.5deg; }
+.polaroid:nth-child(4n){ --r:3deg; }
+.polaroid:hover, .polaroid:focus-within{ transform:rotate(0) translateY(-6px) scale(1.03); box-shadow:0 26px 50px rgba(0,0,0,.3); z-index:5; }
+.polaroid .tape{
+  position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-2deg);
+  width:70px; height:22px; background:rgba(198,161,91,.55); backdrop-filter:blur(1px);
+}
+.photo-frame{
+  aspect-ratio:1/1; background:var(--paper-dark); position:relative; overflow:hidden;
+}
+.photo-frame img{ width:100%; height:100%; object-fit:cover; }
+.fallback{
+  display:none; position:absolute; inset:0; align-items:center; justify-content:center;
+  flex-direction:column; gap:6px; background:linear-gradient(135deg,var(--paper-dark),#e0cfa9);
+  color:#8a7550; font-family:var(--sans); font-size:.7rem; text-align:center; padding:10px;
+}
+.fallback .icon{ font-size:1.8rem; }
+.caption{ font-family:var(--hand); font-size:1.25rem; text-align:center; margin:12px 0 2px; color:var(--ink); }
+.date{ text-align:center; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; opacity:.55; }
+
+/* ---------- STORY ---------- */
+#story{ background:var(--charcoal); color:var(--paper); text-align:center; }
+#story .eyebrow{ display:block; }
+#story h2{
+  color:var(--gold-light); font-size:clamp(2rem,5vw,3rem); margin-bottom:8px;
+  font-style:italic; font-weight:500; letter-spacing:.01em;
+}
+.flourish{ display:flex; align-items:center; justify-content:center; gap:10px; margin:0 0 44px; opacity:.8; }
+.flourish::before, .flourish::after{ content:""; width:44px; height:1px; background:var(--gold); opacity:.5; }
+.flourish span{ color:var(--gold); font-size:.9rem; }
+.story-card{
+  background:var(--charcoal-soft); border:1px solid rgba(198,161,91,.35);
+  padding:clamp(36px,6vw,60px) clamp(28px,6vw,56px);
+  border-radius:4px; position:relative; text-align:left;
+  box-shadow:0 30px 70px rgba(0,0,0,.35), 0 0 90px rgba(198,161,91,.06) inset;
+}
+.lead-quote{ font-family:var(--serif); font-size:1.6em; color:var(--gold); line-height:0; position:relative; top:.08em; margin-right:2px; }
+.story-text p{ line-height:1.9; font-size:1.05rem; margin:0 0 16px; }
+.story-text p:last-child{ margin-bottom:0; }
+.signoff{
+  margin-top:26px; font-family:var(--hand); color:var(--gold); text-align:right;
+  font-size:clamp(1.15rem,4.2vw,1.7rem); white-space:nowrap;
+}
+
+/* ---------- SONG ENVELOPE ---------- */
+#song{ background:var(--paper); text-align:center; }
+#song h2{ font-size:clamp(1.8rem,4vw,2.4rem); }
+#song .intro{ opacity:.8; max-width:460px; margin:10px auto 40px; }
+.envelope-wrap{ display:flex; justify-content:center; }
+.envelope{
+  width:min(360px,86vw); position:relative; cursor:pointer; user-select:none;
+  background:transparent; border:none; padding:0; font:inherit;
+}
+.env-body{
+  background:var(--wine); height:200px; position:relative; box-shadow:var(--shadow);
+  display:flex; align-items:flex-end; justify-content:center; padding-bottom:16px;
+  overflow:hidden;
+}
+.env-body .env-label{ font-family:var(--hand); color:var(--gold-light); font-size:1.3rem; }
+.env-flap{
+  position:absolute; top:0; left:0; width:100%; height:100px;
+  background:#5e2029; clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center; transition:transform .6s cubic-bezier(.6,-0.28,.4,1.4);
+}
+.envelope.open .env-flap{ transform:rotateX(180deg); }
+.envelope .heart-seal{
+  position:absolute; top:34px; left:50%; transform:translate(-50%,0); font-size:1.4rem; color:var(--gold);
+  transition:opacity .3s ease; z-index:2;
+}
+.envelope.open .heart-seal{ opacity:0; }
+.song-reveal{
+  max-width:420px; margin:26px auto 0; overflow:hidden; max-height:0; opacity:0;
+  transition:max-height .7s ease, opacity .5s ease .1s;
+}
+.song-reveal.show{ max-height:480px; opacity:1; }
+.song-reveal iframe{ width:100%; height:420px; border-radius:12px; }
+.song-note{ font-family:var(--hand); color:var(--wine); font-size:1.2rem; margin-top:10px; }
+
+/* ---------- NUMBERS ---------- */
+#numbers{ background:var(--charcoal); color:var(--paper); text-align:center; }
+#numbers h2{ color:var(--gold-light); font-size:clamp(1.8rem,4vw,2.4rem); margin-bottom:40px; }
+.stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:28px; }
+.stat .n{ font-family:var(--serif); font-size:clamp(2rem,5vw,3rem); color:var(--gold); font-weight:600; }
+.stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; }
+
+/* ---------- CLOSING ---------- */
+#closing{ background:var(--paper); text-align:center; }
+#closing .note{
+  max-width:560px; margin:0 auto; font-family:var(--hand); font-size:1.7rem; line-height:1.6; color:var(--wine);
+}
+#closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--ink); }
+#closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); }
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  #hero .hearts span, .scroll-cue::after{ animation:none; }
+  .polaroid, .env-flap, .song-reveal{ transition:none; }
+}
+</style>
+</head>
+<body>
+
+<section id="hero">
+  <div class="hearts" id="heartsField"></div>
+  <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
+  <div class="hero-num" id="heroYears">2</div>
+  <div class="hero-sub">Years of Us</div>
+  <div class="hero-names" id="heroNames">Fimi &amp; You</div>
+  <div class="counter" id="counter">
+    <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
+    <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
+    <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
+    <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
+  </div>
+  <div class="scroll-cue">a little trip down memory lane</div>
+</section>
+
+<section id="lane" class="section">
+  <div class="section-inner">
+    <span class="eyebrow" style="text-align:center;display:block;">memory lane</span>
+    <h2>Moments we've collected</h2>
+    <p class="intro">Every photo here is a placeholder — swap in your own and this board fills itself in.</p>
+    <div class="board">
+      <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+        <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
+      </svg>
+      <div class="polaroids" id="polaroidGrid"></div>
+    </div>
+  </div>
+</section>
+
+<section id="story" class="section">
+  <div class="section-inner">
+    <h2>Written in the stars, a serendipitous meeting</h2>
+    <div class="flourish"><span>♥</span></div>
+    <div class="story-card">
+      <div class="story-text" id="storyText"></div>
+      <div class="signoff" id="storySignoff">— written with a lot of love</div>
+    </div>
+  </div>
+</section>
+
+<section id="song" class="section">
+  <div class="section-inner">
+    <span class="eyebrow">a little something</span>
+    <h2>24 months, 24 songs</h2>
+    <p class="intro">One song for every month we've spent together. Open the envelope and press play.</p>
+    <div class="envelope-wrap">
+      <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open envelope to reveal our 24-song playlist">
+        <div class="env-body">
+          <span class="env-label">our playlist</span>
+          <div class="env-flap"></div>
+          <span class="heart-seal">❤</span>
+        </div>
+      </button>
+    </div>
+    <div class="song-reveal" id="songReveal">
+      <div id="songEmbed"></div>
+      <p class="song-note" id="songNote">one song for every month, all twenty-four of them</p>
+    </div>
+  </div>
+</section>
+
+<section id="numbers" class="section">
+  <div class="section-inner">
+    <h2>Us, in numbers</h2>
+    <div class="stats" id="statsGrid"></div>
+  </div>
+</section>
+
+<section id="closing" class="section">
+  <div class="section-inner">
+    <p class="note" id="closingNote">Here's to every ordinary day that became one of my favorites, and every one still ahead of us.</p>
+    <p class="from" id="closingFrom">— Fimi</p>
+    <p class="tiny">made with love · your munchkin pumpkin</p>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   ✏️  EDIT EVERYTHING HERE. This is the only part you need to
+   touch. Replace the text and dates below with your real ones.
+
+   PHOTOS: put your image files in a folder called "photos" right
+   next to this HTML file, and name them exactly as listed below
+   (photo1.jpg, photo2.jpg, ...). If a file is missing, a cute
+   placeholder shows instead — so you can publish now and add
+   photos whenever you're ready.
+
+   SONG: this section plays a 24-song playlist — one song for every
+   month you've been together. In Spotify, make a playlist with your
+   24 songs, then on the playlist go to Share → Embed playlist, and
+   copy the src="..." link from the iframe it gives you. Paste just
+   that link into spotifyEmbedSrc below.
+   ============================================================ */
+const CONFIG = {
+  namesShort: "Fimi & Joy",                 // shown under the big "2"
+  anniversaryStart: "2024-07-27",           // YYYY-MM-DD — the day you got together
+  heroEyebrow: "Happy 2nd Anniversary",
+
+  story: [
+    "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. \u201cIt has to be you,\u201d I said to myself.",
+    "The way you carried yourself, the way you spoke, and the way you made me feel the first time I held your hand, it changed everything.",
+    "It has been two years and I still feel every single thing and more; every single thing you made me feel the first day I saw you. These two years contain the best moments of my life because you are in them. I love you, and I am our biggest fan."
+  ],
+  storySignoff: "— written by Fimi, with a lot of love",
+
+  memories: [
+    { photo: "photos/photo1.jpg", caption: "The first photo", date: "Where it began" },
+    { photo: "photos/photo2.jpg", caption: "That one trip", date: "Somewhere, sometime" },
+    { photo: "photos/photo3.jpg", caption: "Just us", date: "A regular Tuesday" },
+    { photo: "photos/photo4.jpg", caption: "Her favourite", date: "Add the date" },
+    { photo: "photos/photo5.jpg", caption: "The good kind of chaos", date: "Add the date" },
+    { photo: "photos/photo6.jpg", caption: "Us, lately", date: "Add the date" }
+  ],
+
+  // Paste the src link from Spotify's "Embed playlist" share option here.
+  // Build a 24-song playlist first (one song per month together), then embed the whole playlist.
+  spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/0VcRcbwPRYH4jWLtXWzN7h?utm_source=generator",
+  songNote: "one song for every month, all twenty-four of them",
+
+  stats: [
+    { n: "—", l: "Days together" },   // auto-filled from anniversaryStart below
+    { n: "1000+", l: "Inside jokes" },
+    { n: "∞", l: "More to come" },
+    { n: "1", l: "Favourite person" }
+  ],
+
+  closingNote: "Here's to every ordinary day that became one of my favorites, and every one still ahead of us.",
+  closingFrom: "— Fimi"
+};
+
+/* ============================================================
+   Below this line is just the code that makes it all work.
+   No need to edit anything past here.
+   ============================================================ */
+
+document.getElementById('heroEyebrow').textContent = CONFIG.heroEyebrow;
+document.getElementById('heroNames').textContent = CONFIG.namesShort;
+document.getElementById('storySignoff').textContent = CONFIG.storySignoff;
+document.getElementById('songNote').textContent = CONFIG.songNote;
+document.getElementById('closingNote').textContent = CONFIG.closingNote;
+document.getElementById('closingFrom').textContent = CONFIG.closingFrom;
+
+// story paragraphs
+const storyText = document.getElementById('storyText');
+CONFIG.story.forEach((p,i)=>{
+  const el = document.createElement('p');
+  if(i===0){
+    el.innerHTML = `<span class="lead-quote">&ldquo;</span>${p}`;
+  } else {
+    el.textContent = p;
+  }
+  storyText.appendChild(el);
+});
+
+// polaroids
+const grid = document.getElementById('polaroidGrid');
+CONFIG.memories.forEach(m=>{
+  const fig = document.createElement('figure');
+  fig.className = 'polaroid';
+  fig.innerHTML = `
+    <div class="tape"></div>
+    <div class="photo-frame">
+      <img src="${m.photo}" alt="${m.caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="fallback"><span class="icon">🖼️</span>${m.photo}</div>
+    </div>
+    <p class="caption">${m.caption}</p>
+    <p class="date">${m.date}</p>
+  `;
+  grid.appendChild(fig);
+});
+
+// floating hearts in hero
+const heartsField = document.getElementById('heartsField');
+for(let i=0;i<14;i++){
+  const s = document.createElement('span');
+  s.textContent = '❤';
+  s.style.left = Math.random()*100+'%';
+  s.style.animationDuration = (10+Math.random()*10)+'s';
+  s.style.animationDelay = (Math.random()*10)+'s';
+  s.style.fontSize = (0.8+Math.random()*1.2)+'rem';
+  heartsField.appendChild(s);
+}
+
+// live counter
+const start = new Date(CONFIG.anniversaryStart+"T00:00:00");
+function tick(){
+  const now = new Date();
+  let diff = Math.max(0, now - start);
+  const days = Math.floor(diff/86400000);
+  const hours = Math.floor((diff%86400000)/3600000);
+  const mins = Math.floor((diff%3600000)/60000);
+  const secs = Math.floor((diff%60000)/1000);
+  document.getElementById('cDays').textContent = days;
+  document.getElementById('cHours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cMins').textContent = String(mins).padStart(2,'0');
+  document.getElementById('cSecs').textContent = String(secs).padStart(2,'0');
+  document.getElementById('heroYears').textContent = Math.floor(days/365) || 2;
+
+  // fill first stat with live day count
+  const statsFirst = document.querySelector('#statsGrid .stat .n');
+  if(statsFirst) statsFirst.textContent = days;
+}
+tick();
+setInterval(tick,1000);
+
+// stats grid
+const statsGrid = document.getElementById('statsGrid');
+CONFIG.stats.forEach(s=>{
+  const div = document.createElement('div');
+  div.className = 'stat';
+  div.innerHTML = `<div class="n">${s.n}</div><div class="l">${s.l}</div>`;
+  statsGrid.appendChild(div);
+});
+
+// envelope open + spotify embed
+const envelope = document.getElementById('envelope');
+const songReveal = document.getElementById('songReveal');
+const songEmbed = document.getElementById('songEmbed');
+let opened = false;
+envelope.addEventListener('click', ()=>{
+  opened = !opened;
+  envelope.classList.toggle('open', opened);
+  envelope.setAttribute('aria-expanded', opened);
+  songReveal.classList.toggle('show', opened);
+  if(opened && !songEmbed.dataset.loaded){
+    songEmbed.innerHTML = `<iframe src="${CONFIG.spotifyEmbedSrc}" height="420" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Our 24-song playlist"></iframe>`;
+    songEmbed.dataset.loaded = "true";
+  }
+});
+</script>
+</body>
+</html>
