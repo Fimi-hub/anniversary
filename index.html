@@ -272,17 +272,18 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   align-items:center;
   justify-content:center; 
   padding:24px; 
-  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: opacity, transform;
 }
-#gate.unlocked{ transform: scale(0.96); opacity:0; pointer-events:none; }
+#gate.unlocked{ transform: scale(0.95); opacity:0; pointer-events:none; }
 #gate.hidden-completely{ display:none; visibility:hidden; }
 
+/* Visual offset to push the gate up, counteracting the narrow bunny layout */
 .gate-card{
   max-width:380px; width:100%; text-align:center; color:var(--paper);
+  margin-bottom: 12vh;
 }
 
-/* Perfect Stack Container with top alignment to eliminate visual bunny-gaps */
 .gate-stack {
   display: grid;
   grid-template-areas: "cardlayer";
@@ -300,7 +301,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   pointer-events: none;
 }
 
-/* Success Container positioned snugly below the bunny track */
 .gate-success {
   grid-area: cardlayer;
   opacity: 0; 
@@ -317,18 +317,18 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-size: clamp(3.2rem, 10vw, 4.2rem);
   color: var(--gold-light);
   line-height: 1;
-  margin: 0 0 2px 0;
+  margin: 0;
 }
+/* Enhanced top margin to keep the message separated from "Yayyy!" */
 .success-message {
   font-family: var(--serif);
   font-size: 1.25rem;
   font-style: italic;
   opacity: 0.9;
   letter-spacing: 0.02em;
-  margin: 0;
+  margin: 16px 0 0 0;
 }
 
-/* Float absolute error to avoid affecting the card's strict optical center */
 .gate-error {
   position: absolute;
   left: 0; right: 0;
@@ -361,7 +361,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
 
-/* Accelerated loop upon correct unlock */
 .gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s ease-in-out infinite; }
 .gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s ease-in-out infinite; }
 
@@ -708,17 +707,17 @@ gateForm.addEventListener('submit', (e)=>{
     gateCard.classList.add('celebrating');
     spawnConfetti();
     
-    // Step 1: Smoothly fade and scale out the entry gate
+    // Step 1: Allow them to fully process the success state, then kick off the fade out
     setTimeout(() => {
       gate.classList.add('unlocked');
-    }, 2500);
+    }, 2200);
     
-    // Step 2: Unblock layout scrollbars only after the transition completes entirely
+    // Step 2: Unblock scrollbars and clean up DOM strictly AFTER the 1.5s visual transition drops to 0
     setTimeout(() => {
       document.body.classList.remove('gate-active');
       site.removeAttribute('aria-hidden');
       gate.classList.add('hidden-completely');
-    }, 3700); // 2500ms + 1200ms transition time
+    }, 3750); // 2200ms delay + 1500ms transition duration + 50ms processing buffer
     
   } else {
     gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
