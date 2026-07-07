@@ -110,7 +110,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .polaroids{
   position:relative; z-index:1; display:grid;
-  /* Optimized grid track layout to handle responsiveness cleanly */
   grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
   gap:34px 22px;
 }
@@ -120,7 +119,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .polaroid{
   position:relative; perspective:1200px; cursor:pointer;
-  /* FIXED dimensions: Restricting max-width prevents massive height blowing out layout scales */
   max-width:240px; width:100%; margin:0 auto;
   transform:rotate(var(--r,-3deg)); transition:transform .25s ease;
 }
@@ -177,7 +175,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .story-card{
   background:var(--charcoal-soft); border:1px solid rgba(198,161,91,.35);
   padding:clamp(36px,6vw,60px) clamp(28px,6vw,56px);
-  max-width: 760px; margin: 0 auto; /* Keeps the text body crisp and readable on desktops */
+  max-width: 760px; margin: 0 auto;
   border-radius:4px; position:relative; text-align:left;
   box-shadow:0 30px 70px rgba(0,0,0,.35), 0 0 90px rgba(198,161,91,.06) inset;
 }
@@ -248,7 +246,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .bunny-scene{ position:relative; height:96px; margin-bottom:6px; display:flex; align-items:flex-end; justify-content:center; }
 .bunny{ 
   width:74px; height:74px; position:relative; 
-  overflow:visible; /* FIXED: Stops the browser border context from clipping ears */
+  overflow:visible;
 }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
@@ -340,10 +338,10 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
       </svg>
     </div>
     <span class="gate-eyebrow">a little lock, just for you</span>
-    <h2 class="gate-title">When did our story begin?</h2>
-    <p class="gate-hint">Enter the date we met — dd/mm/yyyy</p>
+    <h2 class="gate-title">When did we become official?</h2>
+    <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
     <form id="gateForm">
-      <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we met">
+      <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we became official">
       <button type="submit">Unlock</button>
     </form>
     <p class="gate-error" id="gateError" role="alert"></p>
