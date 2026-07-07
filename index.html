@@ -52,6 +52,16 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   display:block; margin-bottom:6px;
 }
 
+/* ---------- TAP HEARTS (global, touch responsive) ---------- */
+.tap-heart{
+  position:fixed; pointer-events:none; z-index:9999; will-change:transform,opacity;
+  animation: tap-float .9s ease-out forwards;
+}
+@keyframes tap-float{
+  0%{ transform:translate(-50%,-50%) scale(.5) rotate(0deg); opacity:1; }
+  100%{ transform:translate(-50%,-170%) scale(1.3) rotate(12deg); opacity:0; }
+}
+
 /* ---------- HERO ---------- */
 #hero{
   min-height:100svh;
@@ -59,7 +69,15 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   text-align:center; background:var(--charcoal); color:var(--paper);
   position:relative; overflow:hidden;
 }
-#hero .hearts{ position:absolute; inset:0; pointer-events:none; }
+.hero-video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:.22; z-index:0;
+}
+.hero-video-overlay{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(35,35,32,.55), rgba(35,35,32,.8));
+}
+#hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; }
 #hero .hearts span{
   position:absolute; bottom:-10%; font-size:1.2rem; color:var(--gold);
   opacity:.35; animation:float-up linear infinite;
@@ -67,6 +85,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes float-up{
   to{ transform:translateY(-120vh) rotate(20deg); opacity:0; }
 }
+.hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; }
 .hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:1.6rem; }
 .hero-num{
   font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--gold);
@@ -84,7 +103,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .scroll-cue::after{ content:"↓"; display:block; margin-top:6px; animation:bob 1.8s ease-in-out infinite; }
 @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
 
-/* ---------- MEMORY LANE (corkboard) ---------- */
+/* ---------- MEMORY LANE (corkboard, flip cards) ---------- */
 #lane{ background:var(--paper); }
 #lane h2{ font-size:clamp(1.8rem,4vw,2.6rem); text-align:center; }
 #lane .intro{ text-align:center; max-width:520px; margin:10px auto 0; opacity:.8; }
@@ -106,20 +125,34 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   .polaroids{ grid-template-columns:1fr; max-width:320px; margin:0 auto; gap:44px; }
 }
 .polaroid{
-  background:#fffdf8; padding:12px 12px 18px; box-shadow:var(--shadow);
-  transform:rotate(var(--r,-3deg)); transition:transform .25s ease, box-shadow .25s ease;
-  position:relative;
+  position:relative; perspective:1200px; cursor:pointer;
+  transform:rotate(var(--r,-3deg)); transition:transform .25s ease;
 }
 .polaroid:nth-child(2n){ --r:2.5deg; }
 .polaroid:nth-child(3n){ --r:-1.5deg; }
 .polaroid:nth-child(4n){ --r:3deg; }
-.polaroid:hover, .polaroid:focus-within{ transform:rotate(0) translateY(-6px) scale(1.03); box-shadow:0 26px 50px rgba(0,0,0,.3); z-index:5; }
+.polaroid:hover, .polaroid:focus-within{ transform:rotate(0) translateY(-6px) scale(1.03); z-index:5; }
 .polaroid .tape{
   position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-2deg);
   width:70px; height:22px; background:rgba(198,161,91,.55); backdrop-filter:blur(1px);
+  z-index:3; pointer-events:none;
+}
+.polaroid-inner{
+  position:relative; width:100%; aspect-ratio:3/4;
+  transform-style:preserve-3d; transition:transform .6s cubic-bezier(.4,.2,.2,1);
+}
+.polaroid.flipped .polaroid-inner{ transform:rotateY(180deg); }
+.polaroid-front, .polaroid-back{
+  position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  box-shadow:var(--shadow); display:flex; flex-direction:column;
+}
+.polaroid-front{ background:#fffdf8; padding:12px 12px 18px; }
+.polaroid-back{
+  background:linear-gradient(160deg,#fffaf0,#f0dfb9); transform:rotateY(180deg);
+  align-items:center; justify-content:center; text-align:center; padding:22px;
 }
 .photo-frame{
-  aspect-ratio:1/1; background:var(--paper-dark); position:relative; overflow:hidden;
+  flex:1; background:var(--paper-dark); position:relative; overflow:hidden; min-height:0;
 }
 .photo-frame img{ width:100%; height:100%; object-fit:cover; }
 .fallback{
@@ -130,6 +163,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .fallback .icon{ font-size:1.8rem; }
 .caption{ font-family:var(--hand); font-size:1.25rem; text-align:center; margin:12px 0 2px; color:var(--ink); }
 .date{ text-align:center; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; opacity:.55; }
+.back-story{ font-family:var(--hand); font-size:1.15rem; line-height:1.5; color:var(--ink); }
+.back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; }
 
 /* ---------- STORY ---------- */
 #story{ background:var(--charcoal); color:var(--paper); text-align:center; }
@@ -207,32 +242,38 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
   #hero .hearts span, .scroll-cue::after{ animation:none; }
-  .polaroid, .env-flap, .song-reveal{ transition:none; }
+  .polaroid-inner, .env-flap, .song-reveal, .tap-heart{ transition:none; animation:none; }
 }
 </style>
 </head>
 <body>
 
 <section id="hero">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+    <source src="videos/us.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
   <div class="hearts" id="heartsField"></div>
-  <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
-  <div class="hero-num" id="heroYears">2</div>
-  <div class="hero-sub">Years of Us</div>
-  <div class="hero-names" id="heroNames">Fimi &amp; You</div>
-  <div class="counter" id="counter">
-    <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
-    <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
-    <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
-    <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
+    <div class="hero-num" id="heroYears">2</div>
+    <div class="hero-sub">Years of Us</div>
+    <div class="hero-names" id="heroNames">Fimi &amp; You</div>
+    <div class="counter" id="counter">
+      <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
+      <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
+      <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
+      <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
+    </div>
+    <div class="scroll-cue">a little trip down memory lane</div>
   </div>
-  <div class="scroll-cue">a little trip down memory lane</div>
 </section>
 
 <section id="lane" class="section">
   <div class="section-inner">
     <span class="eyebrow" style="text-align:center;display:block;">memory lane</span>
     <h2>Moments we've collected</h2>
-    <p class="intro">Every photo here is a placeholder — swap in your own and this board fills itself in.</p>
+    <p class="intro">Tap a photo to flip it over.</p>
     <div class="board">
       <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
         <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
@@ -295,10 +336,18 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
    touch. Replace the text and dates below with your real ones.
 
    PHOTOS: put your image files in a folder called "photos" right
-   next to this HTML file, and name them exactly as listed below
-   (photo1.jpg, photo2.jpg, ...). If a file is missing, a cute
-   placeholder shows instead — so you can publish now and add
-   photos whenever you're ready.
+   next to this HTML file, named photo1.jpg, photo2.jpg, etc.
+   If a file is missing, a cute placeholder shows instead.
+
+   FLIP STORY: each memory now has a "story" line too — that's
+   what shows on the back of the card when she taps it.
+
+   VIDEO: put a short (10–20 second) looping video of you two in
+   a folder called "videos" next to this file, named exactly
+   "us.mp4". Keep the file small (a phone clip trimmed short and
+   compressed works best) so the page loads quickly. If you don't
+   add one yet, the background just stays a plain dark color —
+   nothing breaks.
 
    SONG: this section plays a 24-song playlist — one song for every
    month you've been together. In Spotify, make a playlist with your
@@ -310,6 +359,7 @@ const CONFIG = {
   namesShort: "Fimi & Joy",                 // shown under the big "2"
   anniversaryStart: "2024-07-27",           // YYYY-MM-DD — the day you got together
   heroEyebrow: "Happy 2nd Anniversary",
+  heroVideoSrc: "videos/us.mp4",            // short looping video behind the hero text
 
   story: [
     "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. \u201cIt has to be you,\u201d I said to myself.",
@@ -319,16 +369,15 @@ const CONFIG = {
   storySignoff: "— written by Fimi, with a lot of love",
 
   memories: [
-    { photo: "photos/photo1.jpg", caption: "The first photo", date: "Where it all began" },
-    { photo: "photos/photo2.jpg", caption: "6 months with you", date: "27-01-2025" },
-    { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025" },
-    { photo: "photos/photo4.jpg", caption: "A year with you", date: "27-07-2025" },
-    { photo: "photos/photo5.jpg", caption: "Just Us", date: "05-09-2025" },
-    { photo: "photos/photo6.jpg", caption: "Us, on a random weekend", date: "16-05-2026" }
+    { photo: "photos/photo1.jpg", caption: "The first photo", date: "Where it all began", story: "Tell the little story behind this one — where you were, what you were feeling." },
+    { photo: "photos/photo2.jpg", caption: "6 months with you", date: "27-01-2025", story: "What made this day worth remembering?" },
+    { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025", story: "What happened right before or after this photo?" },
+    { photo: "photos/photo4.jpg", caption: "A year with you", date: "27-07-2025", story: "How did it feel hitting a full year together?" },
+    { photo: "photos/photo5.jpg", caption: "Just Us", date: "05-09-2025", story: "What made this an ordinary day worth keeping?" },
+    { photo: "photos/photo6.jpg", caption: "Us, on a random weekend", date: "16-05-2026", story: "What's the inside joke or detail only you two would get?" }
   ],
 
   // Paste the src link from Spotify's "Embed playlist" share option here.
-  // Build a 24-song playlist first (one song per month together), then embed the whole playlist.
   spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/0VcRcbwPRYH4jWLtXWzN7h?utm_source=generator",
   songNote: "one song for every month, all twenty-four of them",
 
@@ -355,6 +404,17 @@ document.getElementById('songNote').textContent = CONFIG.songNote;
 document.getElementById('closingNote').textContent = CONFIG.closingNote;
 document.getElementById('closingFrom').textContent = CONFIG.closingFrom;
 
+// hero background video — fails silently into a plain dark background if missing
+const heroVideo = document.getElementById('heroVideo');
+if(CONFIG.heroVideoSrc){
+  const src = heroVideo.querySelector('source');
+  src.src = CONFIG.heroVideoSrc;
+  heroVideo.addEventListener('error', ()=>{ heroVideo.style.display = 'none'; });
+  heroVideo.load();
+} else {
+  heroVideo.style.display = 'none';
+}
+
 // story paragraphs
 const storyText = document.getElementById('storyText');
 CONFIG.story.forEach((p,i)=>{
@@ -367,20 +427,40 @@ CONFIG.story.forEach((p,i)=>{
   storyText.appendChild(el);
 });
 
-// polaroids
+// polaroids — tap/click to flip and reveal the story on the back
 const grid = document.getElementById('polaroidGrid');
 CONFIG.memories.forEach(m=>{
   const fig = document.createElement('figure');
   fig.className = 'polaroid';
+  fig.tabIndex = 0;
+  fig.setAttribute('role','button');
+  fig.setAttribute('aria-pressed','false');
+  fig.setAttribute('aria-label', `${m.caption}. Tap to flip and read the story.`);
   fig.innerHTML = `
     <div class="tape"></div>
-    <div class="photo-frame">
-      <img src="${m.photo}" alt="${m.caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="fallback"><span class="icon">🖼️</span>${m.photo}</div>
+    <div class="polaroid-inner">
+      <div class="polaroid-front">
+        <div class="photo-frame">
+          <img src="${m.photo}" alt="${m.caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="fallback"><span class="icon">🖼️</span>${m.photo}</div>
+        </div>
+        <p class="caption">${m.caption}</p>
+        <p class="date">${m.date}</p>
+      </div>
+      <div class="polaroid-back">
+        <p class="back-story">${m.story || ''}</p>
+        <p class="back-hint">tap to flip back</p>
+      </div>
     </div>
-    <p class="caption">${m.caption}</p>
-    <p class="date">${m.date}</p>
   `;
+  function toggleFlip(){
+    const flipped = fig.classList.toggle('flipped');
+    fig.setAttribute('aria-pressed', flipped);
+  }
+  fig.addEventListener('click', toggleFlip);
+  fig.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleFlip(); }
+  });
   grid.appendChild(fig);
 });
 
@@ -441,6 +521,19 @@ envelope.addEventListener('click', ()=>{
     songEmbed.innerHTML = `<iframe src="${CONFIG.spotifyEmbedSrc}" height="420" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Our 24-song playlist"></iframe>`;
     songEmbed.dataset.loaded = "true";
   }
+});
+
+// tap-anywhere floating love emojis — works for touch taps and mouse clicks alike
+const TAP_EMOJIS = ['❤️','💛','✨','💕'];
+document.addEventListener('click', (e)=>{
+  const heart = document.createElement('span');
+  heart.className = 'tap-heart';
+  heart.textContent = TAP_EMOJIS[Math.floor(Math.random()*TAP_EMOJIS.length)];
+  heart.style.left = e.clientX + 'px';
+  heart.style.top = e.clientY + 'px';
+  heart.style.fontSize = (1.1 + Math.random()*0.8) + 'rem';
+  document.body.appendChild(heart);
+  heart.addEventListener('animationend', ()=> heart.remove());
 });
 </script>
 </body>
