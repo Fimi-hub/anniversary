@@ -111,11 +111,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .polaroids{
   position:relative; z-index:1; display:grid;
   grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:34px 22px;
+  gap:46px 34px; /* Slightly widened grid gap layout for cleaner breathing room */
 }
 @media (max-width:680px){
   .thread-svg{ display:none; }
-  .polaroids{ grid-template-columns:1fr; max-width:340px; margin:0 auto; gap:44px; }
+  .polaroids{ grid-template-columns:1fr; max-width:340px; margin:0 auto; gap:54px; } /* Slightly larger gap on stack */
 }
 .polaroid{
   position:relative; perspective:1200px; cursor:pointer;
@@ -236,7 +236,9 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 /* ---------- ENTRY GATE ---------- */
 #gate{
   position:fixed; inset:0; z-index:10000; background:var(--charcoal);
-  display:flex; align-items:center; justify-content:center; padding:24px;
+  display:flex; align-items:center; justify-content:center; 
+  /* Weighted bottom padding forces the centered flex context slightly higher up on the screen */
+  padding: 24px 24px 130px 24px; 
   transition:opacity .7s ease, visibility .7s ease;
 }
 #gate.unlocked{ opacity:0; visibility:hidden; pointer-events:none; }
