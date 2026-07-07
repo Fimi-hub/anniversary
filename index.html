@@ -79,7 +79,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   to{ transform:translateY(-120vh) rotate(20deg); opacity:0; }
 }
 .hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; padding:0 22px; max-width:100%; }
-.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:clamp(1.7rem,7.5vw,3rem); margin-top:-14px; margin-bottom:4px; }
+.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:clamp(2.2rem,8vw,3rem); margin-top:-14px; margin-bottom:4px; }
 .hero-num{
   font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--gold);
   font-weight:600; letter-spacing:-.02em;
@@ -387,6 +387,7 @@ CONFIG.story.forEach((p,i)=>{
 });
 
 const grid = document.getElementById('polaroidGrid');
+let currentlyFlipped = null;
 CONFIG.memories.forEach(m=>{
   const fig = document.createElement('figure');
   fig.className = 'polaroid';
@@ -412,8 +413,13 @@ CONFIG.memories.forEach(m=>{
     </div>
   `;
   function toggleFlip(){
+    if(currentlyFlipped && currentlyFlipped !== fig){
+      currentlyFlipped.classList.remove('flipped');
+      currentlyFlipped.setAttribute('aria-pressed','false');
+    }
     const flipped = fig.classList.toggle('flipped');
     fig.setAttribute('aria-pressed', flipped);
+    currentlyFlipped = flipped ? fig : null;
   }
   fig.addEventListener('click', toggleFlip);
   fig.addEventListener('keydown', (e)=>{
