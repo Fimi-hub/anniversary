@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Two Years — A Memory Lane</title>
+<title>Two Years — A Scrapbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
@@ -268,43 +268,48 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   padding: 24px; 
   transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
 }
-/* Premium layout scale away exit */
 #gate.unlocked{ transform: scale(1.1); opacity:0; visibility:hidden; pointer-events:none; }
 
 .gate-card{
   max-width:380px; width:100%; text-align:center; color:var(--paper);
-  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Container to handle state changes seamlessly */
+/* Perfect Stack Container to completely remove the shift/bump bug */
+.gate-stack {
+  display: grid;
+  grid-template-areas: "cardlayer";
+  align-items: center;
+  margin-top: 18px;
+}
+
 .gate-form-wrap {
+  grid-area: cardlayer;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .gate-card.celebrating .gate-form-wrap {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(-10px);
   pointer-events: none;
 }
 
-/* Success Message Container */
+/* Success Container inside the exact same spatial track */
 .gate-success {
-  position: absolute;
-  top: 55%; left: 50%;
-  transform: translate(-50%, -40%);
-  width: 90%; max-width: 340px;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+  grid-area: cardlayer;
+  opacity: 0; 
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
 }
 .gate-card.celebrating .gate-success {
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translateY(0);
 }
 .success-title {
   font-family: var(--hand);
-  font-size: clamp(3rem, 10vw, 4rem);
+  font-size: clamp(3.2rem, 10vw, 4.2rem);
   color: var(--gold-light);
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .success-message {
   font-family: var(--serif);
@@ -314,7 +319,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   letter-spacing: 0.02em;
 }
 
-/* Confetti Styling */
+/* Confetti System */
 .confetti {
   position: absolute;
   width: 8px; height: 14px;
@@ -328,13 +333,13 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
 }
 
-/* Bunny Base Scenes */
-.bunny-scene{ position:relative; height:96px; margin-bottom:14px; display:flex; align-items:flex-end; justify-content:center; }
+/* Bunny Scene Animation Tracks */
+.bunny-scene{ position:relative; height:96px; margin-bottom:4px; display:flex; align-items:flex-end; justify-content:center; }
 .bunny { width:74px; height:74px; position:relative; overflow:visible; }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
 
-/* Excited bunny state after getting correct code */
+/* Accelerated loop upon correct unlock */
 .gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s ease-in-out infinite; }
 .gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s ease-in-out infinite; }
 
@@ -429,20 +434,22 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
       </svg>
     </div>
 
-    <div class="gate-form-wrap" id="gateFormWrap">
-      <span class="gate-eyebrow">a little lock, just for you</span>
-      <h2 class="gate-title">When did we become official?</h2>
-      <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
-      <form id="gateForm">
-        <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we became official">
-        <button type="submit">Unlock</button>
-      </form>
-      <p class="gate-error" id="gateError" role="alert"></p>
-    </div>
+    <div class="gate-stack">
+      <div class="gate-form-wrap" id="gateFormWrap">
+        <span class="gate-eyebrow">a little lock, just for you</span>
+        <h2 class="gate-title">When did we become official?</h2>
+        <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
+        <form id="gateForm">
+          <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we became official">
+          <button type="submit">Unlock</button>
+        </form>
+        <p class="gate-error" id="gateError" role="alert"></p>
+      </div>
 
-    <div class="gate-success" id="gateSuccess">
-      <h2 class="success-title">Yayyy! 🎉</h2>
-      <p class="success-message">Welcome to our trip down memory lane...</p>
+      <div class="gate-success" id="gateSuccess">
+        <h2 class="success-title">Yayyy!</h2>
+        <p class="success-message">Welcome to our little world... ✨</p>
+      </div>
     </div>
   </div>
 </div>
@@ -471,7 +478,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
   <section id="lane" class="section">
     <div class="section-inner">
-      <span class="eyebrow" style="text-align:center;display:block;">memory lane</span>
+      <span class="eyebrow" style="text-align:center;display:block;">pieces of us</span>
       <h2>Moments we have collected</h2>
       <p class="intro">Tap a photo to flip it over.</p>
       <div class="board">
@@ -656,7 +663,6 @@ CONFIG.stats.forEach(s=>{
   statsGrid.appendChild(div);
 });
 
-// JavaScript Confetti Engine
 function spawnConfetti() {
   const colors = ['#c6a15b', '#e2c184', '#7b2d3b', '#fffaf2'];
   for (let i = 0; i < 75; i++) {
@@ -681,16 +687,14 @@ gateForm.addEventListener('submit', (e)=>{
   const expectedShortYear = D + M + Y.slice(2);
   
   if(digits === expectedFull || digits === expectedShortYear){
-    // 1. Start the visual celebration sequence
     gateCard.classList.add('celebrating');
     spawnConfetti();
     
-    // 2. Beautiful delayed portal exit to the main experience
     setTimeout(() => {
       gate.classList.add('unlocked');
       document.body.classList.remove('gate-active');
       site.removeAttribute('aria-hidden');
-    }, 3200); // Gives her 3.2 seconds to view the custom welcome message
+    }, 3200);
     
   } else {
     gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
