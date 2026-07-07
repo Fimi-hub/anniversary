@@ -110,7 +110,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .polaroids{
   position:relative; z-index:1; display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  /* Optimized grid track layout to handle responsiveness cleanly */
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
   gap:34px 22px;
 }
 @media (max-width:680px){
@@ -119,6 +120,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .polaroid{
   position:relative; perspective:1200px; cursor:pointer;
+  /* FIXED dimensions: Restricting max-width prevents massive height blowing out layout scales */
+  max-width:240px; width:100%; margin:0 auto;
   transform:rotate(var(--r,-3deg)); transition:transform .25s ease;
 }
 .polaroid:nth-child(2n){ --r:2.5deg; }
@@ -174,6 +177,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .story-card{
   background:var(--charcoal-soft); border:1px solid rgba(198,161,91,.35);
   padding:clamp(36px,6vw,60px) clamp(28px,6vw,56px);
+  max-width: 760px; margin: 0 auto; /* Keeps the text body crisp and readable on desktops */
   border-radius:4px; position:relative; text-align:left;
   box-shadow:0 30px 70px rgba(0,0,0,.35), 0 0 90px rgba(198,161,91,.06) inset;
 }
@@ -242,7 +246,10 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   max-width:380px; width:100%; text-align:center; color:var(--paper);
 }
 .bunny-scene{ position:relative; height:96px; margin-bottom:6px; display:flex; align-items:flex-end; justify-content:center; }
-.bunny{ width:74px; height:74px; position:relative; }
+.bunny{ 
+  width:74px; height:74px; position:relative; 
+  overflow:visible; /* FIXED: Stops the browser border context from clipping ears */
+}
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
 @keyframes bunny-left-kiss{
@@ -344,122 +351,90 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 </div>
 
 <div id="site">
-
-  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-    <source src="videos/us.mp4" type="video/mp4">
-  </video>
-  <div class="hero-video-overlay"></div>
-  <div class="hearts" id="heartsField"></div>
-  <div class="hero-content">
-    <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
-    <div class="hero-num" id="heroYears">2</div>
-    <div class="hero-sub">Years of Us</div>
-    <div class="hero-names" id="heroNames">Fimi &amp; You</div>
-    <div class="counter" id="counter">
-      <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
-      <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
-      <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
-      <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
+  <section id="hero">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+      <source src="videos/us.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
+    <div class="hearts" id="heartsField"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
+      <div class="hero-num" id="heroYears">2</div>
+      <div class="hero-sub">Years of Us</div>
+      <div class="hero-names" id="heroNames">Fimi & You</div>
+      <div class="counter" id="counter">
+        <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
+        <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
+        <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
+        <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
+      </div>
+      <div class="scroll-cue">a little trip down memory lane</div>
     </div>
-    <div class="scroll-cue">a little trip down memory lane</div>
-  </div>
-</section>
+  </section>
 
-<section id="lane" class="section">
-  <div class="section-inner">
-    <span class="eyebrow" style="text-align:center;display:block;">memory lane</span>
-    <h2>Moments we have collected</h2>
-    <p class="intro">Tap a photo to flip it over.</p>
-    <div class="board">
-      <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
-        <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
-      </svg>
-      <div class="polaroids" id="polaroidGrid"></div>
+  <section id="lane" class="section">
+    <div class="section-inner">
+      <span class="eyebrow" style="text-align:center;display:block;">memory lane</span>
+      <h2>Moments we have collected</h2>
+      <p class="intro">Tap a photo to flip it over.</p>
+      <div class="board">
+        <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+          <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
+        </svg>
+        <div class="polaroids" id="polaroidGrid"></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="story" class="section">
-  <div class="section-inner">
-    <h2>Written in the stars, a serendipitous meeting</h2>
-    <div class="flourish"><span>♥</span></div>
-    <div class="story-card">
-      <div class="story-text" id="storyText"></div>
-      <div class="signoff" id="storySignoff">— written with a lot of love</div>
+  <section id="story" class="section">
+    <div class="section-inner">
+      <h2>Written in the stars, a serendipitous meeting</h2>
+      <div class="flourish"><span>♥</span></div>
+      <div class="story-card">
+        <div class="story-text" id="storyText"></div>
+        <div class="signoff" id="storySignoff">— written with a lot of love</div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="song" class="section">
-  <div class="section-inner">
-    <span class="eyebrow">a little something</span>
-    <h2>24 months, 24 songs</h2>
-    <p class="intro">Open the envelope and press play.</p>
-    <div class="envelope-wrap">
-      <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open envelope to reveal our 24-song playlist">
-        <div class="env-body">
-          <span class="env-label">our playlist</span>
-          <div class="env-flap"></div>
-          <span class="heart-seal">❤</span>
-        </div>
-      </button>
+  <section id="song" class="section">
+    <div class="section-inner">
+      <span class="eyebrow">a little something</span>
+      <h2>24 months, 24 songs</h2>
+      <p class="intro">Open the envelope and press play.</p>
+      <div class="envelope-wrap">
+        <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open envelope to reveal our 24-song playlist">
+          <div class="env-body">
+            <span class="env-label">our playlist</span>
+            <div class="env-flap"></div>
+            <span class="heart-seal">❤</span>
+          </div>
+        </button>
+      </div>
+      <div class="song-reveal" id="songReveal">
+        <div id="songEmbed"></div>
+        <p class="song-note" id="songNote">one song for every month, all twenty-four of them</p>
+      </div>
     </div>
-    <div class="song-reveal" id="songReveal">
-      <div id="songEmbed"></div>
-      <p class="song-note" id="songNote">one song for every month, all twenty-four of them</p>
+  </section>
+
+  <section id="numbers" class="section">
+    <div class="section-inner">
+      <h2>Us, in numbers</h2>
+      <div class="stats" id="statsGrid"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="numbers" class="section">
-  <div class="section-inner">
-    <h2>Us, in numbers</h2>
-    <div class="stats" id="statsGrid"></div>
-  </div>
-</section>
-
-<section id="closing" class="section">
-  <div class="section-inner">
-    <p class="note" id="closingNote">Here's to every ordinary day that became one of my favorites, and every one still ahead of us.</p>
-    <p class="from" id="closingFrom">— Fimi</p>
-    <p class="tiny">made with love · your munchkin pumpkin</p>
-  </div>
-</section>
-
+  <section id="closing" class="section">
+    <div class="section-inner">
+      <p class="note" id="closingNote">Here's to every ordinary day that became one of my favorites, and every one still ahead of us.</p>
+      <p class="from" id="closingFrom">— Fimi</p>
+      <p class="tiny">made with love · your munchkin pumpkin</p>
+    </div>
+  </section>
 </div>
 
 <script>
-document.body.classList.add('gate-active');
-const site = document.getElementById('site');
-site.setAttribute('aria-hidden','true');
-
-const gate = document.getElementById('gate');
-const gateForm = document.getElementById('gateForm');
-const gateInput = document.getElementById('gateInput');
-const gateError = document.getElementById('gateError');
-const gateCard = document.getElementById('gateCard');
-
-gateForm.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const digits = gateInput.value.replace(/[^0-9]/g,'');
-  const [Y,M,D] = CONFIG.anniversaryStart.split('-');
-  const expectedFull = D + M + Y;
-  const expectedShortYear = D + M + Y.slice(2);
-  if(digits === expectedFull || digits === expectedShortYear){
-    gate.classList.add('unlocked');
-    document.body.classList.remove('gate-active');
-    site.removeAttribute('aria-hidden');
-  } else {
-    gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
-    gateError.classList.add('show');
-    gateCard.classList.remove('shake');
-    void gateCard.offsetWidth;
-    gateCard.classList.add('shake');
-    gateInput.value = '';
-    gateInput.focus();
-  }
-});
-
 const CONFIG = {
   namesShort: "Fimi & Joy",
   anniversaryStart: "2024-07-27",
@@ -467,7 +442,7 @@ const CONFIG = {
   heroVideoSrc: "videos/us.mp4",
 
   story: [
-    "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. \u201cIt has to be you,\u201d I said to myself.",
+    "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. “It has to be you,” I said to myself.",
     "The way you carried yourself, the way you spoke, and the way you made me feel the first time I held your hand, it changed everything.",
     "It has been two years and I still feel every single thing and more; every single thing you made me feel the first day I saw you. These two years contain the best moments of my life because you are in them. I love you, and I am our biggest fan."
   ],
@@ -496,6 +471,16 @@ const CONFIG = {
   closingFrom: "— Fimi"
 };
 
+document.body.classList.add('gate-active');
+const site = document.getElementById('site');
+site.setAttribute('aria-hidden','true');
+
+const gate = document.getElementById('gate');
+const gateForm = document.getElementById('gateForm');
+const gateInput = document.getElementById('gateInput');
+const gateError = document.getElementById('gateError');
+const gateCard = document.getElementById('gateCard');
+
 document.getElementById('heroEyebrow').textContent = CONFIG.heroEyebrow;
 document.getElementById('heroNames').textContent = CONFIG.namesShort;
 document.getElementById('storySignoff').textContent = CONFIG.storySignoff;
@@ -517,7 +502,7 @@ const storyText = document.getElementById('storyText');
 CONFIG.story.forEach((p,i)=>{
   const el = document.createElement('p');
   if(i===0){
-    el.innerHTML = `<span class="lead-quote">&ldquo;</span>${p}`;
+    el.innerHTML = `<span class="lead-quote">“</span>${p}`;
   } else {
     el.textContent = p;
   }
@@ -566,6 +551,35 @@ CONFIG.memories.forEach(m=>{
   grid.appendChild(fig);
 });
 
+const statsGrid = document.getElementById('statsGrid');
+CONFIG.stats.forEach(s=>{
+  const div = document.createElement('div');
+  div.className = 'stat';
+  div.innerHTML = `<div class="n">${s.n}</div><div class="l">${s.l}</div>`;
+  statsGrid.appendChild(div);
+});
+
+gateForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const digits = gateInput.value.replace(/[^0-9]/g,'');
+  const [Y,M,D] = CONFIG.anniversaryStart.split('-');
+  const expectedFull = D + M + Y;
+  const expectedShortYear = D + M + Y.slice(2);
+  if(digits === expectedFull || digits === expectedShortYear){
+    gate.classList.add('unlocked');
+    document.body.classList.remove('gate-active');
+    site.removeAttribute('aria-hidden');
+  } else {
+    gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
+    gateError.classList.add('show');
+    gateCard.classList.remove('shake');
+    void gateCard.offsetWidth;
+    gateCard.classList.add('shake');
+    gateInput.value = '';
+    gateInput.focus();
+  }
+});
+
 const heartsField = document.getElementById('heartsField');
 for(let i=0;i<14;i++){
   const s = document.createElement('span');
@@ -596,14 +610,6 @@ function tick(){
 tick();
 setInterval(tick,1000);
 
-const statsGrid = document.getElementById('statsGrid');
-CONFIG.stats.forEach(s=>{
-  const div = document.createElement('div');
-  div.className = 'stat';
-  div.innerHTML = `<div class="n">${s.n}</div><div class="l">${s.l}</div>`;
-  statsGrid.appendChild(div);
-});
-
 const envelope = document.getElementById('envelope');
 const songReveal = document.getElementById('songReveal');
 const songEmbed = document.getElementById('songEmbed');
@@ -621,6 +627,7 @@ envelope.addEventListener('click', ()=>{
 
 const TAP_EMOJIS = ['❤️','💛','✨','💕'];
 document.addEventListener('click', (e)=>{
+  if(e.target.closest('#gateForm') || e.target.closest('#envelope')) return;
   const heart = document.createElement('span');
   heart.className = 'tap-heart';
   heart.textContent = TAP_EMOJIS[Math.floor(Math.random()*TAP_EMOJIS.length)];
