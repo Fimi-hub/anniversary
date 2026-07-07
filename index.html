@@ -263,23 +263,31 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
 /* ---------- ENTRY GATE & ANIMATIONS ---------- */
 #gate{
-  position:fixed; inset:0; z-index:10000; background:var(--charcoal);
-  display:flex; align-items:center; justify-content:center; 
-  padding: 24px; 
-  transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:var(--charcoal);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center; 
+  padding:24px; 
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
 }
-#gate.unlocked{ transform: scale(1.1); opacity:0; visibility:hidden; pointer-events:none; }
+#gate.unlocked{ transform: scale(0.96); opacity:0; pointer-events:none; }
+#gate.hidden-completely{ display:none; visibility:hidden; }
 
 .gate-card{
   max-width:380px; width:100%; text-align:center; color:var(--paper);
 }
 
-/* Perfect Stack Container to completely remove the shift/bump bug */
+/* Perfect Stack Container with top alignment to eliminate visual bunny-gaps */
 .gate-stack {
   display: grid;
   grid-template-areas: "cardlayer";
-  align-items: center;
-  margin-top: 18px;
+  align-items: start;
+  margin-top: 10px;
 }
 
 .gate-form-wrap {
@@ -288,17 +296,17 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .gate-card.celebrating .gate-form-wrap {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   pointer-events: none;
 }
 
-/* Success Container inside the exact same spatial track */
+/* Success Container positioned snugly below the bunny track */
 .gate-success {
   grid-area: cardlayer;
   opacity: 0; 
   pointer-events: none;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
 }
 .gate-card.celebrating .gate-success {
   opacity: 1;
@@ -309,7 +317,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-size: clamp(3.2rem, 10vw, 4.2rem);
   color: var(--gold-light);
   line-height: 1;
-  margin-bottom: 6px;
+  margin: 0 0 2px 0;
 }
 .success-message {
   font-family: var(--serif);
@@ -317,7 +325,21 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-style: italic;
   opacity: 0.9;
   letter-spacing: 0.02em;
+  margin: 0;
 }
+
+/* Float absolute error to avoid affecting the card's strict optical center */
+.gate-error {
+  position: absolute;
+  left: 0; right: 0;
+  margin: 12px 0 0 0;
+  font-size: .85rem;
+  color: var(--gold-light);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.gate-error.show{ opacity:1; }
 
 /* Confetti System */
 .confetti {
@@ -333,8 +355,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
 }
 
-/* Bunny Scene Animation Tracks */
-.bunny-scene{ position:relative; height:96px; margin-bottom:4px; display:flex; align-items:flex-end; justify-content:center; }
+/* Bunny Scene Space Tuning */
+.bunny-scene{ position:relative; height:90px; margin-bottom:-4px; display:flex; align-items:flex-end; justify-content:center; }
 .bunny { width:74px; height:74px; position:relative; overflow:visible; }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
@@ -367,8 +389,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 
 .gate-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:1.5rem; display:block; margin-bottom:6px; }
-.gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--paper); font-style:italic; font-weight:500; margin-bottom:10px; }
-.gate-hint{ font-size:.85rem; opacity:.7; margin-bottom:22px; }
+.gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--paper); font-style:italic; font-weight:500; margin:0 0 8px 0; }
+.gate-hint{ font-size:.85rem; opacity:.7; margin:0 0 18px 0; }
 #gateForm{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
 #gateInput{
   flex:1; min-width:0; max-width:220px; text-align:center; letter-spacing:.05em;
@@ -382,11 +404,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   transition:transform .15s ease, background .2s ease;
 }
 #gateForm button:hover{ background:var(--gold-light); transform:translateY(-1px); }
-.gate-error{
-  min-height:1.4em; margin-top:16px; font-size:.85rem; color:var(--gold-light);
-  opacity:0; transition:opacity .3s ease;
-}
-.gate-error.show{ opacity:1; }
+
 .gate-card.shake{ animation:gate-shake .45s ease; }
 @keyframes gate-shake{
   0%,100%{ transform:translateX(0); }
@@ -690,11 +708,17 @@ gateForm.addEventListener('submit', (e)=>{
     gateCard.classList.add('celebrating');
     spawnConfetti();
     
+    // Step 1: Smoothly fade and scale out the entry gate
     setTimeout(() => {
       gate.classList.add('unlocked');
+    }, 2500);
+    
+    // Step 2: Unblock layout scrollbars only after the transition completes entirely
+    setTimeout(() => {
       document.body.classList.remove('gate-active');
       site.removeAttribute('aria-hidden');
-    }, 3200);
+      gate.classList.add('hidden-completely');
+    }, 3700); // 2500ms + 1200ms transition time
     
   } else {
     gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
