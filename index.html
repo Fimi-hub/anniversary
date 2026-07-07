@@ -35,6 +35,7 @@ body{
   color:var(--ink);
   overflow-x:hidden;
 }
+body.gate-active{ overflow:hidden; height:100%; }
 img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
@@ -230,16 +231,120 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--ink); }
 #closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); }
 
+/* ---------- ENTRY GATE ---------- */
+#gate{
+  position:fixed; inset:0; z-index:10000; background:var(--charcoal);
+  display:flex; align-items:center; justify-content:center; padding:24px;
+  transition:opacity .7s ease, visibility .7s ease;
+}
+#gate.unlocked{ opacity:0; visibility:hidden; pointer-events:none; }
+.gate-card{
+  max-width:380px; width:100%; text-align:center; color:var(--paper);
+}
+.bunny-scene{ position:relative; height:96px; margin-bottom:6px; display:flex; align-items:flex-end; justify-content:center; }
+.bunny{ width:74px; height:74px; position:relative; }
+.bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
+.bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
+@keyframes bunny-left-kiss{
+  0%,58%{ transform:translateX(0) rotate(0deg); }
+  76%{ transform:translateX(16px) rotate(-7deg); }
+  100%{ transform:translateX(0) rotate(0deg); }
+}
+@keyframes bunny-right-kiss{
+  0%,58%{ transform:translateX(0) rotate(0deg); }
+  76%{ transform:translateX(-16px) rotate(7deg); }
+  100%{ transform:translateX(0) rotate(0deg); }
+}
+.kiss-heart{
+  position:absolute; top:-4px; left:50%; font-size:1.3rem; color:var(--gold);
+  animation: kiss-heart-pop 3.6s ease-in-out infinite;
+}
+@keyframes kiss-heart-pop{
+  0%,66%{ opacity:0; transform:translateX(-50%) scale(.4); }
+  78%{ opacity:1; transform:translateX(-50%) scale(1.15); }
+  88%{ opacity:1; transform:translateX(-50%) scale(1); }
+  100%{ opacity:0; transform:translateX(-50%) scale(.6); }
+}
+.gate-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:1.5rem; display:block; margin-bottom:6px; }
+.gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--paper); font-style:italic; font-weight:500; margin-bottom:10px; }
+.gate-hint{ font-size:.85rem; opacity:.7; margin-bottom:22px; }
+#gateForm{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+#gateInput{
+  flex:1; min-width:0; max-width:220px; text-align:center; letter-spacing:.05em;
+  font-family:var(--sans); font-size:1.05rem; padding:13px 14px; border-radius:6px;
+  border:1px solid rgba(198,161,91,.4); background:var(--charcoal-soft); color:var(--paper);
+}
+#gateInput::placeholder{ color:rgba(246,239,227,.35); }
+#gateForm button{
+  font-family:var(--sans); font-weight:700; font-size:.95rem; padding:13px 22px;
+  border-radius:6px; border:none; background:var(--gold); color:var(--charcoal); cursor:pointer;
+  transition:transform .15s ease, background .2s ease;
+}
+#gateForm button:hover{ background:var(--gold-light); transform:translateY(-1px); }
+.gate-error{
+  min-height:1.4em; margin-top:16px; font-size:.85rem; color:var(--gold-light);
+  opacity:0; transition:opacity .3s ease;
+}
+.gate-error.show{ opacity:1; }
+.gate-card.shake{ animation:gate-shake .45s ease; }
+@keyframes gate-shake{
+  0%,100%{ transform:translateX(0); }
+  25%{ transform:translateX(-8px); }
+  75%{ transform:translateX(8px); }
+}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
   #hero .hearts span, .scroll-cue::after{ animation:none; }
   .polaroid-inner, .env-flap, .song-reveal, .tap-heart{ transition:none; animation:none; }
+  .bunny-left, .bunny-right, .kiss-heart, .gate-card.shake{ animation:none; }
 }
 </style>
 </head>
 <body>
 
-<section id="hero">
+<div id="gate">
+  <div class="gate-card" id="gateCard">
+    <div class="bunny-scene">
+      <svg class="bunny bunny-left" viewBox="0 0 100 100">
+        <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/>
+        <ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/>
+        <ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/>
+        <ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/>
+        <circle cx="49" cy="58" r="34" fill="#fffaf2"/>
+        <circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/>
+        <circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/>
+        <circle cx="39" cy="52" r="3.4" fill="#2a2620"/>
+        <circle cx="59" cy="52" r="3.4" fill="#2a2620"/>
+        <path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="kiss-heart">💕</span>
+      <svg class="bunny bunny-right" viewBox="0 0 100 100">
+        <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/>
+        <ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/>
+        <ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/>
+        <ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/>
+        <circle cx="49" cy="58" r="34" fill="#fffaf2"/>
+        <circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/>
+        <circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/>
+        <circle cx="39" cy="52" r="3.4" fill="#2a2620"/>
+        <circle cx="59" cy="52" r="3.4" fill="#2a2620"/>
+        <path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="gate-eyebrow">a little lock, just for you</span>
+    <h2 class="gate-title">When did our story begin?</h2>
+    <p class="gate-hint">Enter the date we met — dd/mm/yyyy</p>
+    <form id="gateForm">
+      <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we met">
+      <button type="submit">Unlock</button>
+    </form>
+    <p class="gate-error" id="gateError" role="alert"></p>
+  </div>
+</div>
+
+<div id="site">
+
   <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
     <source src="videos/us.mp4" type="video/mp4">
   </video>
@@ -289,7 +394,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   <div class="section-inner">
     <span class="eyebrow">a little something</span>
     <h2>24 months, 24 songs</h2>
-    <p class="intro">One song for every month we've spent together. Open the envelope and press play.</p>
+    <p class="intro">Open the envelope and press play.</p>
     <div class="envelope-wrap">
       <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open envelope to reveal our 24-song playlist">
         <div class="env-body">
@@ -321,7 +426,40 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </div>
 </section>
 
+</div>
+
 <script>
+document.body.classList.add('gate-active');
+const site = document.getElementById('site');
+site.setAttribute('aria-hidden','true');
+
+const gate = document.getElementById('gate');
+const gateForm = document.getElementById('gateForm');
+const gateInput = document.getElementById('gateInput');
+const gateError = document.getElementById('gateError');
+const gateCard = document.getElementById('gateCard');
+
+gateForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const digits = gateInput.value.replace(/[^0-9]/g,'');
+  const [Y,M,D] = CONFIG.anniversaryStart.split('-');
+  const expectedFull = D + M + Y;
+  const expectedShortYear = D + M + Y.slice(2);
+  if(digits === expectedFull || digits === expectedShortYear){
+    gate.classList.add('unlocked');
+    document.body.classList.remove('gate-active');
+    site.removeAttribute('aria-hidden');
+  } else {
+    gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
+    gateError.classList.add('show');
+    gateCard.classList.remove('shake');
+    void gateCard.offsetWidth;
+    gateCard.classList.add('shake');
+    gateInput.value = '';
+    gateInput.focus();
+  }
+});
+
 const CONFIG = {
   namesShort: "Fimi & Joy",
   anniversaryStart: "2024-07-27",
@@ -345,7 +483,7 @@ const CONFIG = {
   ],
 
   spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/0VcRcbwPRYH4jWLtXWzN7h?utm_source=generator",
-  songNote: "one song for every month, all twenty-four of them",
+  songNote: "our little soundtrack",
 
   stats: [
     { n: "—", l: "Days together" },
