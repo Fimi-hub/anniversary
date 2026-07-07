@@ -78,8 +78,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes float-up{
   to{ transform:translateY(-120vh) rotate(20deg); opacity:0; }
 }
-.hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; }
-.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:3rem; margin-top:-14px; margin-bottom:4px; }
+.hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; padding:0 22px; max-width:100%; }
+.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:clamp(1.7rem,7.5vw,3rem); margin-top:-14px; margin-bottom:4px; }
 .hero-num{
   font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--gold);
   font-weight:600; letter-spacing:-.02em;
@@ -114,7 +114,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 @media (max-width:680px){
   .thread-svg{ display:none; }
-  .polaroids{ grid-template-columns:1fr; max-width:320px; margin:0 auto; gap:44px; }
+  .polaroids{ grid-template-columns:1fr; max-width:340px; margin:0 auto; gap:44px; }
 }
 .polaroid{
   position:relative; perspective:1200px; cursor:pointer;
@@ -156,7 +156,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .caption{ font-family:var(--hand); font-size:1.25rem; text-align:center; margin:12px 0 2px; color:var(--ink); }
 .date{ text-align:center; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; opacity:.55; }
 .back-story{
-  font-family:var(--hand); font-size:clamp(.95rem,3.4vw,1.15rem); line-height:1.4; color:var(--ink);
+  font-family:var(--hand); font-size:clamp(1.05rem,4.4vw,1.2rem); line-height:1.42; color:var(--ink);
   max-height:100%; overflow-y:auto; padding:0 4px; word-break:break-word;
 }
 .back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; }
@@ -337,11 +337,11 @@ const CONFIG = {
 
   memories: [
     { photo: "photos/photo1.jpg", caption: "Our first picture", date: "Where it all began", story: "This picture captures one of the moments my world grew a little brighter. I still feel that same spark every time you're near me." },
-    { photo: "photos/photo2.jpg", caption: "6 months with You", date: "27-01-2025", story: "What made this day worth remembering?" },
-    { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025", story: "What happened right before or after this photo?" },
-    { photo: "photos/photo4.jpg", caption: "A year with You", date: "27-07-2025", story: "How did it feel hitting a full year together?" },
-    { photo: "photos/photo5.jpg", caption: "The peace I feel with You", date: "05-09-2025", story: "What made this an ordinary day worth keeping?" },
-    { photo: "photos/photo6.jpg", caption: "Just us on a random weekend", date: "16-05-2026", story: "What's the inside joke or detail only you two would get?" }
+    { photo: "photos/photo2.jpg", caption: "6 months with You", date: "27-01-2025", story: "Our first date. I remember being so nervous. How do you casually take out the most gorgeous girl ever and act like your heart isn't racing?" },
+    { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025", story: "The highlight here are the videos we made in this moment, so goofy, so chaotic, so completely us. I still catch myself rewatching it just to hear you laugh again." },
+    { photo: "photos/photo4.jpg", caption: "A year with You", date: "27-07-2025", story: "Us, holding our one year anniversary cake. One year in and I already knew there'd be many more of these to come with you." },
+    { photo: "photos/photo5.jpg", caption: "The peace I feel with You", date: "05-09-2025", story: "Just the two of us. Days like this remind me how peaceful it feels simply being with you." },
+    { photo: "photos/photo6.jpg", caption: "Just us on a random weekend", date: "16-05-2026", story: "A random weekend, I came over to help decorate your room. It was pure bliss, just creating something together with you." }
   ],
 
   spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/0VcRcbwPRYH4jWLtXWzN7h?utm_source=generator",
