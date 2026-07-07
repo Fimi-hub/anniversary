@@ -261,24 +261,83 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--ink); }
 #closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); }
 
-/* ---------- ENTRY GATE ---------- */
+/* ---------- ENTRY GATE & ANIMATIONS ---------- */
 #gate{
   position:fixed; inset:0; z-index:10000; background:var(--charcoal);
   display:flex; align-items:center; justify-content:center; 
-  padding: 24px 24px 130px 24px; 
-  transition:opacity .7s ease, visibility .7s ease;
+  padding: 24px; 
+  transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
 }
-#gate.unlocked{ opacity:0; visibility:hidden; pointer-events:none; }
+/* Premium layout scale away exit */
+#gate.unlocked{ transform: scale(1.1); opacity:0; visibility:hidden; pointer-events:none; }
+
 .gate-card{
   max-width:380px; width:100%; text-align:center; color:var(--paper);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
-.bunny-scene{ position:relative; height:96px; margin-bottom:6px; display:flex; align-items:flex-end; justify-content:center; }
-.bunny{ 
-  width:74px; height:74px; position:relative; 
-  overflow:visible;
+
+/* Container to handle state changes seamlessly */
+.gate-form-wrap {
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
+.gate-card.celebrating .gate-form-wrap {
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+}
+
+/* Success Message Container */
+.gate-success {
+  position: absolute;
+  top: 55%; left: 50%;
+  transform: translate(-50%, -40%);
+  width: 90%; max-width: 340px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.gate-card.celebrating .gate-success {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+.success-title {
+  font-family: var(--hand);
+  font-size: clamp(3rem, 10vw, 4rem);
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.success-message {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+}
+
+/* Confetti Styling */
+.confetti {
+  position: absolute;
+  width: 8px; height: 14px;
+  z-index: 10001;
+  opacity: 0.85;
+  will-change: transform, opacity;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+
+/* Bunny Base Scenes */
+.bunny-scene{ position:relative; height:96px; margin-bottom:14px; display:flex; align-items:flex-end; justify-content:center; }
+.bunny { width:74px; height:74px; position:relative; overflow:visible; }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
+
+/* Excited bunny state after getting correct code */
+.gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s ease-in-out infinite; }
+.gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s ease-in-out infinite; }
+
 @keyframes bunny-left-kiss{
   0%,58%{ transform:translateX(0) rotate(0deg); }
   76%{ transform:translateX(16px) rotate(-7deg); }
@@ -293,12 +352,15 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   position:absolute; top:-4px; left:50%; font-size:1.3rem; color:var(--gold);
   animation: kiss-heart-pop 3.6s ease-in-out infinite;
 }
+.gate-card.celebrating .kiss-heart { animation: kiss-heart-pop 0.8s ease-in-out infinite; }
+
 @keyframes kiss-heart-pop{
   0%,66%{ opacity:0; transform:translateX(-50%) scale(.4); }
   78%{ opacity:1; transform:translateX(-50%) scale(1.15); }
   88%{ opacity:1; transform:translateX(-50%) scale(1); }
   100%{ opacity:0; transform:translateX(-50%) scale(.6); }
 }
+
 .gate-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:1.5rem; display:block; margin-bottom:6px; }
 .gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--paper); font-style:italic; font-weight:500; margin-bottom:10px; }
 .gate-hint{ font-size:.85rem; opacity:.7; margin-bottom:22px; }
@@ -366,14 +428,22 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
         <path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
       </svg>
     </div>
-    <span class="gate-eyebrow">a little lock, just for you</span>
-    <h2 class="gate-title">When did we become official?</h2>
-    <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
-    <form id="gateForm">
-      <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we became official">
-      <button type="submit">Unlock</button>
-    </form>
-    <p class="gate-error" id="gateError" role="alert"></p>
+
+    <div class="gate-form-wrap" id="gateFormWrap">
+      <span class="gate-eyebrow">a little lock, just for you</span>
+      <h2 class="gate-title">When did we become official?</h2>
+      <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
+      <form id="gateForm">
+        <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off" aria-label="Enter the date we became official">
+        <button type="submit">Unlock</button>
+      </form>
+      <p class="gate-error" id="gateError" role="alert"></p>
+    </div>
+
+    <div class="gate-success" id="gateSuccess">
+      <h2 class="success-title">Yayyy! 🎉</h2>
+      <p class="success-message">Welcome to our trip down memory lane...</p>
+    </div>
   </div>
 </div>
 
@@ -586,16 +656,42 @@ CONFIG.stats.forEach(s=>{
   statsGrid.appendChild(div);
 });
 
+// JavaScript Confetti Engine
+function spawnConfetti() {
+  const colors = ['#c6a15b', '#e2c184', '#7b2d3b', '#fffaf2'];
+  for (let i = 0; i < 75; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.top = '-20px';
+    confetti.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    confetti.style.animationDelay = (Math.random() * 0.4) + 's';
+    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+    gate.appendChild(confetti);
+    confetti.addEventListener('animationend', () => confetti.remove());
+  }
+}
+
 gateForm.addEventListener('submit', (e)=>{
   e.preventDefault();
   const digits = gateInput.value.replace(/[^0-9]/g,'');
   const [Y,M,D] = CONFIG.anniversaryStart.split('-');
   const expectedFull = D + M + Y;
   const expectedShortYear = D + M + Y.slice(2);
+  
   if(digits === expectedFull || digits === expectedShortYear){
-    gate.classList.add('unlocked');
-    document.body.classList.remove('gate-active');
-    site.removeAttribute('aria-hidden');
+    // 1. Start the visual celebration sequence
+    gateCard.classList.add('celebrating');
+    spawnConfetti();
+    
+    // 2. Beautiful delayed portal exit to the main experience
+    setTimeout(() => {
+      gate.classList.add('unlocked');
+      document.body.classList.remove('gate-active');
+      site.removeAttribute('aria-hidden');
+    }, 3200); // Gives her 3.2 seconds to view the custom welcome message
+    
   } else {
     gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
     gateError.classList.add('show');
