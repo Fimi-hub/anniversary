@@ -26,7 +26,10 @@
   --hand: 'Caveat', cursive;
 }
 
-*{box-sizing:border-box;}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color: transparent; /* Removes the blue highlight on mobile tap */
+}
 html, body {
   margin: 0;
   padding: 0;
@@ -37,6 +40,7 @@ html, body {
   font-family: var(--sans);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
+  transition: background-color 0.4s ease; /* Smooth transition for mobile scroll matching */
 }
 img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
@@ -537,7 +541,7 @@ const CONFIG = {
 };
 
 /* ---------- EXPLICIT ROUTER HANDLING ---------- */
-function navigateToPage(pageId) {
+function navigateToPage(pageId, pushState = true) {
   const activePage = document.querySelector('.app-page.active-page');
   if(activePage) {
     activePage.classList.remove('active-page');
@@ -545,6 +549,8 @@ function navigateToPage(pageId) {
   }
   
   const targetPage = document.getElementById(pageId);
+  if (!targetPage) return;
+  
   targetPage.classList.add('active-page');
 
   const compass = document.getElementById('mapCompass');
@@ -553,9 +559,41 @@ function navigateToPage(pageId) {
   } else {
     compass.style.display = 'flex';
   }
+
+  // Match body background dynamically to prevent elastic-scrolling glitches on mobile
+  if (['hero', 'park-map', 'story', 'numbers', 'closing'].includes(pageId)) {
+    document.body.style.backgroundColor = 'var(--charcoal)';
+  } else {
+    document.body.style.backgroundColor = 'var(--paper)';
+  }
+
+  // Push to browser history if this isn't triggered by the back/forward keys
+  if (pushState) {
+    history.pushState({ pageId: pageId }, "", `#${pageId}`);
+  }
 }
 
-// Global back routing anchor
+// Handle browser Back / Forward buttons
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.pageId) {
+    navigateToPage(event.state.pageId, false);
+  } else {
+    navigateToPage('hero', false);
+  }
+});
+
+// Initialize historical router anchors on launch
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    navigateToPage(hash, false);
+    history.replaceState({ pageId: hash }, "", `#${hash}`);
+  } else {
+    history.replaceState({ pageId: 'hero' }, "", "#hero");
+  }
+});
+
+// Navigation map return hook
 document.getElementById('mapCompass').addEventListener('click', () => {
   navigateToPage('park-map');
 });
