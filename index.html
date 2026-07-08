@@ -341,11 +341,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE DOWNLOAD SECTION ---------- */
+/* ---------- KEEPSAKE DOWNLOAD SECTION (HANDLES TRANSITION GRADIENT) ---------- */
 #keepsake {
-  background: var(--paper);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
   text-align: center;
-  padding-bottom: 20px;
+  padding-bottom: 120px; /* Pushes the gradient way down past the elements */
   position: relative;
 }
 #keepsake h2 {
@@ -429,11 +429,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-/* ---------- CLOSING SECTION WITH SMOOTH FADE TO DARK ---------- */
+/* ---------- CLOSING SECTION - PURE SOLID DARK ---------- */
 #closing {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 35%, var(--charcoal) 100%);
+  background: var(--charcoal);
   text-align: center;
-  padding-top: clamp(100px, 15vw, 160px);
+  padding-top: clamp(60px, 10vw, 100px); /* Keeps text deeply within the solid dark space */
+  padding-bottom: clamp(60px, 10vw, 100px);
 }
 #closing .note {
   max-width: 560px;
@@ -655,6 +656,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
+  <!-- THE BRIDGE SECTION -->
   <section id="wish-space">
     <div class="wish-box" id="wishBox">
       <p class="wish-prompt" id="wishPrompt">click the star...</p>
@@ -702,6 +704,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
+  <!-- KEEPSAKE DOWNLOAD SECTION -->
   <section id="keepsake" class="section">
     <div class="section-inner">
       <span class="eyebrow">a token to keep</span>
@@ -721,7 +724,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
   <section id="closing" class="section">
     <div class="section-inner">
-      <p class="note" id="closingNote">Yes to every ordinary day that became one of our favorites, and every one still ahead of us.</p>
+      <p class="note" id="closingNote">Here is to every ordinary day that became one of our favorites and everyone still ahead of us.</p>
       <p class="from" id="closingFrom">— Fimi</p>
       <p class="tiny">made with love · your munchkin pumpkin</p>
     </div>
@@ -761,7 +764,7 @@ const CONFIG = {
     { n: "1", l: "Favourite person" }
   ],
 
-  closingNote: "Yes to every ordinary day that became one of our favorites, and every one still ahead of us.",
+  closingNote: "Here is to every ordinary day that became one of our favorites and everyone still ahead of us.",
   closingFrom: "— Fimi"
 };
 
