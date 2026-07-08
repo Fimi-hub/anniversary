@@ -341,23 +341,30 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE DOWNLOAD SECTION (HANDLES TRANSITION GRADIENT) ---------- */
+/* ---------- KEEPSAKE DOWNLOAD SECTION (UPDATED FOR PERFECT GRADIENT PLACEMENT) ---------- */
 #keepsake {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
+  /* The gradient now shifts strictly halfway down the section, pushing right through the preview card layout */
+  background: linear-gradient(180deg, var(--paper) 70%, var(--charcoal) 100%);
   text-align: center;
-  padding-bottom: 120px; /* Pushes the gradient way down past the elements */
+  padding-bottom: 20px; 
   position: relative;
+}
+#keepsake .eyebrow {
+  color: var(--wine); 
+  font-weight: 700;
 }
 #keepsake h2 {
   color: var(--charcoal);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   margin-bottom: 8px;
+  font-weight: 700;
 }
 #keepsake .intro {
-  opacity: .8;
+  opacity: .95; 
   max-width: 480px;
   margin: 10px auto 40px;
   color: var(--ink);
+  font-weight: 600;
 }
 .keepsake-box {
   max-width: 400px;
@@ -376,7 +383,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .keepsake-preview {
   width: 100%;
   padding: 44px 20px;
-  background: linear-gradient(135deg, var(--paper-dark), #fdfbf7);
+  background: linear-gradient(135deg, #f2e6d3, #ffffff); 
   border-radius: 8px;
   color: var(--wine);
   font-family: var(--serif);
@@ -392,7 +399,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .keepsake-preview .preview-text {
   font-size: 1.15rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
 }
 .download-btn {
@@ -429,11 +436,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-/* ---------- CLOSING SECTION - PURE SOLID DARK ---------- */
+/* ---------- CLOSING SECTION ---------- */
 #closing {
   background: var(--charcoal);
   text-align: center;
-  padding-top: clamp(60px, 10vw, 100px); /* Keeps text deeply within the solid dark space */
+  padding-top: clamp(30px, 5vw, 50px); 
   padding-bottom: clamp(60px, 10vw, 100px);
 }
 #closing .note {
@@ -656,7 +663,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
-  <!-- THE BRIDGE SECTION -->
   <section id="wish-space">
     <div class="wish-box" id="wishBox">
       <p class="wish-prompt" id="wishPrompt">click the star...</p>
@@ -704,7 +710,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
-  <!-- KEEPSAKE DOWNLOAD SECTION -->
   <section id="keepsake" class="section">
     <div class="section-inner">
       <span class="eyebrow">a token to keep</span>
