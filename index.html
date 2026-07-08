@@ -9,99 +9,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 
-:root{
-  --charcoal:#121326;       
-  --charcoal-soft:#1c1d36;  
-  --paper:#f8f4eb;          
-  --paper-dark:#ebdcc3;
-  --gold:#d1af66;           
-  --gold-light:#ebd09b;
-  --wine:#5c2243;           
-  --sage:#9ca2ce;           
-  --ink:#1c1a24;            
-  --string:#8e5575;         
-  --shadow: 0 14px 35px rgba(12,13,38,.2);
-  --serif: 'Fraunces', serif;
-  --sans: 'Nunito', sans-serif;
-  --hand: 'Caveat', cursive;
-}
+:root{\n  --charcoal:#121326;       \n  --charcoal-soft:#1c1d36;  \n  --paper:#f8f4eb;          \n  --paper-dark:#ebdcc3;\n  --gold:#d1af66;           \n  --gold-light:#ebd09b;\n  --wine:#5c2243;           \n  --sage:#9ca2ce;           \n  --ink:#1c1a24;            \n  --string:#8e5575;         \n  --shadow: 0 14px 35px rgba(12,13,38,.2);\n  --serif: 'Fraunces', serif;\n  --sans: 'Nunito', sans-serif;\n  --hand: 'Caveat', cursive;\n}
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color: transparent; /* Removes the blue highlight on mobile tap */
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--charcoal);
-  font-family: var(--sans);
-  color: var(--ink);
-  -webkit-text-size-adjust: 100%;
-  transition: background-color 0.4s ease; /* Smooth transition for mobile scroll matching */
-}
+*{\n  box-sizing:border-box;\n  -webkit-tap-highlight-color: transparent; /* Removes the blue highlight on mobile tap */\n}
+html, body {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: var(--charcoal);\n  font-family: var(--sans);\n  color: var(--ink);\n  -webkit-text-size-adjust: 100%;\n  transition: background-color 0.4s ease;\n}
 img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
 
 /* ---------- PAGE STACK LOGIC ---------- */
-.app-page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-}
-.app-page.active-page {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  z-index: 20;
-}
+.app-page {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  visibility: hidden;\n  pointer-events: none;\n  overflow-y: auto;\n  overflow-x: hidden;\n  -webkit-overflow-scrolling: touch;\n  transition: opacity 0.4s ease, visibility 0.4s ease;\n  z-index: 10;\n  display: flex;\n  flex-direction: column;\n}
+.app-page.active-page {\n  opacity: 1;\n  visibility: visible;\n  pointer-events: auto;\n  z-index: 20;\n}
 
-.section-inner{ 
-  width: 100%;
-  max-width: 1000px; 
-  margin: 0 auto; 
-  padding: 40px 20px 120px;
-  position: relative;
-}
+.section-inner{ \n  width: 100%;\n  max-width: 1000px; \n  margin: 0 auto; \n  padding: 40px 20px 120px;\n  position: relative;\n}
 
 .eyebrow{ font-family:var(--hand); font-size:1.6rem; color:var(--gold); display:block; margin-bottom:6px; text-align: center;}
 #lane .eyebrow{ font-size:2.6rem; font-weight:700; letter-spacing:.02em; color:var(--wine); }
 
 /* FLOATING RETURN COMPASS */
-.floating-compass {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 56px;
-  height: 56px;
-  background: var(--wine);
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  color: var(--gold);
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 999;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
-}
+.floating-compass {\n  position: fixed;\n  bottom: 25px;\n  right: 25px;\n  width: 56px;\n  height: 56px;\n  background: var(--wine);\n  border: 2px solid var(--gold);\n  border-radius: 50%;\n  color: var(--gold);\n  font-size: 1.6rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 999;\n  box-shadow: 0 8px 24px rgba(0,0,0,0.3);\n  transition: transform 0.3s ease;\n}
 .floating-compass:hover { transform: scale(1.1) rotate(45deg); background: #471933; }
 .floating-compass .tooltip { position: absolute; right: 65px; background: var(--charcoal); color: var(--paper); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; border: 1px solid rgba(209,175,102,0.3); }
 .floating-compass:hover .tooltip { opacity: 1; }
@@ -130,7 +56,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .next-map-btn:hover { background:var(--gold); color:var(--charcoal); transform:translateY(-2px); }
 
 /* ---------- PAGE 2: MAP HUB SCREEN ---------- */
-#park-map { background: linear-gradient(to bottom, var(--charcoal), var(--charcoal-soft)); text-align: center; }
+#park-map { background: var(--charcoal); text-align: center; }
 #park-map h2 { color: var(--gold); font-size: clamp(2rem, 5vw, 2.8rem); }
 #park-map .map-subtitle { font-family: var(--hand); font-size: 1.5rem; color: var(--paper-dark); margin: 4px 0 35px 0; }
 .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; width:100%; margin-top: 10px; }
@@ -237,28 +163,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #closing .note { max-width: 560px; margin: 0 auto; font-family: var(--hand); font-size: 1.75rem; line-height: 1.6; color: var(--gold-light); text-align:center; }
 #closing .from { margin-top: 20px; font-family: var(--hand); font-size: 1.6rem; color: var(--gold); font-weight: 700; text-align:center; }
 
-/* REFACTORED FAIRY LIGHTS: DECORATIVE, SUBTLE WIRE AT THE TOP */
-.fairy-lights { 
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 12px; 
-  z-index: 10; 
-  list-style: none; 
-  margin: 0; 
-  padding: 0; 
-  display: flex; 
-  justify-content: space-around; 
-  border-top: 1px dashed rgba(209,175,102,0.3);
-}
-.fairy-lights li { 
-  width: 5px; 
-  height: 8px; 
-  border-radius: 50%; 
-  background: var(--gold); 
-  animation: twinkleWarm 1.2s infinite ease-in-out; 
-}
+.fairy-lights { \n  position: absolute; \n  top: 0; \n  left: 0; \n  width: 100%; \n  height: 12px; \n  z-index: 10; \n  list-style: none; \n  margin: 0; \n  padding: 0; \n  display: flex; \n  justify-content: space-around; \n  border-top: 1px dashed rgba(209,175,102,0.3);\n}
+.fairy-lights li { \n  width: 5px; \n  height: 8px; \n  border-radius: 50%; \n  background: var(--gold); \n  animation: twinkleWarm 1.2s infinite ease-in-out; \n}
 .fairy-lights li:nth-child(2n) { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
 .fairy-lights li:nth-child(3n) { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
 @keyframes twinkleWarm { 0%, 100% { background: var(--gold); box-shadow: 0 1px 6px 2px rgba(209,175,102,0.6); } 50% { background: #3d3421; box-shadow: none; } }
@@ -266,9 +172,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes twinkleDeep { 0%, 100% { background: #dfa253; box-shadow: 0 1px 5px 2px rgba(223,162,83,0.5); } 50% { background: #2e2315; box-shadow: none; } }
 
 /* ---------- ENTRY GATE LOCK ---------- */
-#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 1s ease; }
-#gate.unlocked{ opacity:0; pointer-events:none; }
-#gate.hidden-completely{ display:none; visibility:hidden; }
+#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 0.6s ease, visibility 0.6s ease; opacity: 1; visibility: visible; }
+#gate.unlocked{ opacity:0; pointer-events:none; visibility: hidden; }
 .gate-card{ max-width:380px; width:100%; text-align:center; color:var(--paper); margin-bottom: 8vh; transition: opacity 0.6s, transform 0.6s; }
 #gate.card-faded .gate-card { opacity: 0; transform: scale(0.92); }
 .gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 10px; }
@@ -540,8 +445,27 @@ const CONFIG = {
   closingFrom: "— Fimi"
 };
 
+// Internal gate status variable
+let isGateUnlocked = false;
+
 /* ---------- EXPLICIT ROUTER HANDLING ---------- */
 function navigateToPage(pageId, pushState = true) {
+  // If the gate is locked, we refuse internal navigation
+  if (!isGateUnlocked && pageId !== 'gate') {
+    return;
+  }
+
+  const gateElement = document.getElementById('gate');
+
+  if (pageId === 'gate') {
+    isGateUnlocked = false;
+    if (gateElement) {
+      gateElement.classList.remove('unlocked', 'card-faded');
+      const gateCard = document.getElementById('gateCard');
+      if (gateCard) gateCard.classList.remove('celebrating');
+    }
+  }
+
   const activePage = document.querySelector('.app-page.active-page');
   if(activePage) {
     activePage.classList.remove('active-page');
@@ -549,48 +473,56 @@ function navigateToPage(pageId, pushState = true) {
   }
   
   const targetPage = document.getElementById(pageId);
-  if (!targetPage) return;
-  
-  targetPage.classList.add('active-page');
+  if (targetPage) {
+    targetPage.classList.add('active-page');
+  }
 
   const compass = document.getElementById('mapCompass');
-  if(pageId === 'hero' || pageId === 'park-map') {
-    compass.style.display = 'none';
+  if(pageId === 'hero' || pageId === 'park-map' || pageId === 'gate') {
+    if (compass) compass.style.display = 'none';
   } else {
-    compass.style.display = 'flex';
+    if (compass) compass.style.display = 'flex';
   }
 
-  // Match body background dynamically to prevent elastic-scrolling glitches on mobile
-  if (['hero', 'park-map', 'story', 'numbers', 'closing'].includes(pageId)) {
+  // Strictly bind the underlying browser background layer color to avoid bleeding/flicker
+  if (['hero', 'park-map', 'story', 'numbers', 'closing', 'gate'].includes(pageId)) {
     document.body.style.backgroundColor = 'var(--charcoal)';
+    document.documentElement.style.backgroundColor = 'var(--charcoal)';
   } else {
     document.body.style.backgroundColor = 'var(--paper)';
+    document.documentElement.style.backgroundColor = 'var(--paper)';
   }
 
-  // Push to browser history if this isn't triggered by the back/forward keys
   if (pushState) {
     history.pushState({ pageId: pageId }, "", `#${pageId}`);
   }
 }
 
-// Handle browser Back / Forward buttons
+// Handle browser Back / Forward navigation loops
 window.addEventListener('popstate', (event) => {
   if (event.state && event.state.pageId) {
-    navigateToPage(event.state.pageId, false);
+    // If user presses back into the gate page, re-lock the system
+    if (event.state.pageId === 'gate') {
+      navigateToPage('gate', false);
+    } else if (!isGateUnlocked) {
+      // If they try to go forward without being unlocked, force them to stay at the gate
+      navigateToPage('gate', false);
+      history.replaceState({ pageId: 'gate' }, "", "#gate");
+    } else {
+      navigateToPage(event.state.pageId, false);
+    }
   } else {
-    navigateToPage('hero', false);
+    // Falls back to gate lock state if history boundary is hit
+    navigateToPage('gate', false);
+    history.replaceState({ pageId: 'gate' }, "", "#gate");
   }
 });
 
-// Initialize historical router anchors on launch
+// Setup Initial Routing States on Page Start
 window.addEventListener('DOMContentLoaded', () => {
-  const hash = window.location.hash.replace('#', '');
-  if (hash && document.getElementById(hash)) {
-    navigateToPage(hash, false);
-    history.replaceState({ pageId: hash }, "", `#${hash}`);
-  } else {
-    history.replaceState({ pageId: 'hero' }, "", "#hero");
-  }
+  // Always set up initial state as gate to ensure it captures the absolute history baseline
+  history.replaceState({ pageId: 'gate' }, "", "#gate");
+  navigateToPage('gate', false);
 });
 
 // Navigation map return hook
@@ -695,8 +627,15 @@ gateForm.addEventListener('submit', (e)=>{
       c.style.animationDuration = (2 + Math.random() * 2) + 's';
       gate.appendChild(c);
     }
-    setTimeout(() => { gate.classList.add('card-faded'); }, 2000);
-    setTimeout(() => { gate.remove(); }, 3500);
+    setTimeout(() => { 
+      gate.classList.add('card-faded'); 
+    }, 2000);
+    setTimeout(() => { 
+      gate.classList.add('unlocked');
+      isGateUnlocked = true;
+      // Navigate to Hero View and record it into state history tracking
+      navigateToPage('hero', true);
+    }, 3000);
   } else {
     gateError.textContent = "Try again? 💛"; gateError.classList.add('show');
     gateCard.classList.add('shake'); setTimeout(()=>gateCard.classList.remove('shake'), 500);
