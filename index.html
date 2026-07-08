@@ -40,13 +40,13 @@ html, body {
   font-family: var(--sans);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
-  transition: background-color 0.4s ease;
+  transition: background-color 0.65s ease;
 }
 img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
 
-/* ---------- PERFORMANCE OPTIMIZED PAGE TRANSITIONS ---------- */
+/* ---------- ADVANCED GPU CIRCULAR PORTAL TRANSITION ---------- */
 .app-page {
   position: absolute;
   top: 0;
@@ -61,40 +61,49 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   z-index: 10;
   display: flex;
   flex-direction: column;
-  
-  /* GPU Optimized Transitions - Dropped heavy filters and clip-paths */
-  transform: translateY(15px);
-  will-change: transform, opacity;
-  transition: 
-    opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Lightweight pseudo-circle scaling up from where the compass sits */
+.app-page::before {
+  content: "";
+  position: fixed;
+  bottom: -100px;
+  right: -100px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: inherit; /* Dynamically pulls background color from the page wrapper */
+  z-index: -1;
+  transform: scale(0);
+  will-change: transform;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .app-page.active-page {
   opacity: 1;
   pointer-events: auto;
   z-index: 20;
-  transform: translateY(0);
 }
 
-/* Elegant staggered reveal */
+.app-page.active-page::before {
+  transform: scale(15); /* Seamlessly floods the viewport using hardware graphics acceleration */
+}
+
+/* Content flows in elegantly over the circular backdrop */
+.app-page .section-inner > * {
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: transform, opacity;
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
 .app-page.active-page .section-inner > * {
-  animation: mysticalFadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
 }
-.app-page.active-page .section-inner > *:nth-child(1) { animation-delay: 0.1s; }
-.app-page.active-page .section-inner > *:nth-child(2) { animation-delay: 0.2s; }
-.app-page.active-page .section-inner > *:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes mysticalFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.app-page.active-page .section-inner > *:nth-child(2) { transition-delay: 0.22s; }
+.app-page.active-page .section-inner > *:nth-child(3) { transition-delay: 0.3s; }
 
 .section-inner{ 
   width: 100%;
@@ -278,7 +287,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   z-index: 5;
 }
 
-/* Reduced animation intensity slightly for lower power drain */
 .fairy-lights { 
   position: absolute; 
   top: 0; 
@@ -735,7 +743,7 @@ function tick(){
 }
 tick(); setInterval(tick,1000);
 
-// Gate Logic Throttled Confetti Count (Dropped from 60 to 25)
+// Gate Logic Throttled Confetti Count (Dropped to 25)
 const gate = document.getElementById('gate');
 const gateForm = document.getElementById('gateForm');
 const gateInput = document.getElementById('gateInput');
@@ -797,7 +805,6 @@ document.getElementById('wishStar').addEventListener('click', (e) => {
   const originX = (rect.left + rect.width / 2) - sectionRect.left;
   const originY = (rect.top + rect.height / 2) - sectionRect.top;
 
-  // Reduced from 45 to 20 for smoother processing
   for (let i = 0; i < 20; i++) {
     const p = document.createElement('div'); p.className = 'wish-sparkle';
     p.style.left = originX + 'px'; p.style.top = originY + 'px';
@@ -816,7 +823,6 @@ document.getElementById('downloadBtn').addEventListener('click', (e) => {
   const originX = (rect.left + rect.width / 2) - sectionRect.left;
   const originY = (rect.top + rect.height / 2) - sectionRect.top;
 
-  // Reduced from 35 to 15
   for (let i = 0; i < 15; i++) {
     const p = document.createElement('div'); p.className = 'keepsake-sparkle';
     p.style.left = originX + 'px'; p.style.top = originY + 'px';
@@ -827,7 +833,7 @@ document.getElementById('downloadBtn').addEventListener('click', (e) => {
   }
 });
 
-// Mystical Tap Trails (Reduced to 2 elements per tap to stop stuttering)
+// Mystical Tap Trails (Reduced to 2 elements per tap to prevent stuttering)
 const TAP_EMOJIS = ['✨','🔮','⭐','🏼','💫'];
 document.addEventListener('click', (e)=>{
   if(e.target.closest('#gateForm') || e.target.closest('#envelope') || e.target.closest('#wishStar') || e.target.closest('#downloadBtn') || e.target.closest('#mapCompass') || e.target.closest('.map-attraction') || e.target.closest('.next-map-btn')) return;
