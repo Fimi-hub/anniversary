@@ -1,772 +1,733 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Two Years — Our Little World</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --charcoal: #121326;       
-      --charcoal-soft: #1c1d36;  
-      --paper: #f8f4eb;          
-      --paper-dark: #ebdcc3;
-      --gold: #d1af66;           
-      --gold-light: #ebd09b;
-      --wine: #5c2243;           
-      --sage: #9ca2ce;           
-      --ink: #1c1a24;            
-      --string: #8e5575;         
-      --shadow: 0 14px 35px rgba(12,13,38,.2);
-      --serif: 'Fraunces', serif;
-      --sans: 'Nunito', sans-serif;
-      --hand: 'Caveat', cursive;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Two Years — Our Little World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
 
-    * { box-sizing: border-box; }
-    
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--charcoal);
-      font-family: var(--sans);
-      color: var(--ink);
-      -webkit-text-size-adjust: 100%;
-    }
+:root{
+  --charcoal:#121326;       
+  --charcoal-soft:#1c1d36;  
+  --paper:#f8f4eb;          
+  --paper-dark:#ebdcc3;
+  --gold:#d1af66;           
+  --gold-light:#ebd09b;
+  --wine:#5c2243;           
+  --sage:#9ca2ce;           
+  --ink:#1c1a24;            
+  --string:#8e5575;         
+  --shadow: 0 14px 35px rgba(12,13,38,.2);
+  --serif: 'Fraunces', serif;
+  --sans: 'Nunito', sans-serif;
+  --hand: 'Caveat', cursive;
+}
 
-    img { max-width: 100%; display: block; }
-    h1, h2, h3 { font-family: var(--serif); margin: 0; font-weight: 600; }
-    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+*{box-sizing:border-box;}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--charcoal);
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
+:focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
 
-    /* ---------- PAGE STACK LOGIC ---------- */
-    .app-page {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-    }
+/* ---------- PAGE STACK LOGIC ---------- */
+.app-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+.app-page.active-page {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 20;
+}
 
-    .app-page.active-page {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      z-index: 20;
-    }
+.section-inner{ 
+  width: 100%;
+  max-width: 1000px; 
+  margin: 0 auto; 
+  padding: 40px 20px 120px;
+  position: relative;
+}
 
-    .section-inner { 
-      width: 100%;
-      max-width: 1000px; 
-      margin: 0 auto; 
-      padding: 40px 20px 120px;
-      position: relative;
-    }
+.eyebrow{ font-family:var(--hand); font-size:1.6rem; color:var(--gold); display:block; margin-bottom:6px; text-align: center;}
+#lane .eyebrow{ font-size:2.6rem; font-weight:700; letter-spacing:.02em; color:var(--wine); }
 
-    .eyebrow { font-family: var(--hand); font-size: 1.6rem; color: var(--gold); display: block; margin-bottom: 6px; text-align: center; }
-    #lane .eyebrow { font-size: 2.6rem; font-weight: 700; letter-spacing: .02em; color: var(--wine); }
+/* FLOATING RETURN COMPASS */
+.floating-compass {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 56px;
+  height: 56px;
+  background: var(--wine);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+.floating-compass:hover { transform: scale(1.1) rotate(45deg); background: #471933; }
+.floating-compass .tooltip { position: absolute; right: 65px; background: var(--charcoal); color: var(--paper); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; border: 1px solid rgba(209,175,102,0.3); }
+.floating-compass:hover .tooltip { opacity: 1; }
 
-    /* FLOATING RETURN COMPASS */
-    .floating-compass {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 56px;
-      height: 56px;
-      background: var(--wine);
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      color: var(--gold);
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 999;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
-    }
+/* TAP HEART ANIMATION */
+.tap-heart { position:fixed; pointer-events:none; z-index:9999; will-change:transform,opacity; animation: tap-float .9s ease-out forwards; }
+@keyframes tap-float{ 0%{ transform:translate(-50%,-50%) scale(.5) rotate(0deg); opacity:1; } 100%{ transform:translate(-50%,-170%) scale(1.3) rotate(12deg); opacity:0; } }
 
-    .floating-compass:hover { transform: scale(1.1) rotate(45deg); background: #471933; }
-    .floating-compass .tooltip { position: absolute; right: 65px; background: var(--charcoal); color: var(--paper); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; border: 1px solid rgba(209,175,102,0.3); }
-    .floating-compass:hover .tooltip { opacity: 1; }
+/* ---------- PAGE 1: HERO VIEW ---------- */
+#hero { background:var(--charcoal); color:var(--paper); justify-content:center; align-items:center; text-align:center; }
+.hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.38; z-index:0; transform: scale(1.02); }
+.hero-video-overlay{ position:absolute; inset:0; z-index:1; background:rgba(18,19,38,.75); }
+#hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow: hidden; }
+#hero .hearts span{ position:absolute; bottom:-10%; font-size:1.2rem; color:var(--gold-light); opacity:.4; animation:float-up linear infinite; }
+@keyframes float-up{ to{ transform:translateY(-120vh) rotate(20deg); opacity:0; } }
+.hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; padding:0 22px; width: 100%; }
+.hero-eyebrow{ font-family:var(--hand); color:var(--gold-light); font-size:clamp(2.2rem,8vw,3rem); margin-top:-14px; margin-bottom:4px; }
+.hero-num{ font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--gold); font-weight:600; letter-spacing:-.02em; text-shadow: 0 0 30px rgba(209,175,102,0.2); }
+.hero-sub{ font-size:clamp(1.4rem,4vw,2.4rem); margin-top:6px; opacity:.95; }
+.hero-names{ margin-top:22px; font-family:var(--hand); font-size:2rem; color:var(--paper); font-weight:700; }
+.counter{ margin-top:36px; display:flex; gap:clamp(10px,3vw,28px); flex-wrap:wrap; justify-content:center; }
+.counter div { min-width:76px; }
+.counter .num{ font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem); color:var(--paper); font-weight:600; }
+.counter .lbl{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-light); opacity:.85; }
+.next-map-btn { margin-top:44px; font-family:var(--sans); font-weight:700; background:none; border:2px solid var(--gold); color:var(--gold); border-radius:30px; padding:12px 28px; font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; transition:background .3s, transform .2s; z-index:5; }
+.next-map-btn:hover { background:var(--gold); color:var(--charcoal); transform:translateY(-2px); }
 
-    /* TAP HEART ANIMATION */
-    .tap-heart { position: fixed; pointer-events: none; z-index: 9999; will-change: transform, opacity; animation: tap-float .9s ease-out forwards; }
-    @keyframes tap-float { 0% { transform: translate(-50%, -50%) scale(.5) rotate(0deg); opacity: 1; } 100% { transform: translate(-50%, -170%) scale(1.3) rotate(12deg); opacity: 0; } }
+/* ---------- PAGE 2: MAP HUB SCREEN ---------- */
+#park-map { background: linear-gradient(to bottom, var(--charcoal), var(--charcoal-soft)); text-align: center; }
+#park-map h2 { color: var(--gold); font-size: clamp(2rem, 5vw, 2.8rem); }
+#park-map .map-subtitle { font-family: var(--hand); font-size: 1.5rem; color: var(--paper-dark); margin: 4px 0 35px 0; }
+.map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; width:100%; margin-top: 10px; }
+.map-attraction { background: rgba(248,244,235, 0.06); border: 1px solid rgba(209,175,102, 0.2); border-radius: 16px; padding: 24px 16px; color: var(--paper); text-decoration: none; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.map-attraction:hover { transform: translateY(-6px); background: rgba(248,244,235, 0.12); border-color: var(--gold); }
+.map-icon { font-size: 2.6rem; margin-bottom: 10px; transition: transform 0.3s ease; }
+.map-attraction:hover .map-icon { transform: scale(1.15) rotate(4deg); }
+.map-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--gold-light); margin-bottom: 4px; }
+.map-desc { font-family: var(--hand); font-size: 1.15rem; color: var(--sage); opacity: 0.9; }
 
-    /* ---------- PAGE 1: HERO VIEW ---------- */
-    #hero { background: var(--charcoal); color: var(--paper); justify-content: center; align-items: center; text-align: center; }
-    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; z-index: 0; transform: scale(1.02); }
-    .hero-video-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(18,19,38,.75); }
-    #hero .hearts { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
-    #hero .hearts span { position: absolute; bottom: -10%; font-size: 1.2rem; color: var(--gold-light); opacity: .4; animation: float-up linear infinite; }
-    @keyframes float-up { to { transform: translateY(-120vh) rotate(20deg); opacity: 0; } }
-    
-    .hero-content { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; padding: 0 22px; width: 100%; }
-    .hero-eyebrow { font-family: var(--hand); color: var(--gold-light); font-size: clamp(2.2rem, 8vw, 3rem); margin-top: -14px; margin-bottom: 4px; }
-    .hero-num { font-size: clamp(6rem, 22vw, 14rem); line-height: .85; color: var(--gold); font-weight: 600; letter-spacing: -.02em; text-shadow: 0 0 30px rgba(209,175,102,0.2); }
-    .hero-sub { font-size: clamp(1.4rem, 4vw, 2.4rem); margin-top: 6px; opacity: .95; }
-    .hero-names { margin-top: 22px; font-family: var(--hand); font-size: 2rem; color: var(--paper); font-weight: 700; }
-    
-    .counter { margin-top: 36px; display: flex; gap: clamp(10px, 3vw, 28px); flex-wrap: wrap; justify-content: center; }
-    .counter div { min-width: 76px; }
-    .counter .num { font-family: var(--serif); font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--paper); font-weight: 600; }
-    .counter .lbl { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-light); opacity: .85; }
-    
-    .next-map-btn { margin-top: 44px; font-family: var(--sans); font-weight: 700; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 30px; padding: 12px 28px; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; transition: background .3s, transform .2s; z-index: 5; }
-    .next-map-btn:hover { background: var(--gold); color: var(--charcoal); transform: translateY(-2px); }
+/* ---------- PAGE 3: MEMORY LANE ---------- */
+#lane { background:var(--paper); }
+#lane h2{ font-size:clamp(1.8rem, 4vw, 2.4rem); text-align:center; color:var(--charcoal); margin-bottom: 4px; }
+#lane .intro{ text-align:center; max-width:520px; margin:0 auto 20px; opacity:.75; color:var(--ink); }
+.board{ position:relative; margin-top:30px; }
+.thread-svg{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events: none; }
+.thread-svg path{ fill:none; stroke:var(--string); stroke-width:2; stroke-dasharray:6 7; opacity:.45; }
+.polaroids{ position:relative; z-index:1; display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:40px 30px; }
+@media (max-width:680px){
+  .thread-svg{ display:none; }
+  .polaroids{ grid-template-columns:1fr; max-width:250px; margin:0 auto; gap:45px; } 
+}
+.polaroid { position:relative; perspective:1200px; cursor:pointer; width:100%; margin:0 auto; transform:rotate(var(--r,-3deg)); transition:transform .25s ease; }
+.polaroid:nth-child(2n){ --r:2.5deg; }
+.polaroid:nth-child(3n){ --r:-1.5deg; }
+.polaroid:hover{ transform:rotate(0) translateY(-6px) scale(1.03); z-index:5; }
+.polaroid .tape{ position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-2deg); width:70px; height:22px; background:rgba(235,208,155,.45); backdrop-filter:blur(1px); z-index:3; pointer-events:none; }
+.polaroid-inner{ position:relative; width:100%; aspect-ratio:3/4; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.4,.2,.2,1); }
+.polaroid.flipped .polaroid-inner{ transform:rotateY(180deg); }
+.polaroid-front, .polaroid-back{ position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; border-radius: 2px; }
+.polaroid-front{ background:#fffdfa; padding:12px 12px 18px; }
+.polaroid-back{ background:linear-gradient(160deg,#fffcf7,var(--paper-dark)); transform:rotateY(180deg); align-items:center; justify-content:center; text-align:center; padding:16px; }
+.photo-frame{ flex:1; background:var(--paper-dark); position:relative; overflow:hidden; min-height:0; }
+.photo-frame img{ width:100%; height:100%; object-fit:cover; }
+.caption{ font-family:var(--hand); font-size:1.35rem; text-align:center; margin:12px 0 2px; color:var(--wine); font-weight:700; }
+.date{ text-align:center; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; opacity:.5; color:var(--ink); }
+.back-story{ font-family:var(--hand); font-size:clamp(1.1rem,4.4vw,1.25rem); line-height:1.42; color:var(--charcoal); overflow-y:auto; margin: 0; }
+.back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; color:var(--string); }
 
-    /* ---------- PAGE 2: MAP HUB SCREEN ---------- */
-    #park-map { background: linear-gradient(to bottom, var(--charcoal), var(--charcoal-soft)); text-align: center; }
-    #park-map h2 { color: var(--gold); font-size: clamp(2rem, 5vw, 2.8rem); }
-    #park-map .map-subtitle { font-family: var(--hand); font-size: 1.5rem; color: var(--paper-dark); margin: 4px 0 35px 0; }
-    
-    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; width: 100%; margin-top: 10px; }
-    .map-attraction { background: rgba(248,244,235, 0.06); border: 1px solid rgba(209,175,102, 0.2); border-radius: 16px; padding: 24px 16px; color: var(--paper); text-decoration: none; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-    .map-attraction:hover { transform: translateY(-6px); background: rgba(248,244,235, 0.12); border-color: var(--gold); }
-    .map-icon { font-size: 2.6rem; margin-bottom: 10px; transition: transform 0.3s ease; }
-    .map-attraction:hover .map-icon { transform: scale(1.15) rotate(4deg); }
-    .map-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--gold-light); margin-bottom: 4px; }
-    .map-desc { font-family: var(--hand); font-size: 1.15rem; color: var(--sage); opacity: 0.9; }
+/* ---------- PAGE 4: WISHING WELL ---------- */
+#wish-space { background: var(--paper); justify-content: center; }
+.wish-box { width: 100%; max-width: 460px; margin: 40px auto; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; position:relative; }
+.wish-prompt { font-family: var(--hand); font-size: 1.8rem; color: var(--wine); margin: 0 0 10px 0; transition: opacity 0.4s, transform 0.4s; }
+.wish-star { background: none; border: none; font-size: 4rem; cursor: pointer; padding: 8px; position: relative; z-index: 50; animation: starPulse 2.2s infinite ease-in-out; transition: transform 0.3s, opacity 0.4s; filter: drop-shadow(0 0 12px rgba(209,175,102,0.4)); }
+@keyframes starPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(209,175,102,0.7)); } }
+.wish-box.granted .wish-prompt, .wish-box.granted .wish-star { opacity: 0; pointer-events: none; transform: scale(0.8); }
+.wish-message { position: absolute; width: 100%; max-width: 420px; font-family: var(--serif); font-size: clamp(1.2rem, 4vw, 1.45rem); font-style: italic; line-height: 1.6; color: var(--wine); opacity: 0; transform: translateY(12px); transition: opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s; text-align:center; }
+.wish-box.granted .wish-message { opacity: 1; transform: translateY(0); }
+.wish-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 99; animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards; }
 
-    /* ---------- PAGE 3: MEMORY LANE ---------- */
-    #lane { background: var(--paper); }
-    #lane h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); text-align: center; color: var(--charcoal); margin-bottom: 4px; }
-    #lane .intro { text-align: center; max-width: 520px; margin: 0 auto 20px; opacity: .75; color: var(--ink); }
-    
-    .board { position: relative; margin-top: 30px; }
-    .thread-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    .thread-svg path { fill: none; stroke: var(--string); stroke-width: 2; stroke-dasharray: 6 7; opacity: .45; }
-    .polaroids { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 40px 30px; }
-    
-    @media (max-width:680px) {
-      .thread-svg { display: none; }
-      .polaroids { grid-template-columns: 1fr; max-width: 250px; margin: 0 auto; gap: 45px; } 
-    }
-    
-    .polaroid { position: relative; perspective: 1200px; cursor: pointer; width: 100%; margin: 0 auto; transform: rotate(var(--r,-3deg)); transition: transform .25s ease; }
-    .polaroid:nth-child(2n) { --r: 2.5deg; }
-    .polaroid:nth-child(3n) { --r: -1.5deg; }
-    .polaroid:hover { transform: rotate(0) translateY(-6px) scale(1.03); z-index: 5; }
-    .polaroid .tape { position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 70px; height: 22px; background: rgba(235,208,155,.45); backdrop-filter: blur(1px); z-index: 3; pointer-events: none; }
-    
-    .polaroid-inner { position: relative; width: 100%; aspect-ratio: 3/4; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,.2,.2,1); }
-    .polaroid.flipped .polaroid-inner { transform: rotateY(180deg); }
-    .polaroid-front, .polaroid-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; border-radius: 2px; }
-    .polaroid-front { background: #fffdfa; padding: 12px 12px 18px; }
-    .polaroid-back { background: linear-gradient(160deg, #fffcf7, var(--paper-dark)); transform: rotateY(180deg); align-items: center; justify-content: center; text-align: center; padding: 16px; }
-    
-    .photo-frame { flex: 1; background: var(--paper-dark); position: relative; overflow: hidden; min-height: 0; }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-    .caption { font-family: var(--hand); font-size: 1.35rem; text-align: center; margin: 12px 0 2px; color: var(--wine); font-weight: 700; }
-    .date { text-align: center; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; opacity: .5; color: var(--ink); }
-    .back-story { font-family: var(--hand); font-size: clamp(1.1rem, 4.4vw, 1.25rem); line-height: 1.42; color: var(--charcoal); overflow-y: auto; margin: 0; }
-    .back-hint { margin-top: 14px; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; opacity: .45; color: var(--string); }
+/* ---------- PAGE 5: STORY CHRONICLE ---------- */
+#story { background:var(--charcoal); color:var(--paper); justify-content: center; }
+#story h2 { color: var(--gold-light); font-size:clamp(1.8rem,5vw,2.6rem); margin-bottom:8px; font-style:italic; font-weight:500; text-align: center; }
+.flourish { display:flex; align-items:center; justify-content:center; gap:10px; margin:0 0 30px; opacity:.8; }
+.flourish::before, .flourish::after { content:""; width:44px; height:1px; background:var(--gold); opacity:.4; }
+.flourish span { color:var(--gold); font-size:.9rem; }
+.story-card { background:var(--charcoal-soft); border:1px solid rgba(209,175,102,.25); padding:clamp(24px,5vw,40px); width: 100%; max-width: 720px; margin: 0 auto; border-radius:12px; text-align:left; box-shadow:0 30px 70px rgba(12,13,38,.4); }
+.lead-quote { font-family:var(--serif); font-size:1.5em; color:var(--gold); line-height:0; position:relative; top:.08em; margin-right:2px; }
+.story-text p { line-height:1.7; font-size:1.02rem; margin:0 0 16px; letter-spacing: 0.015em; opacity: 0.95; }
+.story-text p:last-child { margin-bottom:0; }
+.signoff { margin-top:24px; font-family:var(--hand); color:var(--gold); text-align:right; font-size:1.4rem; }
 
-    /* ---------- PAGE 4: WISHING WELL ---------- */
-    #wish-space { background: var(--paper); justify-content: center; }
-    .wish-box { width: 100%; max-width: 460px; margin: 40px auto; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-    .wish-prompt { font-family: var(--hand); font-size: 1.8rem; color: var(--wine); margin: 0 0 10px 0; transition: opacity 0.4s, transform 0.4s; }
-    .wish-star { background: none; border: none; font-size: 4rem; cursor: pointer; padding: 8px; position: relative; z-index: 50; animation: starPulse 2.2s infinite ease-in-out; transition: transform 0.3s, opacity 0.4s; filter: drop-shadow(0 0 12px rgba(209,175,102,0.4)); }
-    
-    @keyframes starPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(209,175,102,0.7)); } }
-    .wish-box.granted .wish-prompt, .wish-box.granted .wish-star { opacity: 0; pointer-events: none; transform: scale(0.8); }
-    .wish-message { position: absolute; width: 100%; max-width: 420px; font-family: var(--serif); font-size: clamp(1.2rem, 4vw, 1.45rem); font-style: italic; line-height: 1.6; color: var(--wine); opacity: 0; transform: translateY(12px); transition: opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s; text-align: center; }
-    .wish-box.granted .wish-message { opacity: 1; transform: translateY(0); }
-    .wish-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 99; animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards; }
+/* ---------- PAGE 6: PLAYLIST SYMPHONY ---------- */
+#song { background:var(--paper); justify-content: center; }
+#song h2 { font-size:clamp(1.8rem,4vw,2.4rem); color:var(--charcoal); text-align:center; }
+#song .intro { opacity:.8; max-width:460px; margin:10px auto 30px; text-align:center; color: var(--ink); }
+.envelope-wrap { display:flex; justify-content:center; }
+.envelope { width:min(340px,86vw); position:relative; cursor:pointer; background:transparent; border:none; padding:0; }
+.env-body { background:var(--wine); height:180px; position:relative; box-shadow:var(--shadow); display:flex; align-items:flex-end; justify-content:center; padding-bottom:16px; overflow:hidden; border-radius: 6px; }
+.env-body::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 200'%3E%3Cg stroke='%23ebd09b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.38'%3E%3Cg transform='translate(126, 82) scale(0.35)'%3E%3Cellipse cx='35' cy='20' rx='10' ry='26'/%3E%3Cellipse cx='63' cy='20' rx='10' ry='26'/%3E%3Ccircle cx='49' cy='58' r='34'/%3E%3Cpath d='M44,62 Q49,67 54,62'/%3E%3C/g%3E%3Cg transform='translate(156, 82) scale(0.35)'%3E%3Cellipse cx='35' cy='20' rx='10' ry='26'/%3E%3Cellipse cx='63' cy='20' rx='10' ry='26'/%3E%3Ccircle cx='49' cy='58' r='34'/%3E%3Cpath d='M44,62 Q49,67 54,62'/%3E%3C/g%3E%3C/svg%3E"); background-position: center; background-repeat: no-repeat; background-size: contain; opacity: 0; transition: opacity .5s ease; }
+.envelope.open .env-body::before { opacity: 1; }
+.env-body .env-label { font-family:var(--hand); color:var(--gold-light); font-size:1.35rem; transition: opacity .3s ease; z-index: 1; }
+.env-flap { position:absolute; top:0; left:0; width:100%; height:90px; background:#451832; clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transition:transform .6s cubic-bezier(.6,-0.28,.4,1.4); z-index: 2; }
+.envelope.open .env-flap { transform:rotateX(180deg); }
+.envelope.open .env-label { opacity: 0; }
+.envelope .heart-seal { position:absolute; top:30px; left:50%; transform:translate(-50%,0); font-size:1.4rem; color:var(--gold); transition:opacity .3s ease; z-index:3; }
+.envelope.open .heart-seal { opacity:0; }
+.song-reveal { max-width:400px; margin:20px auto 0; overflow:hidden; max-height:0; opacity:0; transition:max-height .7s ease, opacity .5s ease .1s; text-align:center; }
+.song-reveal.show { max-height:480px; opacity:1; }
+.song-reveal iframe { width:100%; height:380px; border-radius:12px; box-shadow: var(--shadow); border:none; }
+.song-note { font-family:var(--hand); color:var(--wine); font-size:1.25rem; margin-top:8px; font-weight: 700; }
 
-    /* ---------- PAGE 5: STORY CHRONICLE ---------- */
-    #story { background: var(--charcoal); color: var(--paper); justify-content: center; }
-    #story h2 { color: var(--gold-light); font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 8px; font-style: italic; font-weight: 500; text-align: center; }
-    .flourish { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 0 30px; opacity: .8; }
-    .flourish::before, .flourish::after { content: ""; width: 44px; height: 1px; background: var(--gold); opacity: .4; }
-    .flourish span { color: var(--gold); font-size: .9rem; }
-    
-    .story-card { background: var(--charcoal-soft); border: 1px solid rgba(209,175,102,.25); padding: clamp(24px, 5vw, 40px); width: 100%; max-width: 720px; margin: 0 auto; border-radius: 12px; text-align: left; box-shadow: 0 30px 70px rgba(12,13,38,.4); }
-    .lead-quote { font-family: var(--serif); font-size: 1.5em; color: var(--gold); line-height: 0; position: relative; top: .08em; margin-right: 2px; }
-    .story-text p { line-height: 1.7; font-size: 1.02rem; margin: 0 0 16px; letter-spacing: 0.015em; opacity: 0.95; }
-    .story-text p:last-child { margin-bottom: 0; }
-    .signoff { margin-top: 24px; font-family: var(--hand); color: var(--gold); text-align: right; font-size: 1.4rem; }
+/* ---------- PAGE 7: STATS WHEEL ---------- */
+#numbers { background:var(--charcoal); color:var(--paper); justify-content: center; }
+#numbers h2 { color:var(--gold-light); font-size:clamp(1.8rem,4vw,2.4rem); margin-bottom:35px; text-align:center; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:24px; text-align:center; width: 100%; }
+.stat .n { font-family:var(--serif); font-size:clamp(2.4rem,5vw,3.4rem); color:var(--gold); font-weight:600; }
+.stat .l { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-    /* ---------- PAGE 6: PLAYLIST SYMPHONY ---------- */
-    #song { background: var(--paper); justify-content: center; }
-    #song h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); color: var(--charcoal); text-align: center; }
-    #song .intro { opacity: .8; max-width: 460px; margin: 10px auto 30px; text-align: center; color: var(--ink); }
-    
-    .envelope-wrap { display: flex; justify-content: center; }
-    .envelope { width: min(340px, 86vw); position: relative; cursor: pointer; background: transparent; border: none; padding: 0; }
-    .env-body { background: var(--wine); height: 180px; position: relative; box-shadow: var(--shadow); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px; overflow: hidden; border-radius: 6px; }
-    .env-body::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 200'%3E%3Cg stroke='%23ebd09b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.38'%3E%3Cg transform='translate(126, 82) scale(0.35)'%3E%3Cellipse cx='35' cy='20' rx='10' ry='26'/%3E%3Cellipse cx='63' cy='20' rx='10' ry='26'/%3E%3Ccircle cx='49' cy='58' r='34'/%3E%3Cpath d='M44,62 Q49,67 54,62'/%3E%3C/g%3E%3Cg transform='translate(156, 82) scale(0.35)'%3E%3Cellipse cx='35' cy='20' rx='10' ry='26'/%3E%3Cellipse cx='63' cy='20' rx='10' ry='26'/%3E%3Ccircle cx='49' cy='58' r='34'/%3E%3Cpath d='M44,62 Q49,67 54,62'/%3E%3C/g%3E%3C/svg%3E"); background-position: center; background-repeat: no-repeat; background-size: contain; opacity: 0; transition: opacity .5s ease; }
-    
-    .envelope.open .env-body::before { opacity: 1; }
-    .env-body .env-label { font-family: var(--hand); color: var(--gold-light); font-size: 1.35rem; transition: opacity .3s ease; z-index: 1; }
-    .env-flap { position: absolute; top: 0; left: 0; width: 100%; height: 90px; background: #451832; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; transition: transform .6s cubic-bezier(.6, -0.28, .4, 1.4); z-index: 2; }
-    
-    .envelope.open .env-flap { transform: rotateX(180deg); }
-    .envelope.open .env-label { opacity: 0; }
-    .envelope .heart-seal { position: absolute; top: 30px; left: 50%; transform: translate(-50%, 0); font-size: 1.4rem; color: var(--gold); transition: opacity .3s ease; z-index: 3; }
-    .envelope.open .heart-seal { opacity: 0; }
-    
-    .song-reveal { max-width: 400px; margin: 20px auto 0; overflow: hidden; max-height: 0; opacity: 0; transition: max-height .7s ease, opacity .5s ease .1s; text-align: center; }
-    .song-reveal.show { max-height: 480px; opacity: 1; }
-    .song-reveal iframe { width: 100%; height: 380px; border-radius: 12px; box-shadow: var(--shadow); border: none; }
-    .song-note { font-family: var(--hand); color: var(--wine); font-size: 1.25rem; margin-top: 8px; font-weight: 700; }
+/* ---------- PAGE 8: SOUVENIR WALLPAPER ---------- */
+#keepsake { background: var(--paper); justify-content: center; }
+#keepsake h2 { color: var(--charcoal); font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 8px; text-align:center; }
+#keepsake .intro { opacity: .8; max-width: 480px; margin: 10px auto 25px; color: var(--ink); text-align:center; }
+.keepsake-box { max-width: 290px; margin: 0 auto; background: #fffdfa; border: 1px dashed var(--string); padding: 24px 20px; border-radius: 12px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; }
+.keepsake-preview { width: 100%; padding: 30px 16px; background: linear-gradient(135deg, var(--paper-dark), #fdfbf7); border-radius: 8px; color: var(--wine); font-family: var(--serif); font-style: italic; text-align:center; }
+.keepsake-preview .preview-icon { display: block; font-size: 2.2rem; margin-bottom: 6px; font-style: normal; }
+.keepsake-preview .preview-text { font-size: 1.05rem; margin: 0; font-weight: 600; }
+.download-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--wine); color: var(--paper); text-decoration: none; font-family: var(--sans); font-weight: 700; font-size: 0.9rem; padding: 12px 24px; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 20px rgba(92, 34, 43, 0.15); transition: transform .15s, background .2s; position: relative; z-index: 50; }
+.download-btn:hover { background: #471933; transform: translateY(-2px); }
+.keepsake-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 99; animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards; }
 
-    /* ---------- PAGE 7: STATS WHEEL ---------- */
-    #numbers { background: var(--charcoal); color: var(--paper); justify-content: center; }
-    #numbers h2 { color: var(--gold-light); font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 35px; text-align: center; }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; text-align: center; width: 100%; }
-    .stat .n { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.4rem); color: var(--gold); font-weight: 600; }
-    .stat .l { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; opacity: .75; margin-top: 4px; color: var(--sage); }
+/* ---------- PAGE 9: CLOSING FINALE ---------- */
+#closing { background: var(--charcoal); justify-content: center; position: relative; }
+#closing .note { max-width: 560px; margin: 0 auto; font-family: var(--hand); font-size: 1.75rem; line-height: 1.6; color: var(--gold-light); text-align:center; }
+#closing .from { margin-top: 20px; font-family: var(--hand); font-size: 1.6rem; color: var(--gold); font-weight: 700; text-align:center; }
 
-    /* ---------- PAGE 8: SOUVENIR WALLPAPER ---------- */
-    #keepsake { background: var(--paper); justify-content: center; }
-    #keepsake h2 { color: var(--charcoal); font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 8px; text-align: center; }
-    #keepsake .intro { opacity: .8; max-width: 480px; margin: 10px auto 25px; color: var(--ink); text-align: center; }
-    
-    .keepsake-box { max-width: 290px; margin: 0 auto; background: #fffdfa; border: 1px dashed var(--string); padding: 24px 20px; border-radius: 12px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; }
-    .keepsake-preview { width: 100%; padding: 30px 16px; background: linear-gradient(135deg, var(--paper-dark), #fdfbf7); border-radius: 8px; color: var(--wine); font-family: var(--serif); font-style: italic; text-align: center; }
-    .keepsake-preview .preview-icon { display: block; font-size: 2.2rem; margin-bottom: 6px; font-style: normal; }
-    .keepsake-preview .preview-text { font-size: 1.05rem; margin: 0; font-weight: 600; }
-    
-    .download-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--wine); color: var(--paper); text-decoration: none; font-family: var(--sans); font-weight: 700; font-size: 0.9rem; padding: 12px 24px; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 20px rgba(92, 34, 43, 0.15); transition: transform .15s, background .2s; position: relative; z-index: 50; }
-    .download-btn:hover { background: #471933; transform: translateY(-2px); }
-    .keepsake-sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 99; animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards; }
+/* REFACTORED FAIRY LIGHTS: DECORATIVE, SUBTLE WIRE AT THE TOP */
+.fairy-lights { 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 12px; 
+  z-index: 10; 
+  list-style: none; 
+  margin: 0; 
+  padding: 0; 
+  display: flex; 
+  justify-content: space-around; 
+  border-top: 1px dashed rgba(209,175,102,0.3);
+}
+.fairy-lights li { 
+  width: 5px; 
+  height: 8px; 
+  border-radius: 50%; 
+  background: var(--gold); 
+  animation: twinkleWarm 1.2s infinite ease-in-out; 
+}
+.fairy-lights li:nth-child(2n) { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
+.fairy-lights li:nth-child(3n) { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
+@keyframes twinkleWarm { 0%, 100% { background: var(--gold); box-shadow: 0 1px 6px 2px rgba(209,175,102,0.6); } 50% { background: #3d3421; box-shadow: none; } }
+@keyframes twinkleBright { 0%, 100% { background: #fff1d4; box-shadow: 0 1px 8px 3px rgba(255,241,212,0.8); } 50% { background: #3a362e; box-shadow: none; } }
+@keyframes twinkleDeep { 0%, 100% { background: #dfa253; box-shadow: 0 1px 5px 2px rgba(223,162,83,0.5); } 50% { background: #2e2315; box-shadow: none; } }
 
-    /* ---------- PAGE 9: CLOSING FINALE ---------- */
-    #closing { background: var(--charcoal); justify-content: center; position: relative; }
-    #closing .note { max-width: 560px; margin: 0 auto; font-family: var(--hand); font-size: 1.75rem; line-height: 1.6; color: var(--gold-light); text-align: center; }
-    #closing .from { margin-top: 20px; font-family: var(--hand); font-size: 1.6rem; color: var(--gold); font-weight: 700; text-align: center; }
+/* ---------- ENTRY GATE LOCK ---------- */
+#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 1s ease; }
+#gate.unlocked{ opacity:0; pointer-events:none; }
+#gate.hidden-completely{ display:none; visibility:hidden; }
+.gate-card{ max-width:380px; width:100%; text-align:center; color:var(--paper); margin-bottom: 8vh; transition: opacity 0.6s, transform 0.6s; }
+#gate.card-faded .gate-card { opacity: 0; transform: scale(0.92); }
+.gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 10px; }
+.gate-form-wrap { grid-area: cardlayer; transition: opacity 0.4s, transform 0.4s; }
+.gate-card.celebrating .gate-form-wrap { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.gate-success { grid-area: cardlayer; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s; }
+.gate-card.celebrating .gate-success { opacity: 1; transform: translateY(0); }
+.success-title { font-family: var(--hand); font-size: clamp(3.2rem, 10vw, 4.2rem); color: var(--gold-light); line-height: 1; }
+.success-message { font-family: var(--serif); font-size: 1.25rem; font-style: italic; color: var(--sage); margin-top:16px; }
+.gate-error { position: absolute; left: 0; right: 0; margin: 12px 0 0 0; font-size: .85rem; color: var(--gold-light); opacity: 0; transition: opacity .3s ease; }
+.gate-error.show{ opacity:1; }
+.confetti { position: absolute; width: 8px; height: 14px; z-index: 10001; opacity: 0.85; animation: fall linear forwards; }
+@keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(360deg); opacity: 0; } }
 
-    /* FAIRY LIGHTS WIRE */
-    .fairy-lights { 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 12px; 
-      z-index: 10; 
-      list-style: none; 
-      margin: 0; 
-      padding: 0; 
-      display: flex; 
-      justify-content: space-around; 
-      border-top: 1px dashed rgba(209,175,102,0.3);
-    }
-    
-    .fairy-lights li { 
-      width: 5px; 
-      height: 8px; 
-      border-radius: 50%; 
-      background: var(--gold); 
-      animation: twinkleWarm 1.2s infinite ease-in-out; 
-    }
-    
-    .fairy-lights li:nth-child(2n) { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
-    .fairy-lights li:nth-child(3n) { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
-    
-    @keyframes twinkleWarm { 0%, 100% { background: var(--gold); box-shadow: 0 1px 6px 2px rgba(209,175,102,0.6); } 50% { background: #3d3421; box-shadow: none; } }
-    @keyframes twinkleBright { 0%, 100% { background: #fff1d4; box-shadow: 0 1px 8px 3px rgba(255,241,212,0.8); } 50% { background: #3a362e; box-shadow: none; } }
-    @keyframes twinkleDeep { 0%, 100% { background: #dfa253; box-shadow: 0 1px 5px 2px rgba(223,162,83,0.5); } 50% { background: #2e2315; box-shadow: none; } }
+.bunny-scene{ height:110px; margin-bottom: 5px; display:flex; align-items:flex-end; justify-content:center; position:relative; overflow: visible; }
+.bunny { width:80px; height:105px; overflow: visible; }
+.bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-4px; }
+.bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-4px; }
+.gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s infinite; }
+.gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s infinite; }
+@keyframes bunny-left-kiss{ 0%,58%{ transform:translateX(0); } 76%{ transform:translateX(14px) rotate(-5deg); } 100%{ transform:translateX(0); } }
+@keyframes bunny-right-kiss{ 0%,58%{ transform:translateX(0); } 76%{ transform:translateX(-14px) rotate(5deg); } 100%{ transform:translateX(0); } }
+.kiss-heart{ position:absolute; top: 12px; left:50%; font-size:1.3rem; color:var(--gold-light); animation: kiss-heart-pop 3.6s ease-in-out infinite; z-index: 5; }
+.gate-card.celebrating .kiss-heart { animation: kiss-heart-pop 0.8s infinite; }
+@keyframes kiss-heart-pop{ 0%,66%{ opacity:0; transform:translateX(-50%) scale(.4); } 78%{ opacity:1; transform:translateX(-50%) scale(1.15); } 100%{ opacity:0; transform:translateX(-50%) scale(.6); } }
 
-    /* ---------- ENTRY GATE LOCK ---------- */
-    #gate { position: fixed; inset: 0; z-index: 10000; background: var(--charcoal); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; transition: opacity 1s ease; }
-    #gate.unlocked { opacity: 0; pointer-events: none; }
-    #gate.hidden-completely { display: none; visibility: hidden; }
-    
-    .gate-card { max-width: 380px; width: 100%; text-align: center; color: var(--paper); margin-bottom: 8vh; transition: opacity 0.6s, transform 0.6s; }
-    #gate.card-faded .gate-card { opacity: 0; transform: scale(0.92); }
-    
-    .gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 10px; }
-    .gate-form-wrap { grid-area: cardlayer; transition: opacity 0.4s, transform 0.4s; }
-    .gate-card.celebrating .gate-form-wrap { opacity: 0; transform: translateY(-8px); pointer-events: none; }
-    
-    .gate-success { grid-area: cardlayer; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s; }
-    .gate-card.celebrating .gate-success { opacity: 1; transform: translateY(0); }
-    
-    .success-title { font-family: var(--hand); font-size: clamp(3.2rem, 10vw, 4.2rem); color: var(--gold-light); line-height: 1; }
-    .success-message { font-family: var(--serif); font-size: 1.25rem; font-style: italic; color: var(--sage); margin-top: 16px; }
-    
-    .gate-error { position: absolute; left: 0; right: 0; margin: 12px 0 0 0; font-size: .85rem; color: var(--gold-light); opacity: 0; transition: opacity .3s ease; }
-    .gate-error.show { opacity: 1; }
-    .confetti { position: absolute; width: 8px; height: 14px; z-index: 10001; opacity: 0.85; animation: fall linear forwards; }
-    @keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(360deg); opacity: 0; } }
+.gate-eyebrow{ font-family:var(--hand); color:var(--sage); font-size:1.5rem; display:block; margin-bottom:6px; }
+.gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--paper); font-style:italic; font-weight:500; margin-bottom:8px; }
+.gate-hint{ font-size:.85rem; opacity:.75; margin-bottom:18px; color: var(--paper-dark); }
+#gateForm{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+#gateInput{ flex:1; min-width:0; max-width:220px; text-align:center; font-family:var(--sans); font-size:1.05rem; padding:13px 14px; border-radius:6px; border:1px solid rgba(209,175,102,.3); background:var(--charcoal-soft); color:var(--paper); }
+#gateForm button{ font-family:var(--sans); font-weight:700; font-size:.95rem; padding:13px 22px; border-radius:6px; border:none; background:var(--gold); color:var(--charcoal); cursor:pointer; }
+.gate-card.shake{ animation:gate-shake .45s ease; }
+@keyframes gate-shake{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-8px); } 75%{ transform:translateX(8px); } }
 
-    .bunny-scene { height: 110px; margin-bottom: 5px; display: flex; align-items: flex-end; justify-content: center; position: relative; overflow: visible; }
-    .bunny { width: 80px; height: 105px; overflow: visible; }
-    .bunny-left { animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right: -4px; }
-    .bunny-right { animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left: -4px; }
-    
-    .gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s infinite; }
-    .gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s infinite; }
-    
-    @keyframes bunny-left-kiss { 0%, 58% { transform: translateX(0); } 76% { transform: translateX(14px) rotate(-5deg); } 100% { transform: translateX(0); } }
-    @keyframes bunny-right-kiss { 0%, 58% { transform: translateX(0); } 76% { transform: translateX(-14px) rotate(5deg); } 100% { transform: translateX(0); } }
-    
-    .kiss-heart { position: absolute; top: 12px; left: 50%; font-size: 1.3rem; color: var(--gold-light); animation: kiss-heart-pop 3.6s ease-in-out infinite; z-index: 5; }
-    .gate-card.celebrating .kiss-heart { animation: kiss-heart-pop 0.8s infinite; }
-    @keyframes kiss-heart-pop { 0%, 66% { opacity: 0; transform: translateX(-50%) scale(.4); } 78% { opacity: 1; transform: translateX(-50%) scale(1.15); } 100% { opacity: 0; transform: translateX(-50%) scale(.6); } }
-
-    .gate-eyebrow { font-family: var(--hand); color: var(--sage); font-size: 1.5rem; display: block; margin-bottom: 6px; }
-    .gate-title { font-size: clamp(1.5rem, 5vw, 2.1rem); color: var(--paper); font-style: italic; font-weight: 500; margin-bottom: 8px; }
-    .gate-hint { font-size: .85rem; opacity: .75; margin-bottom: 18px; color: var(--paper-dark); }
-    
-    #gateForm { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-    #gateInput { flex: 1; min-width: 0; max-width: 220px; text-align: center; font-family: var(--sans); font-size: 1.05rem; padding: 13px 14px; border-radius: 6px; border: 1px solid rgba(209,175,102,.3); background: var(--charcoal-soft); color: var(--paper); }
-    #gateForm button { font-family: var(--sans); font-weight: 700; font-size: .95rem; padding: 13px 22px; border-radius: 6px; border: none; background: var(--gold); color: var(--charcoal); cursor: pointer; }
-    
-    .gate-card.shake { animation: gate-shake .45s ease; }
-    @keyframes gate-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-
-    @keyframes sparkleBurst {
-      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-      100% { transform: translate(calc(-50% + var(--mx)), calc(-50% + var(--my))) scale(0); opacity: 0; }
-    }
-  </style>
+@keyframes sparkleBurst {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--mx)), calc(-50% + var(--my))) scale(0); opacity: 0; }
+}
+</style>
 </head>
 <body>
 
-  <div id="gate">
-    <div class="gate-card" id="gateCard">
-      <div class="bunny-scene">
-        <svg class="bunny bunny-left" viewBox="0 -15 100 120">
-          <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        </svg>
-        <span class="kiss-heart">💕</span>
-        <svg class="bunny bunny-right" viewBox="0 -15 100 120">
-          <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        </svg>
+<div id="gate">
+  <div class="gate-card" id="gateCard">
+    <div class="bunny-scene">
+      <svg class="bunny bunny-left" viewBox="0 -15 100 120">
+        <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="kiss-heart">💕</span>
+      <svg class="bunny bunny-right" viewBox="0 -15 100 120">
+        <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="gate-stack">
+      <div class="gate-form-wrap" id="gateFormWrap">
+        <span class="gate-eyebrow">a little lock, just for you</span>
+        <h2 class="gate-title">When did we become official?</h2>
+        <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
+        <form id="gateForm">
+          <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off">
+          <button type="submit">Unlock</button>
+        </form>
+        <p class="gate-error" id="gateError" role="alert"></p>
       </div>
-      <div class="gate-stack">
-        <div class="gate-form-wrap" id="gateFormWrap">
-          <span class="gate-eyebrow">a little lock, just for you</span>
-          <h2 class="gate-title">When did we become official?</h2>
-          <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
-          <form id="gateForm">
-            <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off">
-            <button type="submit">Unlock</button>
-          </form>
-          <p class="gate-error" id="gateError" role="alert"></p>
-        </div>
-        <div class="gate-success" id="gateSuccess">
-          <h2 class="success-title">Yayyy!</h2>
-          <p class="success-message">Welcome to our little world... ✨</p>
-        </div>
+      <div class="gate-success" id="gateSuccess">
+        <h2 class="success-title">Yayyy!</h2>
+        <p class="success-message">Welcome to our little world... ✨</p>
       </div>
     </div>
   </div>
+</div>
 
-  <button class="floating-compass" id="mapCompass" aria-label="Return to Map Hub" style="display:none;">
-    🧭 <span class="tooltip">Return to Map Hub</span>
-  </button>
+<button class="floating-compass" id="mapCompass" aria-label="Return to Map Hub" style="display:none;">
+  🧭 <span class="tooltip">Return to Map Hub</span>
+</button>
 
-  <section id="hero" class="app-page active-page">
-    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-      <source src="videos/us.mp4" type="video/mp4">
-    </video>
-    <div class="hero-video-overlay"></div>
-    <div class="hearts" id="heartsField"></div>
-    <div class="hero-content">
-      <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
-      <div class="hero-num" id="heroYears">2</div>
-      <div class="hero-sub">Years of Us</div>
-      <div class="hero-names" id="heroNames">Fimi & You</div>
-      <div class="counter">
-        <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
-        <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
-        <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
-        <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
-      </div>
-      <button class="next-map-btn" onclick="navigateToPage('park-map')">Enter the Theme Park →</button>
+<section id="hero" class="app-page active-page">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+    <source src="videos/us.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hearts" id="heartsField"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow" id="heroEyebrow">Happy Anniversary</span>
+    <div class="hero-num" id="heroYears">2</div>
+    <div class="hero-sub">Years of Us</div>
+    <div class="hero-names" id="heroNames">Fimi & You</div>
+    <div class="counter">
+      <div><div class="num" id="cDays">0</div><div class="lbl">Days</div></div>
+      <div><div class="num" id="cHours">0</div><div class="lbl">Hours</div></div>
+      <div><div class="num" id="cMins">0</div><div class="lbl">Mins</div></div>
+      <div><div class="num" id="cSecs">0</div><div class="lbl">Secs</div></div>
     </div>
-  </section>
+    <button class="next-map-btn" onclick="navigateToPage('park-map')">Enter the Theme Park →</button>
+  </div>
+</section>
 
-  <section id="park-map" class="app-page">
-    <div class="section-inner">
-      <h2>Our Magical World Map</h2>
-      <p class="map-subtitle">Choose an attraction to explore... ✨</p>
-      <div class="map-grid">
-        <div class="map-attraction" onclick="navigateToPage('lane')">
-          <span class="map-icon">🎢</span>
-          <span class="map-name">Memory Lane Coaster</span>
-          <span class="map-desc">Our photo milestones</span>
-        </div>
-        <div class="map-attraction" onclick="navigateToPage('wish-space')">
-          <span class="map-icon">✨</span>
-          <span class="map-name">Wishing Well Sky</span>
-          <span class="map-desc">Make a romantic wish</span>
-        </div>
-        <div class="map-attraction" onclick="navigateToPage('story')">
-          <span class="map-icon">🏰</span>
-          <span class="map-name">The Chronicle Tower</span>
-          <span class="map-desc">Our fairytale story</span>
-        </div>
-        <div class="map-attraction" onclick="navigateToPage('song')">
-          <span class="map-icon">🎪</span>
-          <span class="map-name">The Symphony Pavilion</span>
-          <span class="map-desc">24 months, 24 melodies</span>
-        </div>
-        <div class="map-attraction" onclick="navigateToPage('numbers')">
-          <span class="map-icon">🎡</span>
-          <span class="map-name">The Metrics Wheel</span>
-          <span class="map-desc">Our milestones in numbers</span>
-        </div>
-        <div class="map-attraction" onclick="keepsake')">
-          <span class="map-icon">🛍️</span>
-          <span class="map-name">Souvenir Keepsake Box</span>
-          <span class="map-desc">Grab your custom wallpaper</span>
-        </div>
-        <div class="map-attraction" onclick="navigateToPage('closing')">
-          <span class="map-icon">🎆</span>
-          <span class="map-name">The Grand Finale</span>
-          <span class="map-desc">A little note for the future</span>
-        </div>
+<section id="park-map" class="app-page">
+  <div class="section-inner">
+    <h2>Our Magical World Map</h2>
+    <p class="map-subtitle">Choose an attraction to explore... ✨</p>
+    <div class="map-grid">
+      <div class="map-attraction" onclick="navigateToPage('lane')">
+        <span class="map-icon">🎢</span>
+        <span class="map-name">Memory Lane Coaster</span>
+        <span class="map-desc">Our photo milestones</span>
       </div>
-    </div>
-  </section>
-
-  <section id="lane" class="app-page">
-    <div class="section-inner">
-      <span class="eyebrow">pieces of us</span>
-      <h2>Moments we have collected</h2>
-      <p class="intro">Tap a photo to flip it over.</p>
-      <div class="board">
-        <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
-          <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
-        </svg>
-        <div class="polaroids" id="polaroidGrid"></div>
+      <div class="map-attraction" onclick="navigateToPage('wish-space')">
+        <span class="map-icon">✨</span>
+        <span class="map-name">Wishing Well Sky</span>
+        <span class="map-desc">Make a romantic wish</span>
+      </div>
+      <div class="map-attraction" onclick="navigateToPage('story')">
+        <span class="map-icon">🏰</span>
+        <span class="map-name">The Chronicle Tower</span>
+        <span class="map-desc">Our fairytale story</span>
+      </div>
+      <div class="map-attraction" onclick="navigateToPage('song')">
+        <span class="map-icon">🎪</span>
+        <span class="map-name">The Symphony Pavilion</span>
+        <span class="map-desc">24 months, 24 melodies</span>
+      </div>
+      <div class="map-attraction" onclick="navigateToPage('numbers')">
+        <span class="map-icon">🎡</span>
+        <span class="map-name">The Metrics Wheel</span>
+        <span class="map-desc">Our milestones in numbers</span>
+      </div>
+      <div class="map-attraction" onclick="navigateToPage('keepsake')">
+        <span class="map-icon">🛍️</span>
+        <span class="map-name">Souvenir Keepsake Box</span>
+        <span class="map-desc">Grab your custom wallpaper</span>
+      </div>
+      <div class="map-attraction" onclick="navigateToPage('closing')">
+        <span class="map-icon">🎆</span>
+        <span class="map-name">The Grand Finale</span>
+        <span class="map-desc">A little note for the future</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="wish-space" class="app-page">
-    <div class="section-inner" id="wishContainer">
-      <div class="wish-box" id="wishBox">
-        <p class="wish-prompt" id="wishPrompt">click the star...</p>
-        <button class="wish-star" id="wishStar" aria-label="Click the star">⭐</button>
-        <div class="wish-message" id="wishMessage">Close your eyes, make a real wish, and then head back to the hub to see more... 💛</div>
-      </div>
+<section id="lane" class="app-page">
+  <div class="section-inner">
+    <span class="eyebrow">pieces of us</span>
+    <h2>Moments we have collected</h2>
+    <p class="intro">Tap a photo to flip it over.</p>
+    <div class="board">
+      <svg class="thread-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+        <path d="M50,60 C 200,140 300,10 480,90 S 780,150 950,60"></path>
+      </svg>
+      <div class="polaroids" id="polaroidGrid"></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="story" class="app-page">
-    <div class="section-inner">
-      <span class="eyebrow">written in the stars</span>
-      <h2>A serendipitous meeting</h2>
-      <div class="flourish"><span>♥</span></div>
-      <div class="story-card">
-        <div class="story-text" id="storyText"></div>
-        <div class="signoff" id="storySignoff">— written with a lot of love</div>
-      </div>
+<section id="wish-space" class="app-page">
+  <div class="section-inner" id="wishContainer">
+    <div class="wish-box" id="wishBox">
+      <p class="wish-prompt" id="wishPrompt">click the star...</p>
+      <button class="wish-star" id="wishStar" aria-label="Click the star">⭐</button>
+      <div class="wish-message" id="wishMessage">Close your eyes, make a real wish, and then head back to the hub to see more... 💛</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="song" class="app-page">
-    <div class="section-inner">
-      <span class="eyebrow">a little something</span>
-      <h2>24 months, 24 songs</h2>
-      <p class="intro">Open the envelope and press play.</p>
-      <div class="envelope-wrap">
-        <button class="envelope" id="envelope" aria-expanded="false">
-          <div class="env-body">
-            <span class="env-label">our playlist</span>
-            <div class="env-flap"></div>
-            <span class="heart-seal">❤</span>
-          </div>
-        </button>
-      </div>
-      <div class="song-reveal" id="songReveal">
-        <div id="songEmbed"></div>
-        <p class="song-note" id="songNote">one song for every month</p>
-      </div>
+<section id="story" class="app-page">
+  <div class="section-inner">
+    <span class="eyebrow">written in the stars</span>
+    <h2>A serendipitous meeting</h2>
+    <div class="flourish"><span>♥</span></div>
+    <div class="story-card">
+      <div class="story-text" id="storyText"></div>
+      <div class="signoff" id="storySignoff">— written with a lot of love</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="numbers" class="app-page">
-    <div class="section-inner">
-      <h2>Us, in numbers</h2>
-      <div class="stats" id="statsGrid"></div>
-    </div>
-  </section>
-
-  <section id="keepsake" class="app-page">
-    <div class="section-inner" id="keepsakeContainer">
-      <span class="eyebrow">a token to keep</span>
-      <h2>Our Definition</h2>
-      <p class="intro">I made a little something for you to save to your phone. A custom print framing exactly what we are.</p>
-      <div class="keepsake-box" id="keepsakeBox">
-        <div class="keepsake-preview">
-          <span class="preview-icon">📜</span>
-          <p class="preview-text">Us · /ʌs/ · pronoun</p>
+<section id="song" class="app-page">
+  <div class="section-inner">
+    <span class="eyebrow">a little something</span>
+    <h2>24 months, 24 songs</h2>
+    <p class="intro">Open the envelope and press play.</p>
+    <div class="envelope-wrap">
+      <button class="envelope" id="envelope" aria-expanded="false">
+        <div class="env-body">
+          <span class="env-label">our playlist</span>
+          <div class="env-flap"></div>
+          <span class="heart-seal">❤</span>
         </div>
-        <a href="photos/us-definition.png" download="us-definition.png" class="download-btn" id="downloadBtn">
-          <span>✨</span> Save to Camera Roll
-        </a>
+      </button>
+    </div>
+    <div class="song-reveal" id="songReveal">
+      <div id="songEmbed"></div>
+      <p class="song-note" id="songNote">one song for every month</p>
+    </div>
+  </div>
+</section>
+
+<section id="numbers" class="app-page">
+  <div class="section-inner">
+    <h2>Us, in numbers</h2>
+    <div class="stats" id="statsGrid"></div>
+  </div>
+</section>
+
+<section id="keepsake" class="app-page">
+  <div class="section-inner" id="keepsakeContainer">
+    <span class="eyebrow">a token to keep</span>
+    <h2>Our Definition</h2>
+    <p class="intro">I made a little something for you to save to your phone. A custom print framing exactly what we are.</p>
+    <div class="keepsake-box" id="keepsakeBox">
+      <div class="keepsake-preview">
+        <span class="preview-icon">📜</span>
+        <p class="preview-text">Us · /ʌs/ · pronoun</p>
+      </div>
+      <a href="photos/us-definition.png" download="us-definition.png" class="download-btn" id="downloadBtn">
+        <span>✨</span> Save to Camera Roll
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="closing" class="app-page">
+  <ul class="fairy-lights" aria-hidden="true">
+    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  </ul>
+  <div class="section-inner">
+    <p class="note" id="closingNote">Here is to every extraordinary day that became one of our favorites.</p>
+    <p class="from" id="closingFrom">— Fimi</p>
+    <p class="tiny" style="margin-top:30px; font-size:.7rem; opacity:.45; text-align:center; color:var(--paper)">made with love · your munchkin pumpkin</p>
+  </div>
+</section>
+
+<script>
+const CONFIG = {
+  namesShort: "Fimi & Joy",
+  anniversaryStart: "2024-07-27",
+  heroEyebrow: "Happy 2nd Anniversary",
+  heroVideoSrc: "videos/us.mp4",
+
+  story: [
+    "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. “It has to be you,” I said to myself.",
+    "The way you carried yourself, the way you spoke, and the way you made me feel the first time I held your hand, it changed everything.",
+    "It has been two years and I still feel every single thing and more; every single thing you made me feel the first day I saw you. These two years contain the best moments of my life because you are in them. I love you, and I am our biggest fan."
+  ],
+  storySignoff: "— written by Fimi, with a lot of love",
+
+  memories: [
+    { photo: "photos/photo1.jpg", caption: "Our first picture", date: "Where it all began", story: "This picture captures one of the moments my world grew a little brighter. I still feel that same spark every time you're near me." },
+    { photo: "photos/photo2.jpg", caption: "6 months with You", date: "27-01-2025", story: "Our first date. I remember being so nervous. How do you casually take out the most gorgeous girl ever and act like your heart isn't racing?" },
+    { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025", story: "The highlight here are the videos we made in this moment, so goofy, so chaotic, so completely us. I still catch myself rewatching it just to hear you laugh again." },
+    { photo: "photos/photo4.jpg", caption: "A year with You", date: "27-07-2025", story: "Us, holding our one year anniversary cake. One year in and I already knew there'd be many more of these to come with you." },
+    { photo: "photos/photo5.jpg", caption: "The peace I feel with You", date: "05-09-2025", story: "Just the two of us. Days like this remind me how peaceful it feels simply being with you." },
+    { photo: "photos/photo6.jpg", caption: "Just us on a random weekend", date: "16-05-2026", story: "A random weekend, I came over to help decorate your room. It was pure bliss, just creating something together with you." }
+  ],
+
+  spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/0VcRcbwPRYH4jWLtXWzN7h?utm_source=generator",
+  songNote: "our little soundtrack",
+
+  stats: [
+    { n: "—", l: "Days together" },
+    { n: "1000+", l: "Inside jokes" },
+    { n: "∞", l: "More to come" },
+    { n: "1", l: "Favourite person" }
+  ],
+
+  closingNote: "Here is to every extraordinary day that became one of our favorites and everyone still ahead of us.",
+  closingFrom: "— Fimi"
+};
+
+/* ---------- EXPLICIT ROUTER HANDLING ---------- */
+function navigateToPage(pageId) {
+  const activePage = document.querySelector('.app-page.active-page');
+  if(activePage) {
+    activePage.classList.remove('active-page');
+    activePage.scrollTop = 0; 
+  }
+  
+  const targetPage = document.getElementById(pageId);
+  targetPage.classList.add('active-page');
+
+  const compass = document.getElementById('mapCompass');
+  if(pageId === 'hero' || pageId === 'park-map') {
+    compass.style.display = 'none';
+  } else {
+    compass.style.display = 'flex';
+  }
+}
+
+// Global back routing anchor
+document.getElementById('mapCompass').addEventListener('click', () => {
+  navigateToPage('park-map');
+});
+
+// Setup dynamic texts
+document.getElementById('heroEyebrow').textContent = CONFIG.heroEyebrow;
+document.getElementById('heroNames').textContent = CONFIG.namesShort;
+document.getElementById('storySignoff').textContent = CONFIG.storySignoff;
+document.getElementById('songNote').textContent = CONFIG.songNote;
+document.getElementById('closingNote').textContent = CONFIG.closingNote;
+document.getElementById('closingFrom').textContent = CONFIG.closingFrom;
+
+const heroVideo = document.getElementById('heroVideo');
+if(CONFIG.heroVideoSrc){
+  heroVideo.querySelector('source').src = CONFIG.heroVideoSrc;
+  heroVideo.load();
+} else {
+  heroVideo.style.display = 'none';
+}
+
+const storyText = document.getElementById('storyText');
+CONFIG.story.forEach((p,i)=>{
+  const el = document.createElement('p');
+  if(i===0) el.innerHTML = `<span class="lead-quote">“</span>${p}`;
+  else el.textContent = p;
+  storyText.appendChild(el);
+});
+
+const grid = document.getElementById('polaroidGrid');
+let currentlyFlipped = null;
+CONFIG.memories.forEach(m=>{
+  const fig = document.createElement('div');
+  fig.className = 'polaroid';
+  fig.innerHTML = `
+    <div class="tape"></div>
+    <div class="polaroid-inner">
+      <div class="polaroid-front">
+        <div class="photo-frame"><img src="${m.photo}" alt="${m.caption}"></div>
+        <p class="caption">${m.caption}</p>
+        <p class="date">${m.date}</p>
+      </div>
+      <div class="polaroid-back">
+        <p class="back-story">${m.story || ''}</p>
+        <p class="back-hint">tap to flip back</p>
       </div>
     </div>
-  </section>
+  `;
+  fig.addEventListener('click', ()=>{
+    if(currentlyFlipped && currentlyFlipped !== fig) currentlyFlipped.classList.remove('flipped');
+    const flipped = fig.classList.toggle('flipped');
+    currentlyFlipped = flipped ? fig : null;
+  });
+  grid.appendChild(fig);
+});
 
-  <section id="closing" class="app-page">
-    <ul class="fairy-lights" aria-hidden="true">
-      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    </ul>
-    <div class="section-inner">
-      <p class="note" id="closingNote">Here is to every extraordinary day that became one of our favorites.</p>
-      <p class="from" id="closingFrom">— Fimi</p>
-      <p class="tiny" style="margin-top:30px; font-size:.7rem; opacity:.45; text-align:center; color:var(--paper)">made with love · your munchkin pumpkin</p>
-    </div>
-  </section>
+const statsGrid = document.getElementById('statsGrid');
+CONFIG.stats.forEach(s=>{
+  const div = document.createElement('div');
+  div.className = 'stat';
+  div.innerHTML = `<div class="n">${s.n}</div><div class="l">${s.l}</div>`;
+  statsGrid.appendChild(div);
+});
 
-  <script>
-    const CONFIG = {
-      namesShort: "Fimi & Joy",
-      anniversaryStart: "2024-07-27",
-      heroEyebrow: "Happy 2nd Anniversary",
-      heroVideoSrc: "videos/us.mp4",
+const start = new Date(CONFIG.anniversaryStart+"T00:00:00");
+function tick(){
+  const now = new Date();
+  let diff = Math.max(0, now - start);
+  const days = Math.floor(diff/86400000);
+  const hours = Math.floor((diff%86400000)/3600000);
+  const mins = Math.floor((diff%3600000)/60000);
+  const secs = Math.floor((diff%60000)/1000);
+  document.getElementById('cDays').textContent = days;
+  document.getElementById('cHours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cMins').textContent = String(mins).padStart(2,'0');
+  document.getElementById('cSecs').textContent = String(secs).padStart(2,'0');
+  document.getElementById('heroYears').textContent = Math.floor(days/365) || 2;
+  const statsFirst = document.querySelector('#statsGrid .stat .n');
+  if(statsFirst) statsFirst.textContent = days;
+}
+tick(); setInterval(tick,1000);
 
-      story: [
-        "The moment you walked into Feyanron's kitchen, a sudden, absolute certainty washed over me before we even spoke a word. “It has to be you,” I said to myself.",
-        "The way you carried yourself, the way you spoke, and the way you made me feel the first time I held your hand, it changed everything.",
-        "It has been two years and I still feel every single thing and more; every single thing you made me feel the first day I saw you. These two years contain the best moments of my life because you are in them. I love you, and I am our biggest fan."
-      ],
-      storySignoff: "— written by Fimi, with a lot of love",
+// Gate Logic
+const gate = document.getElementById('gate');
+const gateForm = document.getElementById('gateForm');
+const gateInput = document.getElementById('gateInput');
+const gateError = document.getElementById('gateError');
+const gateCard = document.getElementById('gateCard');
 
-      memories: [
-        { photo: "photos/photo1.jpg", caption: "Our first picture", date: "Where it all began", story: "This picture captures one of the moments my world grew a little brighter. I still feel that same spark every time you're near me." },
-        { photo: "photos/photo2.jpg", caption: "6 months with You", date: "27-01-2025", story: "Our first date. I remember being so nervous. How do you casually take out the most gorgeous girl ever and act like your heart isn't racing?" },
-        { photo: "photos/photo3.jpg", caption: "The good kind of chaos", date: "27-01-2025", story: "The highlight here are the videos we made in this moment, so goofy, so chaotic, so completely us. I still catch myself rewatching it just to hear you laugh again." },
-        { photo: "photos/photo4.jpg", caption: "A year with You", date: "27-07-2025", story: "Us, holding our one year anniversary cake. One year in and I already knew there'd be many more of these to come with you." },
-        { photo: "photos/photo5.jpg", caption: "The peace I feel with You", date: "05-09-2025", story: "Just the two of us. Days like this remind me how peaceful it feels simply being with you." },
-        { photo: "photos/photo6.jpg", caption: "Just us on a random weekend", date: "16-05-2026", story: "A random weekend, I came over to help decorate your room. It was pure bliss, just creating something together with you." }
-      ],
-
-      /* CHANGE THE LINK BELOW TO YOUR ACTUAL SPOTIFY SHARABLE PLAYLIST EMBED LINK */
-      spotifyEmbedSrc: "https://open.spotify.com/embed/playlist/37i9dQZF1DX10zKzsJ2jva",
-      songNote: "our little soundtrack",
-
-      stats: [
-        { n: "—", l: "Days together" },
-        { n: "1000+", l: "Inside jokes" },
-        { n: "∞", l: "More to come" },
-        { n: "1", l: "Favourite person" }
-      ],
-
-      closingNote: "Here is to every extraordinary day that became one of our favorites and everyone still ahead of us.",
-      closingFrom: "— Fimi"
-    };
-
-    /* ---------- EXPLICIT ROUTER HANDLING ---------- */
-    function navigateToPage(pageId) {
-      const activePage = document.querySelector('.app-page.active-page');
-      if(activePage) {
-        activePage.classList.remove('active-page');
-        activePage.scrollTop = 0; 
-      }
-      
-      const targetPage = document.getElementById(pageId);
-      if(targetPage) {
-        targetPage.classList.add('active-page');
-      }
-
-      const compass = document.getElementById('mapCompass');
-      if(pageId === 'hero' || pageId === 'park-map') {
-        compass.style.display = 'none';
-      } else {
-        compass.style.display = 'flex';
-      }
+gateForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const digits = gateInput.value.replace(/[^0-9]/g,'');
+  const [Y,M,D] = CONFIG.anniversaryStart.split('-');
+  if(digits === (D+M+Y) || digits === (D+M+Y.slice(2))){
+    gateCard.classList.add('celebrating');
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div'); c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw'; c.style.top = '-20px';
+      c.style.backgroundColor = ['#d1af66', '#ebd09b', '#5c2243'][Math.floor(Math.random()*3)];
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      gate.appendChild(c);
     }
+    setTimeout(() => { gate.classList.add('card-faded'); }, 2000);
+    setTimeout(() => { gate.remove(); }, 3500);
+  } else {
+    gateError.textContent = "Try again? 💛"; gateError.classList.add('show');
+    gateCard.classList.add('shake'); setTimeout(()=>gateCard.classList.remove('shake'), 500);
+  }
+});
 
-    // Global back routing anchor
-    document.getElementById('mapCompass').addEventListener('click', () => {
-      navigateToPage('park-map');
-    });
+// Interactive Features (Envelope, Wish, Particle FX)
+const envelope = document.getElementById('envelope');
+const songReveal = document.getElementById('songReveal');
+const songEmbed = document.getElementById('songEmbed');
+let opened = false;
+envelope.addEventListener('click', ()=>{
+  opened = !opened;
+  envelope.classList.toggle('open', opened);
+  songReveal.classList.toggle('show', opened);
+  if(opened && !songEmbed.dataset.loaded){
+    songEmbed.innerHTML = `<iframe src="${CONFIG.spotifyEmbedSrc}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist"></iframe>`;
+    songEmbed.dataset.loaded = "true";
+  }
+});
 
-    // Setup dynamic texts
-    document.getElementById('heroEyebrow').textContent = CONFIG.heroEyebrow;
-    document.getElementById('heroNames').textContent = CONFIG.namesShort;
-    document.getElementById('storySignoff').textContent = CONFIG.storySignoff;
-    document.getElementById('songNote').textContent = CONFIG.songNote;
-    document.getElementById('closingNote').textContent = CONFIG.closingNote;
-    document.getElementById('closingFrom').textContent = CONFIG.closingFrom;
+document.getElementById('wishStar').addEventListener('click', (e) => {
+  const box = document.getElementById('wishBox');
+  if(box.classList.contains('granted')) return;
+  box.classList.add('granted');
+  
+  const parentSection = document.getElementById('wishContainer');
+  const sectionRect = parentSection.getBoundingClientRect();
+  const rect = e.target.getBoundingClientRect();
+  
+  const originX = (rect.left + rect.width / 2) - sectionRect.left;
+  const originY = (rect.top + rect.height / 2) - sectionRect.top;
 
-    const heroVideo = document.getElementById('heroVideo');
-    if(CONFIG.heroVideoSrc) {
-      const source = heroVideo.querySelector('source');
-      if(source) source.src = CONFIG.heroVideoSrc;
-      heroVideo.load();
-    } else {
-      heroVideo.style.display = 'none';
-    }
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div'); p.className = 'wish-sparkle';
+    p.style.left = originX + 'px'; p.style.top = originY + 'px';
+    p.style.backgroundColor = '#d1af66';
+    const angle = Math.random() * Math.PI * 2; const dist = 30 + Math.random() * 80;
+    p.style.setProperty('--mx', `${Math.cos(angle)*dist}px`); p.style.setProperty('--my', `${Math.sin(angle)*dist}px`);
+    parentSection.appendChild(p); setTimeout(()=>p.remove(), 1200);
+  }
+});
 
-    const storyText = document.getElementById('storyText');
-    CONFIG.story.forEach((p, i) => {
-      const el = document.createElement('p');
-      if(i === 0) el.innerHTML = `<span class="lead-quote">“</span>${p}`;
-      else el.textContent = p;
-      storyText.appendChild(el);
-    });
+document.getElementById('downloadBtn').addEventListener('click', (e) => {
+  const parentSection = document.getElementById('keepsakeContainer');
+  const sectionRect = parentSection.getBoundingClientRect();
+  const rect = e.target.getBoundingClientRect();
+  
+  const originX = (rect.left + rect.width / 2) - sectionRect.left;
+  const originY = (rect.top + rect.height / 2) - sectionRect.top;
 
-    const grid = document.getElementById('polaroidGrid');
-    let currentlyFlipped = null;
-    CONFIG.memories.forEach(m => {
-      const fig = document.createElement('div');
-      fig.className = 'polaroid';
-      fig.innerHTML = `
-        <div class="tape"></div>
-        <div class="polaroid-inner">
-          <div class="polaroid-front">
-            <div class="photo-frame"><img src="${m.photo}" alt="${m.caption}"></div>
-            <p class="caption">${m.caption}</p>
-            <p class="date">${m.date}</p>
-          </div>
-          <div class="polaroid-back">
-            <p class="back-story">${m.story || ''}</p>
-            <p class="back-hint">tap to flip back</p>
-          </div>
-        </div>
-      `;
-      fig.addEventListener('click', () => {
-        if(currentlyFlipped && currentlyFlipped !== fig) currentlyFlipped.classList.remove('flipped');
-        const flipped = fig.classList.toggle('flipped');
-        currentlyFlipped = flipped ? fig : null;
-      });
-      grid.appendChild(fig);
-    });
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div'); p.className = 'keepsake-sparkle';
+    p.style.left = originX + 'px'; p.style.top = originY + 'px';
+    p.style.backgroundColor = '#5c2243';
+    const angle = Math.random() * Math.PI * 2; const dist = 30 + Math.random() * 80;
+    p.style.setProperty('--mx', `${Math.cos(angle)*dist}px`); p.style.setProperty('--my', `${Math.sin(angle)*dist}px`);
+    parentSection.appendChild(p); setTimeout(()=>p.remove(), 1200);
+  }
+});
 
-    const statsGrid = document.getElementById('statsGrid');
-    CONFIG.stats.forEach(s => {
-      const div = document.createElement('div');
-      div.className = 'stat';
-      div.innerHTML = `<div class="n">${s.n}</div><div class="l">${s.l}</div>`;
-      statsGrid.appendChild(div);
-    });
-
-    const start = new Date(CONFIG.anniversaryStart + "T00:00:00");
-    function tick() {
-      const now = new Date();
-      let diff = Math.max(0, now - start);
-      const days = Math.floor(diff / 86400000);
-      const hours = Math.floor((diff % 86400000) / 3600000);
-      const mins = Math.floor((diff % 3600000) / 60000);
-      const secs = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cDays').textContent = days;
-      document.getElementById('cHours').textContent = String(hours).padStart(2, '0');
-      document.getElementById('cMins').textContent = String(mins).padStart(2, '0');
-      document.getElementById('cSecs').textContent = String(secs).padStart(2, '0');
-      document.getElementById('heroYears').textContent = Math.floor(days / 365) || 2;
-      const statsFirst = document.querySelector('#statsGrid .stat .n');
-      if(statsFirst) statsFirst.textContent = days;
-    }
-    tick(); setInterval(tick, 1000);
-
-    // Gate Lock Screen Authentication Logic
-    const gate = document.getElementById('gate');
-    const gateForm = document.getElementById('gateForm');
-    const gateInput = document.getElementById('gateInput');
-    const gateError = document.getElementById('gateError');
-    const gateCard = document.getElementById('gateCard');
-
-    gateForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const digits = gateInput.value.replace(/[^0-9]/g, '');
-      const [Y, M, D] = CONFIG.anniversaryStart.split('-');
-      if(digits === (D + M + Y) || digits === (D + M + Y.slice(2))) {
-        gateCard.classList.add('celebrating');
-        for (let i = 0; i < 60; i++) {
-          const c = document.createElement('div'); c.className = 'confetti';
-          c.style.left = Math.random() * 100 + 'vw'; c.style.top = '-20px';
-          c.style.backgroundColor = ['#d1af66', '#ebd09b', '#5c2243'][Math.floor(Math.random() * 3)];
-          c.style.animationDuration = (2 + Math.random() * 2) + 's';
-          gate.appendChild(c);
-        }
-        setTimeout(() => { gate.classList.add('card-faded'); }, 2000);
-        setTimeout(() => { gate.remove(); }, 3500);
-      } else {
-        gateError.textContent = "Try again? 💛"; gateError.classList.add('show');
-        gateCard.classList.add('shake'); setTimeout(() => gateCard.classList.remove('shake'), 500);
-      }
-    });
-
-    // Interactive Components (Envelope, Wishes, Sparkles)
-    const envelope = document.getElementById('envelope');
-    const songReveal = document.getElementById('songReveal');
-    const songEmbed = document.getElementById('songEmbed');
-    let opened = false;
-    
-    envelope.addEventListener('click', () => {
-      opened = !opened;
-      envelope.classList.toggle('open', opened);
-      songReveal.classList.toggle('show', opened);
-      if(opened && !songEmbed.dataset.loaded) {
-        songEmbed.innerHTML = `<iframe src="${CONFIG.spotifyEmbedSrc}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist"></iframe>`;
-        songEmbed.dataset.loaded = "true";
-      }
-    });
-
-    document.getElementById('wishStar').addEventListener('click', (e) => {
-      const box = document.getElementById('wishBox');
-      if(box.classList.contains('granted')) return;
-      box.classList.add('granted');
-      
-      const parentSection = document.getElementById('wishContainer');
-      const sectionRect = parentSection.getBoundingClientRect();
-      const rect = e.target.getBoundingClientRect();
-      
-      const originX = (rect.left + rect.width / 2) - sectionRect.left;
-      const originY = (rect.top + rect.height / 2) - sectionRect.top;
-
-      for (let i = 0; i < 35; i++) {
-        const p = document.createElement('div'); p.className = 'wish-sparkle';
-        p.style.left = originX + 'px'; p.style.top = originY + 'px';
-        p.style.backgroundColor = '#d1af66';
-        const angle = Math.random() * Math.PI * 2; const dist = 30 + Math.random() * 80;
-        p.style.setProperty('--mx', `${Math.cos(angle) * dist}px`); p.style.setProperty('--my', `${Math.sin(angle) * dist}px`);
-        parentSection.appendChild(p); setTimeout(() => p.remove(), 1200);
-      }
-    });
-
-    document.getElementById('downloadBtn').addEventListener('click', (e) => {
-      const parentSection = document.getElementById('keepsakeContainer');
-      const sectionRect = parentSection.getBoundingClientRect();
-      const rect = e.target.getBoundingClientRect();
-      
-      const originX = (rect.left + rect.width / 2) - sectionRect.left;
-      const originY = (rect.top + rect.height / 2) - sectionRect.top;
-
-      for (let i = 0; i < 35; i++) {
-        const p = document.createElement('div'); p.className = 'keepsake-sparkle';
-        p.style.left = originX + 'px'; p.style.top = originY + 'px';
-        p.style.backgroundColor = '#5c2243';
-        const angle = Math.random() * Math.PI * 2; const dist = 30 + Math.random() * 80;
-        p.style.setProperty('--mx', `${Math.cos(angle) * dist}px`); p.style.setProperty('--my', `${Math.sin(angle) * dist}px`);
-        parentSection.appendChild(p); setTimeout(() => p.remove(), 1200);
-      }
-    });
-
-    const TAP_EMOJIS = ['❤️', '✨', '💕', '🔮'];
-    document.addEventListener('click', (e) => {
-      if(e.target.closest('#gateForm') || e.target.closest('#envelope') || e.target.closest('#wishStar') || e.target.closest('#downloadBtn') || e.target.closest('#mapCompass') || e.target.closest('.map-attraction') || e.target.closest('.next-map-btn')) return;
-      const heart = document.createElement('span'); heart.className = 'tap-heart';
-      heart.textContent = TAP_EMOJIS[Math.floor(Math.random() * TAP_EMOJIS.length)];
-      heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
-      document.body.appendChild(heart); setTimeout(() => heart.remove(), 900);
-    });
-  </script>
+const TAP_EMOJIS = ['❤️','✨','💕','🔮'];
+document.addEventListener('click', (e)=>{
+  if(e.target.closest('#gateForm') || e.target.closest('#envelope') || e.target.closest('#wishStar') || e.target.closest('#downloadBtn') || e.target.closest('#mapCompass') || e.target.closest('.map-attraction') || e.target.closest('.next-map-btn')) return;
+  const heart = document.createElement('span'); heart.className = 'tap-heart';
+  heart.textContent = TAP_EMOJIS[Math.floor(Math.random()*TAP_EMOJIS.length)];
+  heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
+  document.body.appendChild(heart); setTimeout(()=> heart.remove(), 900);
+});
+</script>
 </body>
 </html>
