@@ -40,7 +40,7 @@ img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
 
-.section{ padding: clamp(48px,8vw,110px) 20px; position:relative; }
+.section{ padding: clamp(60px,9vw,110px) 20px; position:relative; }
 .section-inner{ max-width:1000px; margin:0 auto; }
 .eyebrow{
   font-family:var(--hand); font-size:1.4rem; color:var(--gold);
@@ -71,7 +71,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .hero-video-overlay{
   position:absolute; inset:0; z-index:1;
-  background:linear-gradient(180deg, rgba(18,19,38,.55), rgba(18,19,38,.9));
+  background:rgba(18,19,38,.75);
 }
 #hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; }
 #hero .hearts span{
@@ -119,6 +119,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @media (max-width:680px){
   .thread-svg{ display:none; }
   .polaroids{ grid-template-columns:1fr; max-width:340px; margin:0 auto; gap:54px; } 
+  /* Reduce fairy lights density on mobile so they aren't cramped */
+  .fairy-lights li:nth-child(even) { display: none; }
 }
 .polaroid{
   position:relative; perspective:1200px; cursor:pointer;
@@ -166,10 +168,10 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; color:var(--string); }
 
-/* ---------- INTERACTIVE WISH SPACE (THE BRIDGE) ---------- */
+/* ---------- WISH SPACE - SOLID PAPER BACKGROUND ---------- */
 #wish-space {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
-  padding: 80px 20px;
+  background: var(--paper);
+  padding: 110px 20px;
   text-align: center;
 }
 .wish-box {
@@ -226,12 +228,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-size: clamp(1.15rem, 4vw, 1.35rem);
   font-style: italic;
   line-height: 1.6;
-  color: var(--gold-light);
+  color: var(--wine);
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s;
   pointer-events: none;
-  text-shadow: 0 2px 15px rgba(0,0,0,0.3);
 }
 .wish-box.granted .wish-message {
   opacity: 1;
@@ -251,16 +252,63 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
 }
 
-/* ---------- STORY SECTION WITH ADJUSTED TOP PADDING FOR LIGHT GLOW ---------- */
+/* ---------- FAIRY LIGHTS COMPONENT CSS ---------- */
+.fairy-lights {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 35px;
+  z-index: 10; pointer-events: none;
+  list-style: none; margin: 0; padding: 0;
+  display: flex; justify-content: space-around;
+  overflow: visible; /* Allows the light ambient glow to radiate without clipping */
+  border-radius: 50% / 0 0 12px 12px;
+}
+.fairy-lights li {
+  position: relative;
+  width: 12px; height: 18px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: var(--gold);
+  animation-name: twinkleWarm;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.fairy-lights li::before {
+  content: ""; position: absolute;
+  top: -4px; left: 3px; width: 6px; height: 4px;
+  background: #444; border-radius: 2px;
+}
+/* Alternate color modes & timings for natural organic twinkling */
+.fairy-lights li:nth-child(2n)   { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
+.fairy-lights li:nth-child(3n)   { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
+.fairy-lights li:nth-child(4n)   { background: #fff3db; animation-name: twinkleBright; animation-duration: 1.1s; }
+.fairy-lights li:nth-child(5n)   { background: var(--gold-light); animation-name: twinkleWarm; animation-duration: 1.6s; }
+.fairy-lights li:nth-child(2n+1) { animation-delay: 0.2s; }
+.fairy-lights li:nth-child(3n+2) { animation-delay: 0.5s; }
+.fairy-lights li:nth-child(4n+3) { animation-delay: 0.8s; }
+
+@keyframes twinkleWarm {
+  0%, 100% { background: var(--gold); box-shadow: 0 2px 14px 4px rgba(209,175,102,0.7); }
+  50% { background: #614f2e; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+}
+@keyframes twinkleBright {
+  0%, 100% { background: #fff1d4; box-shadow: 0 2px 18px 6px rgba(255,241,212,0.85); }
+  50% { background: #5c5446; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+}
+@keyframes twinkleDeep {
+  0%, 100% { background: #dfa253; box-shadow: 0 2px 12px 3px rgba(223,162,83,0.6); }
+  50% { background: #4a361c; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+}
+
+/* ---------- STORY SECTION - SOLID CHARCOAL BACKGROUND ---------- */
 #story{ 
   background:var(--charcoal); 
   color:var(--paper); 
   text-align:center; 
-  padding-top: 90px; /* Elevated so the glow stays clear of bounding lines */
+  padding-top: 70px;
 }
 #story .eyebrow{ display:block; color:var(--sage); }
 #story h2{
-  color:var(--gold-light); font-size:clamp(2rem,5vw,3rem); margin-bottom:8px;
+  color: var(--gold-light); font-size:clamp(2rem,5vw,3rem); margin-bottom:8px;
   font-style:italic; font-weight:500; letter-spacing:.01em;
 }
 .flourish{ display:flex; align-items:center; justify-content:center; gap:10px; margin:0 0 44px; opacity:.8; }
@@ -347,11 +395,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE DOWNLOAD SECTION (HANDLES TRANSITION GRADIENT) ---------- */
+/* ---------- KEEPSAKE SECTION - SOLID PAPER BACKGROUND ---------- */
 #keepsake {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
+  background: var(--paper);
   text-align: center;
-  padding-bottom: 120px; /* Pushes the gradient way down past the elements */
+  padding-top: 80px;
+  padding-bottom: 110px;
   position: relative;
 }
 #keepsake h2 {
@@ -435,12 +484,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-/* ---------- CLOSING SECTION - ADJUSTED PADDING FOR LIGHT GLOW ---------- */
+/* ---------- CLOSING SECTION - SOLID CHARCOAL BACKGROUND WITH LIGHTS ---------- */
 #closing {
   background: var(--charcoal);
   text-align: center;
-  padding-top: 110px; /* Elevated so lights don't get chopped off at the top edge */
-  padding-bottom: clamp(60px, 10vw, 100px);
+  padding-top: 100px;
+  padding-bottom: 80px;
   position: relative;
 }
 #closing .note {
@@ -465,71 +514,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   opacity: .45;
   font-family: var(--sans);
   color: var(--paper);
-}
-
-/* ---------- FAIRY LIGHTS COMPONENT CSS ---------- */
-.fairy-lights {
-  position: absolute;
-  top: -8px; /* Offset allows string to look weighted and natural */
-  left: 0; 
-  width: 100%; 
-  height: 35px;
-  z-index: 10; 
-  pointer-events: none;
-  list-style: none; 
-  margin: 0; 
-  padding: 0;
-  display: flex; 
-  justify-content: space-around;
-  /* Removed overflow: hidden completely so glows leak outwards seamlessly */
-}
-
-.fairy-lights li {
-  position: relative;
-  width: 12px; 
-  height: 18px;
-  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-  background: var(--gold);
-  animation-name: twinkleWarm;
-  animation-duration: 1.2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  will-change: box-shadow, background;
-}
-
-/* Socket hooks that pin the bulb elements to an imaginary string */
-.fairy-lights li::before {
-  content: ""; 
-  position: absolute;
-  top: -4px; 
-  left: 3px; 
-  width: 6px; 
-  height: 4px;
-  background: #222; 
-  border-radius: 2px;
-}
-
-/* Variations in colors and offsets for beautiful organic patterns */
-.fairy-lights li:nth-child(2n)   { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
-.fairy-lights li:nth-child(3n)   { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
-.fairy-lights li:nth-child(4n)   { background: #fff3db; animation-name: twinkleBright; animation-duration: 1.1s; }
-.fairy-lights li:nth-child(5n)   { background: var(--gold-light); animation-name: twinkleWarm; animation-duration: 1.6s; }
-.fairy-lights li:nth-child(2n+1) { animation-delay: 0.2s; }
-.fairy-lights li:nth-child(3n+2) { animation-delay: 0.5s; }
-.fairy-lights li:nth-child(4n+3) { animation-delay: 0.8s; }
-
-/* Enhanced filters that cast unbounded glows */
-@keyframes twinkleWarm {
-  0%, 100% { background: var(--gold); filter: drop-shadow(0 2px 12px rgba(209,175,102,0.9)); }
-  50% { background: #4a3c20; filter: drop-shadow(0 0 0px transparent); }
-}
-@keyframes twinkleBright {
-  0%, 100% { background: #fff1d4; filter: drop-shadow(0 2px 16px rgba(255,241,212,1)); }
-  50% { background: #474136; filter: drop-shadow(0 0 0px transparent); }
-}
-@keyframes twinkleDeep {
-  0%, 100% { background: #dfa253; filter: drop-shadow(0 2px 10px rgba(223,162,83,0.8)); }
-  50% { background: #332514; filter: drop-shadow(0 0 0px transparent); }
 }
 
 /* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
@@ -634,7 +618,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
-  #hero .hearts span, .scroll-cue::after, .wish-star{ animation:none; }
+  #hero .hearts span, .scroll-cue::after, .wish-star, .fairy-lights li{ animation:none; }
   .polaroid-inner, .env-flap, .song-reveal, .tap-heart, .wish-sparkle, .keepsake-sparkle{ transition:none; animation:none; }
   .bunny-left, .bunny-right, .kiss-heart, .gate-card.shake{ animation:none; }
 }
@@ -737,9 +721,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="story" class="section">
-    <ul class="fairy-lights">
-      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    <ul class="fairy-lights" aria-hidden="true">
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
     </ul>
     <div class="section-inner">
       <h2>Written in the stars, a serendipitous meeting</h2>
@@ -797,9 +780,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="closing" class="section">
-    <ul class="fairy-lights">
-      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    <ul class="fairy-lights" aria-hidden="true">
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
     </ul>
     <div class="section-inner">
       <p class="note" id="closingNote">Here is to every ordinary day that became one of our favorites and everyone still ahead of us.</p>
@@ -1045,7 +1027,7 @@ wishStar.addEventListener('click', (e) => {
   const originX = (rect.left + rect.width / 2) - spaceRect.left;
   const originY = (rect.top + rect.height / 2) - spaceRect.top;
   
-  const sparkleColors = ['#d1af66', '#ebd09b', '#9ca2ce', '#fffdfa'];
+  const sparkleColors = ['#d1af66', '#ebd09b', '#5c2243', '#9ca2ce'];
   for (let i = 0; i < 40; i++) {
     const p = document.createElement('div');
     p.className = 'wish-sparkle';
