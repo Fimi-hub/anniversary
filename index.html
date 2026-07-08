@@ -341,20 +341,59 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- CLOSING SECTION WITH INTEGRATED KEEPSAKE ---------- */
-#closing{ background:var(--paper); text-align:center; }
-#closing .eyebrow {
-  display: block;
-  font-family: var(--hand);
-  font-size: 1.5rem;
-  color: var(--gold);
-  margin-bottom: 4px;
+/* ---------- KEEPSAKE DOWNLOAD SECTION ---------- */
+#keepsake {
+  background: var(--paper);
+  text-align: center;
+  padding-bottom: 20px;
+  position: relative;
 }
-.download-wrap {
-  margin-top: 10px;
-  margin-bottom: 46px;
+#keepsake h2 {
+  color: var(--charcoal);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  margin-bottom: 8px;
+}
+#keepsake .intro {
+  opacity: .8;
+  max-width: 480px;
+  margin: 10px auto 40px;
+  color: var(--ink);
+}
+.keepsake-box {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #fffdfa;
+  border: 1px dashed var(--string);
+  padding: 36px 24px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+.keepsake-preview {
+  width: 100%;
+  padding: 44px 20px;
+  background: linear-gradient(135deg, var(--paper-dark), #fdfbf7);
+  border-radius: 8px;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-style: italic;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+}
+.keepsake-preview .preview-icon {
+  display: block;
+  font-size: 2.6rem;
+  margin-bottom: 10px;
+  font-style: normal;
+}
+.keepsake-preview .preview-text {
+  font-size: 1.15rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .download-btn {
   display: inline-flex;
@@ -365,8 +404,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   text-decoration: none;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 0.95rem;
-  padding: 13px 28px;
+  font-size: 0.98rem;
+  padding: 14px 32px;
   border-radius: 30px;
   cursor: pointer;
   transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
@@ -380,7 +419,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .download-btn:active {
   transform: translateY(0);
 }
-.download-sparkle {
+.keepsake-sparkle {
   position: absolute;
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -390,11 +429,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
+#closing{ background:var(--paper); text-align:center; }
 #closing .note{
   max-width:560px; margin:0 auto; font-family:var(--hand); font-size:1.75rem; line-height:1.6; color:var(--wine); font-weight: 500;
 }
-#closing .from{ margin-top:18px; font-family:var(--hand); font-size:1.6rem; color:var(--charcoal); font-weight: 700; }
-#closing .tiny{ margin-top:60px; font-size:.7rem; opacity:.45; font-family:var(--sans); color:var(--ink); }
+#closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--charcoal); font-weight: 700; }
+#closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); color:var(--ink); }
 
 /* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
 #gate{
@@ -499,7 +539,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
   #hero .hearts span, .scroll-cue::after, .wish-star{ animation:none; }
-  .polaroid-inner, .env-flap, .song-reveal, .tap-heart, .wish-sparkle, .download-sparkle{ transition:none; animation:none; }
+  .polaroid-inner, .env-flap, .song-reveal, .tap-heart, .wish-sparkle, .keepsake-sparkle{ transition:none; animation:none; }
   .bunny-left, .bunny-right, .kiss-heart, .gate-card.shake{ animation:none; }
 }
 </style>
@@ -592,6 +632,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
+  <!-- THE BRIDGE SECTION -->
   <section id="wish-space">
     <div class="wish-box" id="wishBox">
       <p class="wish-prompt" id="wishPrompt">click the star...</p>
@@ -639,19 +680,28 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
-  <section id="closing" class="section">
+  <!-- KEEPSAKE DOWNLOAD SECTION -->
+  <section id="keepsake" class="section">
     <div class="section-inner">
-      <span class="eyebrow">a little something...</span>
-      
-      <div class="download-wrap">
-        <a href="photos/us-definition.png" download="us-definition.png" class="download-btn" id="downloadBtn" aria-label="Save keepsake to device">
+      <span class="eyebrow">a token to keep</span>
+      <h2>Our Definition</h2>
+      <p class="intro">I made a little something for you to save to your phone. A custom print framing exactly what we are.</p>
+      <div class="keepsake-box" id="keepsakeBox">
+        <div class="keepsake-preview">
+          <span class="preview-icon">📜</span>
+          <p class="preview-text">Us · /ʌs/ · pronoun</p>
+        </div>
+        <a href="photos/us-definition.png" download="us-definition.png" class="download-btn" id="downloadBtn" aria-label="Download our definition art print">
           <span class="btn-icon">✨</span> Save to Camera Roll
         </a>
       </div>
+    </div>
+  </section>
 
+  <section id="closing" class="section">
+    <div class="section-inner">
       <p class="note" id="closingNote">Here's to every ordinary day that became one of my favorites, and every one still ahead of us.</p>
       <p class="from" id="closingFrom">— Fimi</p>
-      
       <p class="tiny">made with love · your munchkin pumpkin</p>
     </div>
   </section>
@@ -915,12 +965,12 @@ wishStar.addEventListener('click', (e) => {
   }
 });
 
-/* Integrated Download Sparkle Logic */
+/* Keepsake Sparkle Micro-Interaction */
 const downloadBtn = document.getElementById('downloadBtn');
-const closingSection = document.getElementById('closing');
+const keepsakeSection = document.getElementById('keepsake');
 downloadBtn.addEventListener('click', () => {
   const rect = downloadBtn.getBoundingClientRect();
-  const sectionRect = closingSection.getBoundingClientRect();
+  const sectionRect = keepsakeSection.getBoundingClientRect();
   
   const originX = (rect.left + rect.width / 2) - sectionRect.left;
   const originY = (rect.top + rect.height / 2) - sectionRect.top;
@@ -928,7 +978,7 @@ downloadBtn.addEventListener('click', () => {
   const sparkleColors = ['#d1af66', '#ebd09b', '#5c2243', '#9ca2ce'];
   for (let i = 0; i < 45; i++) {
     const p = document.createElement('div');
-    p.className = 'download-sparkle';
+    p.className = 'keepsake-sparkle';
     p.style.backgroundColor = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
     p.style.left = originX + 'px';
     p.style.top = originY + 'px';
@@ -942,7 +992,7 @@ downloadBtn.addEventListener('click', () => {
     p.style.setProperty('--my', `${my}px`);
     p.style.animationDuration = (0.5 + Math.random() * 0.8) + 's';
     
-    closingSection.appendChild(p);
+    keepsakeSection.appendChild(p);
     p.addEventListener('animationend', () => p.remove());
   }
 });
