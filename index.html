@@ -167,7 +167,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; color:var(--string); }
 
-/* ---------- WISH SPACE - TIGHTENED VERTICAL SPACING ---------- */
 #wish-space {
   background: var(--paper);
   padding: 45px 20px;
@@ -246,12 +245,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   will-change: transform, opacity;
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
-@keyframes sparkleBurst {
-  0% { transform: translate(0, 0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
-}
 
-/* ---------- FAIRY LIGHTS COMPONENT CSS ---------- */
 .fairy-lights {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 35px;
@@ -297,7 +291,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   50% { background: #4a361c; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 }
 
-/* ---------- STORY SECTION - SOLID CHARCOAL BACKGROUND ---------- */
 #story{ 
   background:var(--charcoal); 
   color:var(--paper); 
@@ -393,12 +386,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE SECTION - REDUCED SIZE BY 1/3 ---------- */
+/* ---------- KEEPSAKE SECTION - COMPACTED PADDING ---------- */
 #keepsake {
   background: var(--paper);
   text-align: center;
-  padding-top: 80px;
-  padding-bottom: 110px;
+  padding-top: 40px;    /* Reduced from 80px */
+  padding-bottom: 60px; /* Reduced from 110px */
   position: relative;
 }
 #keepsake h2 {
@@ -409,11 +402,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #keepsake .intro {
   opacity: .8;
   max-width: 480px;
-  margin: 10px auto 40px;
+  margin: 10px auto 30px;
   color: var(--ink);
 }
 .keepsake-box {
-  max-width: 290px; /* Scaled down from 400px */
+  max-width: 290px;
   margin: 0 auto;
   background: #fffdfa;
   border: 1px dashed var(--string);
@@ -482,12 +475,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-/* ---------- CLOSING SECTION - SOLID CHARCOAL BACKGROUND WITH LIGHTS ---------- */
+/* ---------- CLOSING SECTION - COMPACTED PADDING ---------- */
 #closing {
   background: var(--charcoal);
   text-align: center;
-  padding-top: 100px;
-  padding-bottom: 80px;
+  padding-top: 50px;    /* Reduced from 100px */
+  padding-bottom: 45px; /* Reduced from 80px */
   position: relative;
 }
 #closing .note {
@@ -507,7 +500,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-weight: 700;
 }
 #closing .tiny {
-  margin-top: 50px;
+  margin-top: 35px;     /* Reduced from 50px */
   font-size: .7rem;
   opacity: .45;
   font-family: var(--sans);
@@ -719,7 +712,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="story" class="section">
-    <!-- Reduced light array count by 1/4 (22 elements) -->
     <ul class="fairy-lights" aria-hidden="true">
       <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
     </ul>
@@ -779,12 +771,11 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="closing" class="section">
-    <!-- Reduced light array count by 1/4 (22 elements) -->
     <ul class="fairy-lights" aria-hidden="true">
       <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
     </ul>
     <div class="section-inner">
-      <p class="note" id="closingNote">Here is to every ordinary day that became one of our favorites and everyone still ahead of us.</p>
+      <p class="note" id="closingNote">Here is to every extraordinary day that became one of our favorites and everyone still ahead of us.</p>
       <p class="from" id="closingFrom">— Fimi</p>
       <p class="tiny">made with love · your munchkin pumpkin</p>
     </div>
@@ -824,7 +815,7 @@ const CONFIG = {
     { n: "1", l: "Favourite person" }
   ],
 
-  closingNote: "Here is to every ordinary day that became one of our favorites and everyone still ahead of us.",
+  closingNote: "Here is to every extraordinary day that became one of our favorites and everyone still ahead of us.",
   closingFrom: "— Fimi"
 };
 
