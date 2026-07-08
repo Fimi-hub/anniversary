@@ -66,6 +66,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   opacity:.35; z-index:0;
+  transform: scale(1.08); /* Scales up to seamlessly cover edges and container backgrounds */
+  transform-origin: center;
 }
 .hero-video-overlay{
   position:absolute; inset:0; z-index:1;
@@ -261,7 +263,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--ink); }
 #closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); }
 
-/* ---------- ENTRY GATE & ANIMATIONS ---------- */
+/* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
 #gate{
   position:fixed;
   inset:0;
@@ -272,16 +274,22 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   align-items:center;
   justify-content:center; 
   padding:24px; 
-  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: opacity, transform;
+  transition: opacity 1s ease; /* Dedicated purely to dissolving the backdrop card-free */
+  will-change: opacity;
 }
-#gate.unlocked{ transform: scale(0.95); opacity:0; pointer-events:none; }
+#gate.unlocked{ opacity:0; pointer-events:none; }
 #gate.hidden-completely{ display:none; visibility:hidden; }
 
-/* Visual offset to push the gate up, counteracting the narrow bunny layout */
 .gate-card{
   max-width:380px; width:100%; text-align:center; color:var(--paper);
   margin-bottom: 12vh;
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
+}
+/* Staged Phase 1: Card elements fade out completely into the solid backdrop */
+#gate.card-faded .gate-card {
+  opacity: 0;
+  transform: scale(0.92);
 }
 
 .gate-stack {
@@ -319,7 +327,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   line-height: 1;
   margin: 0;
 }
-/* Enhanced top margin to keep the message separated from "Yayyy!" */
 .success-message {
   font-family: var(--serif);
   font-size: 1.25rem;
@@ -707,17 +714,22 @@ gateForm.addEventListener('submit', (e)=>{
     gateCard.classList.add('celebrating');
     spawnConfetti();
     
-    // Step 1: Allow them to fully process the success state, then kick off the fade out
+    // Phase 1: Fade out the card elements completely into the solid charcoal backdrop
     setTimeout(() => {
-      gate.classList.add('unlocked');
+      gate.classList.add('card-faded');
     }, 2200);
     
-    // Step 2: Unblock scrollbars and clean up DOM strictly AFTER the 1.5s visual transition drops to 0
+    // Phase 2: Once the card elements are 100% hidden, dissolve the backdrop away
+    setTimeout(() => {
+      gate.classList.add('unlocked');
+    }, 2850); // 2200ms delay + 600ms card transition duration + 50ms layout cushion
+    
+    // Phase 3: Unblock page scroll and destroy gate layout from DOM entirely
     setTimeout(() => {
       document.body.classList.remove('gate-active');
       site.removeAttribute('aria-hidden');
       gate.classList.add('hidden-completely');
-    }, 3750); // 2200ms delay + 1500ms transition duration + 50ms processing buffer
+    }, 3900); // Wait for the 1s backdrop fade to completely drop to 0 opacity
     
   } else {
     gateError.textContent = "Hmm, that's not quite it. Try again? 💛";
