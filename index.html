@@ -246,6 +246,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   will-change: transform, opacity;
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
+
 @keyframes sparkleBurst {
   0% { transform: translate(0, 0) scale(1); opacity: 1; }
   100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
@@ -341,9 +342,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE DOWNLOAD SECTION (UPDATED FOR PERFECT GRADIENT PLACEMENT) ---------- */
+/* ---------- KEEPSAKE DOWNLOAD SECTION (COMPACT UPDATED VERSION) ---------- */
 #keepsake {
-  /* The gradient now shifts strictly halfway down the section, pushing right through the preview card layout */
   background: linear-gradient(180deg, var(--paper) 70%, var(--charcoal) 100%);
   text-align: center;
   padding-bottom: 20px; 
@@ -367,22 +367,22 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   font-weight: 600;
 }
 .keepsake-box {
-  max-width: 400px;
+  max-width: 320px; /* Reduced horizontally */
   margin: 0 auto;
   background: #fffdfa;
   border: 1px dashed var(--string);
-  padding: 36px 24px;
+  padding: 20px 16px; /* Reduced padding vertically & horizontally for ultimate compactness */
   border-radius: 12px;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 16px; /* Tightened internal element gaps */
   position: relative;
 }
 .keepsake-preview {
   width: 100%;
-  padding: 44px 20px;
+  padding: 24px 14px; /* Reduced padding vertically to make preview container shorter */
   background: linear-gradient(135deg, #f2e6d3, #ffffff); 
   border-radius: 8px;
   color: var(--wine);
@@ -392,12 +392,12 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .keepsake-preview .preview-icon {
   display: block;
-  font-size: 2.6rem;
-  margin-bottom: 10px;
+  font-size: 2.2rem; /* Slighly scaled down icon */
+  margin-bottom: 4px;
   font-style: normal;
 }
 .keepsake-preview .preview-text {
-  font-size: 1.15rem;
+  font-size: 1.02rem;
   margin: 0;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -405,23 +405,24 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .download-btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: var(--wine);
   color: var(--paper);
   text-decoration: none;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 0.98rem;
-  padding: 14px 32px;
+  font-size: 0.9rem;
+  padding: 10px 20px; /* Slimmed down action button vertically and horizontally */
   border-radius: 30px;
   cursor: pointer;
   transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
-  box-shadow: 0 6px 20px rgba(92, 34, 43, 0.15);
+  box-shadow: 0 5px 15px rgba(92, 34, 43, 0.15);
+  white-space: nowrap;
 }
 .download-btn:hover {
   background: #471933;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(92, 34, 43, 0.25);
+  box-shadow: 0 8px 22px rgba(92, 34, 43, 0.25);
 }
 .download-btn:active {
   transform: translateY(0);
