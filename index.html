@@ -100,7 +100,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .scroll-cue::after{ content:"↓"; display:block; margin-top:6px; animation:bob 1.8s ease-in-out infinite; }
 @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
 
-#lane{ background:var(--paper); }
+#lane{ background:var(--paper); padding-bottom: 20px; }
 #lane h2{ font-size:clamp(1.4rem,3vw,2rem); text-align:center; font-weight:500; color:var(--charcoal); }
 #lane .intro{ text-align:center; max-width:520px; margin:10px auto 0; opacity:.75; color:var(--ink); }
 .board{
@@ -166,7 +166,92 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .back-hint{ margin-top:14px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.45; color:var(--string); }
 
-#story{ background:var(--charcoal); color:var(--paper); text-align:center; }
+/* ---------- INTERACTIVE WISH SPACE (THE BRIDGE) ---------- */
+#wish-space {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
+  padding: 80px 20px;
+  text-align: center;
+}
+.wish-box {
+  max-width: 460px;
+  margin: 0 auto;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wish-prompt {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  color: var(--wine);
+  margin: 0 0 14px 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.wish-star {
+  background: none;
+  border: none;
+  font-size: 3.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 10px;
+  margin: 0;
+  user-select: none;
+  display: inline-block;
+  animation: starPulse 2.2s infinite ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+  filter: drop-shadow(0 0 12px rgba(209,175,102,0.4));
+}
+.wish-star:hover {
+  transform: scale(1.15) rotate(8deg);
+}
+.wish-star:active {
+  transform: scale(0.9) rotate(-4deg);
+}
+@keyframes starPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(209,175,102,0.4)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(209,175,102,0.7)); }
+}
+.wish-box.granted .wish-prompt,
+.wish-box.granted .wish-star {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+.wish-message {
+  position: absolute;
+  max-width: 420px;
+  padding: 0 20px;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 4vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--gold-light);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s;
+  pointer-events: none;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+}
+.wish-box.granted .wish-message {
+  opacity: 1;
+  transform: translateY(0);
+}
+.wish-sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform, opacity;
+  animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
+}
+@keyframes sparkleBurst {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
+}
+
+#story{ background:var(--charcoal); color:var(--paper); text-align:center; padding-top: 20px; }
 #story .eyebrow{ display:block; color:var(--sage); }
 #story h2{
   color:var(--gold-light); font-size:clamp(2rem,5vw,3rem); margin-bottom:8px;
@@ -250,7 +335,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .song-reveal iframe{ width:100%; height:420px; border-radius:12px; box-shadow: var(--shadow); }
 .song-note{ font-family:var(--hand); color:var(--wine); font-size:1.25rem; margin-top:10px; font-weight: 700; }
 
-/* Stats In Numbers Alignment */
 #numbers{ background:var(--charcoal); color:var(--paper); text-align:center; }
 #numbers h2{ color:var(--gold-light); font-size:clamp(1.8rem,4vw,2.4rem); margin-bottom:40px; }
 .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:28px; }
@@ -266,110 +350,54 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
 /* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
 #gate{
-  position:fixed;
-  inset:0;
-  z-index:10000;
-  background:var(--charcoal);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center; 
-  padding:24px; 
-  transition: opacity 1s ease;
-  will-change: opacity;
+  position:fixed; inset:0; z-index:10000; background:var(--charcoal);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; 
+  padding:24px; transition: opacity 1s ease; will-change: opacity;
 }
 #gate.unlocked{ opacity:0; pointer-events:none; }
 #gate.hidden-completely{ display:none; visibility:hidden; }
 
 .gate-card{
-  max-width:380px; width:100%; text-align:center; color:var(--paper);
-  margin-bottom: 12vh;
+  max-width:380px; width:100%; text-align:center; color:var(--paper); margin-bottom: 12vh;
   transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: opacity, transform;
 }
-#gate.card-faded .gate-card {
-  opacity: 0;
-  transform: scale(0.92);
-}
-
-.gate-stack {
-  display: grid;
-  grid-template-areas: "cardlayer";
-  align-items: start;
-  margin-top: 10px;
-}
-
-.gate-form-wrap {
-  grid-area: cardlayer;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.gate-card.celebrating .gate-form-wrap {
-  opacity: 0;
-  transform: translateY(-8px);
-  pointer-events: none;
-}
-
+#gate.card-faded .gate-card { opacity: 0; transform: scale(0.92); }
+.gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 10px; }
+.gate-form-wrap { grid-area: cardlayer; transition: opacity 0.4s ease, transform 0.4s ease; }
+.gate-card.celebrating .gate-form-wrap { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 .gate-success {
-  grid-area: cardlayer;
-  opacity: 0; 
-  pointer-events: none;
-  transform: translateY(8px);
+  grid-area: cardlayer; opacity: 0; pointer-events: none; transform: translateY(8px);
   transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
 }
-.gate-card.celebrating .gate-success {
-  opacity: 1;
-  transform: translateY(0);
-}
+.gate-card.celebrating .gate-success { opacity: 1; transform: translateY(0); }
 .success-title {
-  font-family: var(--hand);
-  font-size: clamp(3.2rem, 10vw, 4.2rem);
-  color: var(--gold-light);
-  line-height: 1;
-  margin: 0;
-  text-shadow: 0 0 25px rgba(235,208,155,0.3);
+  font-family: var(--hand); font-size: clamp(3.2rem, 10vw, 4.2rem); color: var(--gold-light);
+  line-height: 1; margin: 0; text-shadow: 0 0 25px rgba(235,208,155,0.3);
 }
 .success-message {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-style: italic;
-  opacity: 0.95;
-  letter-spacing: 0.02em;
-  margin: 16px 0 0 0;
-  color: var(--sage);
+  font-family: var(--serif); font-size: 1.25rem; font-style: italic; opacity: 0.95;
+  letter-spacing: 0.02em; margin: 16px 0 0 0; color: var(--sage);
 }
-
 .gate-error {
-  position: absolute;
-  left: 0; right: 0;
-  margin: 12px 0 0 0;
-  font-size: .85rem;
-  color: var(--gold-light);
-  opacity: 0;
-  transition: opacity .3s ease;
-  pointer-events: none;
+  position: absolute; left: 0; right: 0; margin: 12px 0 0 0; font-size: .85rem;
+  color: var(--gold-light); opacity: 0; transition: opacity .3s ease; pointer-events: none;
 }
 .gate-error.show{ opacity:1; }
 
-/* Confetti System */
 .confetti {
-  position: absolute;
-  width: 8px; height: 14px;
-  z-index: 10001;
-  opacity: 0.85;
-  will-change: transform, opacity;
-  animation: fall linear forwards;
+  position: absolute; width: 8px; height: 14px; z-index: 10001; opacity: 0.85;
+  will-change: transform, opacity; animation: fall linear forwards;
 }
 @keyframes fall {
   0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
 }
 
-/* Bunny Scene Space Tuning */
 .bunny-scene{ position:relative; height:90px; margin-bottom:-4px; display:flex; align-items:flex-end; justify-content:center; }
 .bunny { width:74px; height:74px; position:relative; overflow:visible; }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-6px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-6px; }
-
 .gate-card.celebrating .bunny-left { animation: bunny-left-kiss 0.8s ease-in-out infinite; }
 .gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s ease-in-out infinite; }
 
@@ -422,8 +450,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
-  #hero .hearts span, .scroll-cue::after{ animation:none; }
-  .polaroid-inner, .env-flap, .song-reveal, .tap-heart{ transition:none; animation:none; }
+  #hero .hearts span, .scroll-cue::after, .wish-star{ animation:none; }
+  .polaroid-inner, .env-flap, .song-reveal, .tap-heart, .wish-sparkle{ transition:none; animation:none; }
   .bunny-left, .bunny-right, .kiss-heart, .gate-card.shake{ animation:none; }
 }
 </style>
@@ -513,6 +541,14 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
         </svg>
         <div class="polaroids" id="polaroidGrid"></div>
       </div>
+    </div>
+  </section>
+
+  <section id="wish-space">
+    <div class="wish-box" id="wishBox">
+      <p class="wish-prompt" id="wishPrompt">make a wish and click the star...</p>
+      <button class="wish-star" id="wishStar" aria-label="Make a wish and click the star">⭐</button>
+      <div class="wish-message" id="wishMessage">Close your eyes, make a real wish, and then scroll down to read our story...</div>
     </div>
   </section>
 
@@ -786,9 +822,45 @@ envelope.addEventListener('click', ()=>{
   }
 });
 
+/* Wish Star Sparkle Logic */
+const wishStar = document.getElementById('wishStar');
+const wishBox = document.getElementById('wishBox');
+wishStar.addEventListener('click', (e) => {
+  if(wishBox.classList.contains('granted')) return;
+  wishBox.classList.add('granted');
+  
+  const rect = wishStar.getBoundingClientRect();
+  const wishSpace = document.getElementById('wish-space');
+  const spaceRect = wishSpace.getBoundingClientRect();
+  
+  const originX = (rect.left + rect.width / 2) - spaceRect.left;
+  const originY = (rect.top + rect.height / 2) - spaceRect.top;
+  
+  const sparkleColors = ['#d1af66', '#ebd09b', '#9ca2ce', '#fffdfa'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'wish-sparkle';
+    p.style.backgroundColor = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+    p.style.left = originX + 'px';
+    p.style.top = originY + 'px';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 40 + Math.random() * 90;
+    const mx = Math.cos(angle) * distance;
+    const my = Math.sin(angle) * distance;
+    
+    p.style.setProperty('--mx', `${mx}px`);
+    p.style.setProperty('--my', `${my}px`);
+    p.style.animationDuration = (0.6 + Math.random() * 0.7) + 's';
+    
+    wishSpace.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+});
+
 const TAP_EMOJIS = ['❤️','✨','💕','🔮'];
 document.addEventListener('click', (e)=>{
-  if(e.target.closest('#gateForm') || e.target.closest('#envelope')) return;
+  if(e.target.closest('#gateForm') || e.target.closest('#envelope') || e.target.closest('#wishStar')) return;
   const heart = document.createElement('span');
   heart.className = 'tap-heart';
   heart.textContent = TAP_EMOJIS[Math.floor(Math.random()*TAP_EMOJIS.length)];
