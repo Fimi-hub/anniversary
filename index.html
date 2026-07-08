@@ -246,13 +246,18 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   will-change: transform, opacity;
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
-
 @keyframes sparkleBurst {
   0% { transform: translate(0, 0) scale(1); opacity: 1; }
   100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
 }
 
-#story{ background:var(--charcoal); color:var(--paper); text-align:center; padding-top: 20px; }
+/* ---------- STORY SECTION WITH ADJUSTED TOP PADDING FOR LIGHT GLOW ---------- */
+#story{ 
+  background:var(--charcoal); 
+  color:var(--paper); 
+  text-align:center; 
+  padding-top: 90px; /* Elevated so the glow stays clear of bounding lines */
+}
 #story .eyebrow{ display:block; color:var(--sage); }
 #story h2{
   color:var(--gold-light); font-size:clamp(2rem,5vw,3rem); margin-bottom:8px;
@@ -342,48 +347,42 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .stat .n{ font-family:var(--serif); font-size:clamp(2.2rem,5vw,3.2rem); color:var(--gold); font-weight:600; text-shadow: 0 0 20px rgba(209,175,102,0.15); }
 .stat .l{ font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:4px; color:var(--sage); }
 
-/* ---------- KEEPSAKE DOWNLOAD SECTION (COMPACT UPDATED VERSION) ---------- */
+/* ---------- KEEPSAKE DOWNLOAD SECTION (HANDLES TRANSITION GRADIENT) ---------- */
 #keepsake {
-  background: linear-gradient(180deg, var(--paper) 70%, var(--charcoal) 100%);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 100%);
   text-align: center;
-  padding-bottom: 20px; 
+  padding-bottom: 120px; /* Pushes the gradient way down past the elements */
   position: relative;
-}
-#keepsake .eyebrow {
-  color: var(--wine); 
-  font-weight: 700;
 }
 #keepsake h2 {
   color: var(--charcoal);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   margin-bottom: 8px;
-  font-weight: 700;
 }
 #keepsake .intro {
-  opacity: .95; 
+  opacity: .8;
   max-width: 480px;
   margin: 10px auto 40px;
   color: var(--ink);
-  font-weight: 600;
 }
 .keepsake-box {
-  max-width: 320px; /* Reduced horizontally */
+  max-width: 400px;
   margin: 0 auto;
   background: #fffdfa;
   border: 1px dashed var(--string);
-  padding: 20px 16px; /* Reduced padding vertically & horizontally for ultimate compactness */
+  padding: 36px 24px;
   border-radius: 12px;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px; /* Tightened internal element gaps */
+  gap: 24px;
   position: relative;
 }
 .keepsake-preview {
   width: 100%;
-  padding: 24px 14px; /* Reduced padding vertically to make preview container shorter */
-  background: linear-gradient(135deg, #f2e6d3, #ffffff); 
+  padding: 44px 20px;
+  background: linear-gradient(135deg, var(--paper-dark), #fdfbf7);
   border-radius: 8px;
   color: var(--wine);
   font-family: var(--serif);
@@ -392,37 +391,36 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 }
 .keepsake-preview .preview-icon {
   display: block;
-  font-size: 2.2rem; /* Slighly scaled down icon */
-  margin-bottom: 4px;
+  font-size: 2.6rem;
+  margin-bottom: 10px;
   font-style: normal;
 }
 .keepsake-preview .preview-text {
-  font-size: 1.02rem;
+  font-size: 1.15rem;
   margin: 0;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 .download-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: var(--wine);
   color: var(--paper);
   text-decoration: none;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 0.9rem;
-  padding: 10px 20px; /* Slimmed down action button vertically and horizontally */
+  font-size: 0.98rem;
+  padding: 14px 32px;
   border-radius: 30px;
   cursor: pointer;
   transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
-  box-shadow: 0 5px 15px rgba(92, 34, 43, 0.15);
-  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(92, 34, 43, 0.15);
 }
 .download-btn:hover {
   background: #471933;
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(92, 34, 43, 0.25);
+  box-shadow: 0 8px 25px rgba(92, 34, 43, 0.25);
 }
 .download-btn:active {
   transform: translateY(0);
@@ -437,12 +435,13 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-/* ---------- CLOSING SECTION ---------- */
+/* ---------- CLOSING SECTION - ADJUSTED PADDING FOR LIGHT GLOW ---------- */
 #closing {
   background: var(--charcoal);
   text-align: center;
-  padding-top: clamp(30px, 5vw, 50px); 
+  padding-top: 110px; /* Elevated so lights don't get chopped off at the top edge */
   padding-bottom: clamp(60px, 10vw, 100px);
+  position: relative;
 }
 #closing .note {
   max-width: 560px;
@@ -466,6 +465,71 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   opacity: .45;
   font-family: var(--sans);
   color: var(--paper);
+}
+
+/* ---------- FAIRY LIGHTS COMPONENT CSS ---------- */
+.fairy-lights {
+  position: absolute;
+  top: -8px; /* Offset allows string to look weighted and natural */
+  left: 0; 
+  width: 100%; 
+  height: 35px;
+  z-index: 10; 
+  pointer-events: none;
+  list-style: none; 
+  margin: 0; 
+  padding: 0;
+  display: flex; 
+  justify-content: space-around;
+  /* Removed overflow: hidden completely so glows leak outwards seamlessly */
+}
+
+.fairy-lights li {
+  position: relative;
+  width: 12px; 
+  height: 18px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: var(--gold);
+  animation-name: twinkleWarm;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  will-change: box-shadow, background;
+}
+
+/* Socket hooks that pin the bulb elements to an imaginary string */
+.fairy-lights li::before {
+  content: ""; 
+  position: absolute;
+  top: -4px; 
+  left: 3px; 
+  width: 6px; 
+  height: 4px;
+  background: #222; 
+  border-radius: 2px;
+}
+
+/* Variations in colors and offsets for beautiful organic patterns */
+.fairy-lights li:nth-child(2n)   { background: #ffdf9e; animation-name: twinkleBright; animation-duration: 0.9s; }
+.fairy-lights li:nth-child(3n)   { background: #e3964a; animation-name: twinkleDeep; animation-duration: 1.4s; }
+.fairy-lights li:nth-child(4n)   { background: #fff3db; animation-name: twinkleBright; animation-duration: 1.1s; }
+.fairy-lights li:nth-child(5n)   { background: var(--gold-light); animation-name: twinkleWarm; animation-duration: 1.6s; }
+.fairy-lights li:nth-child(2n+1) { animation-delay: 0.2s; }
+.fairy-lights li:nth-child(3n+2) { animation-delay: 0.5s; }
+.fairy-lights li:nth-child(4n+3) { animation-delay: 0.8s; }
+
+/* Enhanced filters that cast unbounded glows */
+@keyframes twinkleWarm {
+  0%, 100% { background: var(--gold); filter: drop-shadow(0 2px 12px rgba(209,175,102,0.9)); }
+  50% { background: #4a3c20; filter: drop-shadow(0 0 0px transparent); }
+}
+@keyframes twinkleBright {
+  0%, 100% { background: #fff1d4; filter: drop-shadow(0 2px 16px rgba(255,241,212,1)); }
+  50% { background: #474136; filter: drop-shadow(0 0 0px transparent); }
+}
+@keyframes twinkleDeep {
+  0%, 100% { background: #dfa253; filter: drop-shadow(0 2px 10px rgba(223,162,83,0.8)); }
+  50% { background: #332514; filter: drop-shadow(0 0 0px transparent); }
 }
 
 /* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
@@ -673,6 +737,10 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="story" class="section">
+    <ul class="fairy-lights">
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
     <div class="section-inner">
       <h2>Written in the stars, a serendipitous meeting</h2>
       <div class="flourish"><span>♥</span></div>
@@ -729,6 +797,10 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   </section>
 
   <section id="closing" class="section">
+    <ul class="fairy-lights">
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+      <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
     <div class="section-inner">
       <p class="note" id="closingNote">Here is to every ordinary day that became one of our favorites and everyone still ahead of us.</p>
       <p class="from" id="closingFrom">— Fimi</p>
