@@ -429,12 +429,35 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   animation: sparkleBurst 1.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
 }
 
-#closing{ background:var(--paper); text-align:center; }
-#closing .note{
-  max-width:560px; margin:0 auto; font-family:var(--hand); font-size:1.75rem; line-height:1.6; color:var(--wine); font-weight: 500;
+/* ---------- CLOSING SECTION WITH SMOOTH FADE TO DARK ---------- */
+#closing {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--charcoal) 35%, var(--charcoal) 100%);
+  text-align: center;
+  padding-top: clamp(100px, 15vw, 160px);
 }
-#closing .from{ margin-top:22px; font-family:var(--hand); font-size:1.6rem; color:var(--charcoal); font-weight: 700; }
-#closing .tiny{ margin-top:50px; font-size:.7rem; opacity:.45; font-family:var(--sans); color:var(--ink); }
+#closing .note {
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--hand);
+  font-size: 1.75rem;
+  line-height: 1.6;
+  color: var(--gold-light);
+  font-weight: 500;
+}
+#closing .from {
+  margin-top: 22px;
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+#closing .tiny {
+  margin-top: 50px;
+  font-size: .7rem;
+  opacity: .45;
+  font-family: var(--sans);
+  color: var(--paper);
+}
 
 /* ---------- ENTRY GATE & STAGED ANIMATIONS ---------- */
 #gate{
@@ -632,7 +655,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
-  <!-- THE BRIDGE SECTION -->
   <section id="wish-space">
     <div class="wish-box" id="wishBox">
       <p class="wish-prompt" id="wishPrompt">click the star...</p>
@@ -680,7 +702,6 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
     </div>
   </section>
 
-  <!-- KEEPSAKE DOWNLOAD SECTION -->
   <section id="keepsake" class="section">
     <div class="section-inner">
       <span class="eyebrow">a token to keep</span>
@@ -700,7 +721,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 
   <section id="closing" class="section">
     <div class="section-inner">
-      <p class="note" id="closingNote">Here's to every ordinary day that became one of my favorites, and every one still ahead of us.</p>
+      <p class="note" id="closingNote">Yes to every ordinary day that became one of our favorites, and every one still ahead of us.</p>
       <p class="from" id="closingFrom">— Fimi</p>
       <p class="tiny">made with love · your munchkin pumpkin</p>
     </div>
@@ -740,7 +761,7 @@ const CONFIG = {
     { n: "1", l: "Favourite person" }
   ],
 
-  closingNote: "Here's to every ordinary day that became one of my favorites, and every one still ahead of us.",
+  closingNote: "Yes to every ordinary day that became one of our favorites, and every one still ahead of us.",
   closingFrom: "— Fimi"
 };
 
