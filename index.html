@@ -728,7 +728,8 @@ const CONFIG = {
   stats: [
     { n: "1000+", l: "Inside jokes shared" },
     { n: "∞", l: "More days to come" },
-    { n: "1", l: "Irreplaceable connection" }
+    { n: "1", l: "Irreplaceable connection" },
+    { n: "0", l: "Regrets or second thoughts" }
   ],
 
   fortunes: [
@@ -750,6 +751,14 @@ function navigateToPage(pageId, pushState = true) {
   if (!isGateUnlocked && pageId !== 'gate') {
     return;
   }
+
+  // FIX 1: Clear any active focus or sticky hover element highlights on mobile tap
+  if (document.activeElement && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur();
+  }
+
+  // FIX 2: Reset interactive states of views every time a new page route takes over
+  resetPageInteractiveStates(pageId);
 
   if (pageId === 'gate') {
     const gateElement = document.getElementById('gate');
@@ -795,6 +804,28 @@ function navigateToPage(pageId, pushState = true) {
 
   if (pushState) {
     history.pushState({ pageId: pageId }, "", `#${pageId}`);
+  }
+}
+
+// Function to automatically wipe states when visiting/leaving pages
+function resetPageInteractiveStates(incomingPageId) {
+  // Reset Wishing Well Star State
+  const wishBox = document.getElementById('wishBox');
+  if (wishBox && incomingPageId === 'wish-space') {
+    wishBox.classList.remove('granted');
+  }
+
+  // Reset Fortune Oracle Box State
+  const oracleOutput = document.getElementById('oracleOutput');
+  if (oracleOutput && incomingPageId === 'closing') {
+    oracleOutput.textContent = 'Click to uncover a hidden promise...';
+    oracleOutput.style.opacity = '1';
+  }
+
+  // Reset Polaroid Flipped states if returning to map hub or leaving memory board
+  if (incomingPageId === 'park-map' || incomingPageId === 'lane') {
+    const flippedPolaroids = document.querySelectorAll('.polaroid.flipped');
+    flippedPolaroids.forEach(p => p.classList.remove('flipped'));
   }
 }
 
@@ -906,17 +937,14 @@ function tick(){
   const heroSubElement = document.getElementById('heroSub');
 
   if (totalDays < 730) {
-    // Before the official 2 year threshold
     heroEyebrowElement.textContent = "Counting Down to 2 Years...";
     heroYearsElement.textContent = "1";
     heroSubElement.textContent = "Year of Us";
   } else if (totalDays === 730) {
-    // Exactly on July 27, 2026
     heroEyebrowElement.textContent = "✨ Happy 2nd Anniversary! ✨";
     heroYearsElement.textContent = "2";
     heroSubElement.textContent = "Years of Us";
   } else {
-    // Once July 27 has passed
     heroEyebrowElement.textContent = "Our Fairytale Continues";
     heroYearsElement.textContent = "2";
     heroSubElement.textContent = "Years & Counting";
