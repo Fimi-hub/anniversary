@@ -35,6 +35,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+  height: 100dvh; /* Fixes mobile address bar calculation shifting layout sizes */
   overflow: hidden;
   background: var(--charcoal);
   font-family: var(--sans);
@@ -53,6 +54,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   left: 0;
   width: 100%;
   height: 100%;
+  height: 100dvh; /* Prevents structural dimension collapsing when jumping between routers */
   opacity: 0;
   pointer-events: none;
   overflow-y: auto;
@@ -141,7 +143,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes tap-float{ 0%{ transform:translate(-50%,-50%) scale(.4) rotate(0deg); opacity:1; filter: blur(0px) brightness(1.5); } 100%{ transform:translate(calc(-50% + (var(--rdirx, 0) * 20px)), -180%) scale(1.4) rotate(var(--rrot, 15deg)); opacity:0; filter: blur(2px); } }
 
 /* ---------- PAGE 1: HERO VIEW ---------- */
-#hero { background:var(--charcoal); color:var(--paper); justify-content:center; align-items:center; text-align:center; }
+#hero { background:var(--charcoal); color:var(--paper); justify-content:center; align-items:center; text-align:center; height: 100dvh; }
 .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.38; z-index:0; transform: scale(1.02); }
 .hero-video-overlay{ position:absolute; inset:0; z-index:1; background:rgba(18,19,38,.75); }
 #hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow: hidden; }
@@ -422,7 +424,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes twinkleDeep { 0%, 100% { background: #dfa253; box-shadow: 0 1px 5px 2px rgba(223,162,83,0.5); } 50% { background: #2e2315; box-shadow: none; } }
 
 /* ---------- ENTRY GATE LOCK ---------- */
-#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; opacity: 1; visibility: visible; }
+#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; opacity: 1; visibility: visible; height: 100dvh; }
 #gate.unlocked{ opacity:0; pointer-events:none; visibility: hidden; }
 .gate-card{ max-width:380px; width:100%; text-align:center; color:var(--paper); margin-bottom: 8vh; transition: opacity 0.6s, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #gate.card-faded .gate-card { opacity: 0; transform: scale(0.9) rotate(-2deg); filter: blur(5px); }
