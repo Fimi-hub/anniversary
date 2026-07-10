@@ -35,13 +35,14 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  height: 100dvh; /* Fixes mobile address bar calculation shifting layout sizes */
+  height: 100dvh;
   overflow: hidden;
   background: var(--charcoal);
   font-family: var(--sans);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   transition: background-color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  overscroll-behavior: none; /* Prevents elastic rubber-banding on modern mobile views */
 }
 img{max-width:100%;display:block;}
 h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
@@ -54,7 +55,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   left: 0;
   width: 100%;
   height: 100%;
-  height: 100dvh; /* Prevents structural dimension collapsing when jumping between routers */
+  height: 100dvh;
   opacity: 0;
   pointer-events: none;
   overflow-y: auto;
@@ -63,6 +64,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   z-index: 10;
   display: flex;
   flex-direction: column;
+  overscroll-behavior-y: contain; /* Isolates scroll physics per routing sub-view */
   
   transform: scale(0.96) translateY(10px);
   filter: blur(8px);
@@ -143,9 +145,9 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes tap-float{ 0%{ transform:translate(-50%,-50%) scale(.4) rotate(0deg); opacity:1; filter: blur(0px) brightness(1.5); } 100%{ transform:translate(calc(-50% + (var(--rdirx, 0) * 20px)), -180%) scale(1.4) rotate(var(--rrot, 15deg)); opacity:0; filter: blur(2px); } }
 
 /* ---------- PAGE 1: HERO VIEW ---------- */
-#hero { background:var(--charcoal); color:var(--paper); justify-content:center; align-items:center; text-align:center; height: 100dvh; }
-.hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.38; z-index:0; transform: scale(1.02); }
-.hero-video-overlay{ position:absolute; inset:0; z-index:1; background:rgba(18,19,38,.75); }
+#hero { background:var(--charcoal); color:var(--paper); justify-content:center; align-items:center; text-align:center; height: 100dvh; overflow: hidden; }
+.hero-video{ position:absolute; inset:-5px; width:calc(100% + 10px); height:calc(100% + 10px); object-fit:cover; opacity:.38; z-index:0; transform: scale(1.02); pointer-events: none; }
+.hero-video-overlay{ position:absolute; inset:-5px; z-index:1; background:rgba(18,19,38,.75); pointer-events: none; }
 #hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow: hidden; }
 #hero .hearts span{ position:absolute; bottom:-10%; font-size:1.2rem; color:var(--gold-light); opacity:.4; animation:float-up linear infinite; }
 @keyframes float-up{ to{ transform:translateY(-120vh) rotate(20deg); opacity:0; } }
@@ -747,6 +749,7 @@ const CONFIG = {
 };
 
 let isGateUnlocked = false;
+let savedMapScrollPosition = 0; // State variable to hold exact pixel scroll memory of the hub grid
 
 /* ---------- EXPLICIT ROUTER HANDLING ---------- */
 function navigateToPage(pageId, pushState = true) {
@@ -754,12 +757,16 @@ function navigateToPage(pageId, pushState = true) {
     return;
   }
 
-  // FIX 1: Clear any active focus or sticky hover element highlights on mobile tap
+  // Record map position if leaving the park map
+  const currentActivePage = document.querySelector('.app-page.active-page');
+  if (currentActivePage && currentActivePage.id === 'park-map') {
+    savedMapScrollPosition = currentActivePage.scrollTop;
+  }
+
   if (document.activeElement && typeof document.activeElement.blur === 'function') {
     document.activeElement.blur();
   }
 
-  // FIX 2: Reset interactive states of views every time a new page route takes over
   resetPageInteractiveStates(pageId);
 
   if (pageId === 'gate') {
@@ -778,15 +785,25 @@ function navigateToPage(pageId, pushState = true) {
     }
   }
 
-  const activePage = document.querySelector('.app-page.active-page');
-  if(activePage) {
-    activePage.classList.remove('active-page');
-    activePage.scrollTop = 0; 
+  if(currentActivePage) {
+    currentActivePage.classList.remove('active-page');
+    // ONLY reset the scroll to 0 if the page we are LEAVING is NOT the park map, preventing jumps
+    if (currentActivePage.id !== 'park-map') {
+      currentActivePage.scrollTop = 0; 
+    }
   }
   
   const targetPage = document.getElementById(pageId);
   if (targetPage) {
     targetPage.classList.add('active-page');
+    
+    // Smoothly re-inject the exact scroll context if entering the park map
+    if (pageId === 'park-map') {
+      // Small timeout ensures the layout cycle renders before recalculating scroll depths
+      setTimeout(() => {
+        targetPage.scrollTop = savedMapScrollPosition;
+      }, 20);
+    }
   }
 
   const compass = document.getElementById('mapCompass');
@@ -809,22 +826,18 @@ function navigateToPage(pageId, pushState = true) {
   }
 }
 
-// Function to automatically wipe states when visiting/leaving pages
 function resetPageInteractiveStates(incomingPageId) {
-  // Reset Wishing Well Star State
   const wishBox = document.getElementById('wishBox');
   if (wishBox && incomingPageId === 'wish-space') {
     wishBox.classList.remove('granted');
   }
 
-  // Reset Fortune Oracle Box State
   const oracleOutput = document.getElementById('oracleOutput');
   if (oracleOutput && incomingPageId === 'closing') {
     oracleOutput.textContent = 'Click to uncover a hidden promise...';
     oracleOutput.style.opacity = '1';
   }
 
-  // Reset Polaroid Flipped states if returning to map hub or leaving memory board
   if (incomingPageId === 'park-map' || incomingPageId === 'lane') {
     const flippedPolaroids = document.querySelectorAll('.polaroid.flipped');
     flippedPolaroids.forEach(p => p.classList.remove('flipped'));
@@ -854,7 +867,6 @@ document.getElementById('mapCompass').addEventListener('click', () => {
   navigateToPage('park-map');
 });
 
-// Setup static config text injections
 document.getElementById('heroNames').textContent = CONFIG.namesShort;
 document.getElementById('storySignoff').textContent = CONFIG.storySignoff;
 document.getElementById('songNote').textContent = CONFIG.songNote;
@@ -909,7 +921,6 @@ CONFIG.stats.forEach(s=>{
   statsGrid.appendChild(div);
 });
 
-// Advanced Time & Adaptive Story Engine
 const start = new Date(CONFIG.anniversaryStart+"T00:00:00");
 function tick(){
   const now = new Date();
@@ -933,7 +944,6 @@ function tick(){
   document.getElementById('cMins').textContent = String(displayMins).padStart(2,'0');
   document.getElementById('cSecs').textContent = String(displaySecs).padStart(2,'0');
   
-  // DYNAMIC HERO TEXT ENGINE
   const heroEyebrowElement = document.getElementById('heroEyebrow');
   const heroYearsElement = document.getElementById('heroYears');
   const heroSubElement = document.getElementById('heroSub');
@@ -960,7 +970,6 @@ function tick(){
 }
 tick(); setInterval(tick,1000);
 
-// Love Oracle Engine
 let oracleRotation = 0;
 const oracleBox = document.getElementById('oracleBox');
 const oracleWheel = document.getElementById('oracleWheel');
@@ -978,7 +987,6 @@ oracleBox.addEventListener('click', () => {
   }, 300);
 });
 
-// Gate Logic
 const gate = document.getElementById('gate');
 const gateForm = document.getElementById('gateForm');
 const gateInput = document.getElementById('gateInput');
@@ -1013,7 +1021,6 @@ gateForm.addEventListener('submit', (e)=>{
   }
 });
 
-// Envelope, Wish, Particle FX
 const envelope = document.getElementById('envelope');
 const songReveal = document.getElementById('songReveal');
 const songEmbed = document.getElementById('songEmbed');
@@ -1068,7 +1075,6 @@ document.getElementById('downloadBtn').addEventListener('click', (e) => {
   }
 });
 
-// Mystical Tap Trails
 const TAP_EMOJIS = ['✨','🔮','⭐','🏼','💫'];
 document.addEventListener('click', (e)=>{
   if(e.target.closest('#gateForm') || e.target.closest('#envelope') || e.target.closest('#wishStar') || e.target.closest('#downloadBtn') || e.target.closest('#mapCompass') || e.target.closest('.map-attraction') || e.target.closest('.next-map-btn') || e.target.closest('#oracleBox')) return;
