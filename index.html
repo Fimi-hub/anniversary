@@ -715,8 +715,15 @@ function navigateToPage(pageId, pushState = true) {
   }
 
   const currentActivePage = document.querySelector('.app-page.active-page');
-  if (currentActivePage && currentActivePage.id === 'park-map') {
-    savedMapScrollPosition = currentActivePage.scrollTop;
+  if (currentActivePage) {
+    if (currentActivePage.id === 'park-map') {
+      savedMapScrollPosition = currentActivePage.scrollTop;
+    }
+    // FIX 1: Instantly reset the wishing well state when leaving it out-of-sight
+    if (currentActivePage.id === 'wish-space') {
+      const wishBox = document.getElementById('wishBox');
+      if (wishBox) wishBox.classList.remove('granted');
+    }
   }
 
   if (document.activeElement && typeof document.activeElement.blur === 'function') {
@@ -743,9 +750,7 @@ function navigateToPage(pageId, pushState = true) {
 
   if(currentActivePage) {
     currentActivePage.classList.remove('active-page');
-    if (currentActivePage.id !== 'park-map') {
-      currentActivePage.scrollTop = 0; 
-    }
+    // FIX 2: Removed scrollTop = 0 from here so it doesn't snap down mid-transition
   }
   
   const targetPage = document.getElementById(pageId);
@@ -756,6 +761,9 @@ function navigateToPage(pageId, pushState = true) {
       setTimeout(() => {
         targetPage.scrollTop = savedMapScrollPosition;
       }, 20);
+    } else {
+      // FIX 2: Reset the container scroll seamlessly on target reentry instead
+      targetPage.scrollTop = 0;
     }
   }
 
