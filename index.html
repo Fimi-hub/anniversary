@@ -21,7 +21,7 @@
   --sage:#59041b;           /* Deep wine for subtitles */
   --ink:#2b020d;            /* Deepest velvet plum for crisp, readable text */
   --romantic-black:#1a1214; /* Soft rich charcoal black for elegant contrast */
-  --string:#ff6b8b;         /* Enhanced clear vibrant pink for highlighted text */
+  --string:#ff477e;         /* Enhanced clear vibrant pink for highlighted text */
   --shadow: 0 14px 35px rgba(43, 2, 13, 0.08);
   --serif: 'Fraunces', serif;
   --sans: 'Nunito', sans-serif;
@@ -169,7 +169,7 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   width: 100%; 
   height: 100%; 
   object-fit: cover; 
-  opacity: 0.12; 
+  opacity: 0.35; 
   z-index: 0; 
   pointer-events: none; 
   transform: translateZ(0); 
@@ -181,44 +181,57 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
   width: 100%;
   height: 100%;
   z-index: 1; 
-  background: rgba(43, 2, 13, 0.22); 
+  background: transparent; 
   pointer-events: none; 
 }
 #hero .hearts{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow: hidden; }
 #hero .hearts span{ position:absolute; bottom:-10%; font-size:1.2rem; color:var(--wine); opacity:.4; transform: translateZ(0); will-change: transform; animation:float-up linear infinite; }
 @keyframes float-up{ to{ transform:translateY(-120vh) rotate(20deg) translateZ(0); opacity:0; } }
-.hero-content{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; padding:0 22px; width: 100%; transform: translateZ(0); }
-.hero-eyebrow{ font-family:var(--sans); font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--string); font-size:clamp(0.95rem, 2.8vw, 1.15rem); margin-top:-14px; margin-bottom:12px; }
-.hero-num{ font-size:clamp(6rem,22vw,14rem); line-height:.85; color:var(--ink); font-weight:600; letter-spacing:-.02em; }
-.hero-sub{ font-size:clamp(1.4rem,4vw,2.4rem); margin-top:6px; font-family: var(--serif); font-weight: 600; color: var(--ink); }
-.hero-names{ margin-top:22px; font-family:var(--hand); font-size:2.6rem; color: var(--string); font-weight:700; }
-.counter{ margin-top:36px; display:flex; gap:clamp(10px,3vw,28px); flex-wrap:wrap; justify-content:center; }
-.counter div { min-width:76px; }
-.counter .num{ font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem); color:var(--ink); font-weight:600; }
-.counter .lbl{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color: var(--string); opacity:1; font-weight: 800; }
+
+/* FANCY FONTS FOR HERO EYEBROW & COLOR CORRECTION FOR HERO NAMES */
+.hero-eyebrow{ 
+  font-family:var(--serif); 
+  font-weight:700; 
+  font-style: italic; 
+  letter-spacing:.05em; 
+  color: var(--wine); 
+  font-size: clamp(1.5rem, 5vw, 2rem); 
+  margin-top: -60px;       /* Lift text higher up the screen */
+  margin-bottom: 90px;     /* Push the number 1 down away from this text */
+  text-shadow: none;
+}
+.hero-num{ font-size:clamp(6.5rem,24vw,15rem); line-height:.85; color:var(--ink); font-weight:700; letter-spacing:-.02em; text-shadow: none; }
+.hero-sub{ font-size:clamp(1.5rem,4.5vw,2.6rem); margin-top:10px; font-family: var(--serif); font-weight: 600; color: var(--ink); text-shadow: none; }
+.hero-names{ margin-top:24px; font-family:var(--hand); font-size:clamp(3rem, 9vw, 4.2rem); color: var(--wine); font-weight:700; text-shadow: none; }
+
+.counter{ margin-top:36px; display:flex; gap:clamp(12px,4vw,32px); flex-wrap:wrap; justify-content:center; }
+.counter div { min-width:80px; }
+.counter .num{ font-family:var(--serif); font-size:clamp(1.8rem,4.5vw,2.6rem); color:var(--ink); font-weight:700; }
+.counter .lbl{ font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color: var(--wine); opacity:1; font-weight: 800; margin-top: 2px; }
 
 .next-map-btn { 
   margin-top:44px; 
   font-family:var(--sans); 
-  font-weight:700; 
+  font-weight:800; 
   background:var(--wine); 
   border:2px solid var(--wine); 
   color:var(--paper); 
   border-radius:30px; 
-  padding:12px 28px; 
-  font-size:.85rem; 
+  padding:14px 32px; 
+  font-size:.88rem; 
   letter-spacing:.12em; 
   text-transform:uppercase; 
   cursor:pointer; 
   transition:all 0.25s; 
   z-index:5; 
   transform: translateZ(0);
-  box-shadow: 0 4px 15px rgba(161, 29, 51, 0.25);
+  box-shadow: 0 6px 20px rgba(161, 29, 51, 0.35);
 }
 .next-map-btn:hover { 
   background:transparent; 
   color:var(--wine); 
   transform:translateY(-2px) translateZ(0); 
+  box-shadow: 0 4px 12px rgba(161, 29, 51, 0.2);
 }
 
 /* ---------- PAGE 2: MAP HUB SCREEN ---------- */
@@ -432,12 +445,47 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 @keyframes twinkleBright { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 @keyframes twinkleDeep { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* ---------- ENTRY GATE LOCK ---------- */
-#gate{ position:fixed; inset:0; z-index:10000; background:var(--charcoal); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s; opacity: 1; visibility: visible; height: 100vh; height: 100dvh; }
+/* ---------- ENTRY GATE LOCK - DESIGN ENHANCEMENTS ---------- */
+#gate{ 
+  position:fixed; 
+  inset:0; 
+  z-index:10000; 
+  background: var(--charcoal);
+  background-image: radial-gradient(circle at 20% 30%, rgba(223, 177, 91, 0.15) 1px, transparent 1px),
+                    radial-gradient(circle at 75% 60%, rgba(161, 29, 51, 0.1) 2px, transparent 2px),
+                    radial-gradient(circle at 50% 85%, rgba(223, 177, 91, 0.12) 1.5px, transparent 1.5px);
+  background-size: 40px 40px;
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  padding:24px; 
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s; 
+  opacity: 1; 
+  visibility: visible; 
+  height: 100vh; 
+  height: 100dvh; 
+}
 #gate.unlocked{ opacity:0; pointer-events:none; visibility: hidden; }
-.gate-card{ max-width:380px; width:100%; text-align:center; color:var(--ink); margin-bottom: 8vh; transform: translateZ(0); transition: opacity 0.5s, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+.gate-card{ 
+  max-width:400px; 
+  width:100%; 
+  text-align:center; 
+  color:var(--ink); 
+  margin-bottom: 4vh; 
+  background: rgba(255, 245, 246, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px 24px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(223, 177, 91, 0.35);
+  box-shadow: 0 20px 50px rgba(43, 2, 13, 0.12), inset 0 0 20px rgba(255, 255, 255, 0.6);
+  transform: translateZ(0); 
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
 #gate.card-faded .gate-card { opacity: 0; transform: scale(0.9) translateY(-10px) translateZ(0); }
-.gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 10px; }
+.gate-stack { display: grid; grid-template-areas: "cardlayer"; align-items: start; margin-top: 15px; }
 .gate-form-wrap { grid-area: cardlayer; transition: opacity 0.3s, transform 0.3s; }
 .gate-card.celebrating .gate-form-wrap { opacity: 0; transform: translateY(-8px) translateZ(0); pointer-events: none; }
 .gate-success { grid-area: cardlayer; opacity: 0; pointer-events: none; transform: translateY(8px) translateZ(0); transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s; }
@@ -449,7 +497,21 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .confetti { position: absolute; width: 6px; height: 12px; border-radius: 2px; z-index: 10001; opacity: 0.85; transform: translateZ(0); animation: fall linear forwards; }
 @keyframes fall { 0% { transform: translateY(-50px) translateX(0) rotate(0deg) translateZ(0); opacity: 1; } 100% { transform: translateY(105vh) translateX(var(--wdrift, 30px)) rotate(360deg) translateZ(0); opacity: 0; } }
 
-.bunny-scene{ height:110px; margin-bottom: 5px; display:flex; align-items:flex-end; justify-content:center; position:relative; overflow: visible; }
+.bunny-scene{ 
+  height:125px; 
+  margin: 0 auto 20px auto;
+  display:flex; 
+  align-items:flex-end; 
+  justify-content:center; 
+  position:relative; 
+  overflow: visible; 
+  background: var(--charcoal-soft); /* DEEPER ROSE BACKDROP SHADE to create high contrast against the cream bunnies */
+  max-width: 220px;
+  border-radius: 100px 100px 12px 12px;
+  padding: 10px;
+  border: 1px solid rgba(223, 177, 91, 0.35); /* Marginally cleaner border contrast line */
+  box-shadow: inset 0 4px 14px rgba(43, 2, 13, 0.05); /* Soft dimensional inset depth */
+}
 .bunny { width:80px; height:105px; overflow: visible; }
 .bunny-left{ animation: bunny-left-kiss 3.6s ease-in-out infinite; margin-right:-4px; }
 .bunny-right{ animation: bunny-right-kiss 3.6s ease-in-out infinite; margin-left:-4px; }
@@ -457,16 +519,58 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 .gate-card.celebrating .bunny-right { animation: bunny-right-kiss 0.8s infinite; }
 @keyframes bunny-left-kiss{ 0%,58%{ transform:translateX(0); } 76%{ transform:translateX(14px) rotate(-5deg); } 100%{ transform:translateX(0); } }
 @keyframes bunny-right-kiss{ 0%,58%{ transform:translateX(0); } 76%{ transform:translateX(-14px) rotate(5deg); } 100%{ transform:translateX(0); } }
-.kiss-heart{ position:absolute; top: 12px; left:50%; font-size:1.3rem; color:var(--wine); animation: kiss-heart-pop 3.6s ease-in-out infinite; z-index: 5; }
-.gate-card.celebrating .kiss-heart { animation: kiss-heart-pop 0.8s infinite; }
-@keyframes kiss-heart-pop{ 0%,66%{ opacity:0; transform:translateX(-50%) scale(.4); } 78%{ opacity:1; transform:translateX(-50%) scale(1.1); } 100%{ opacity:0; transform:translateX(-50%) scale(.6); } }
 
-.gate-eyebrow{ font-family:var(--hand); color:var(--wine); font-size:1.6rem; font-weight: 700; display:block; margin-bottom:6px; }
-.gate-title{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--ink); font-style:italic; font-weight:600; margin-bottom:8px; }
-.gate-hint{ font-size:.85rem; opacity:.85; margin-bottom:18px; color: var(--ink); font-weight: 700; }
-#gateForm{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-#gateInput{ flex:1; min-width:0; max-width:220px; text-align:center; font-family:var(--sans); font-size:1.05rem; font-weight:600; padding:13px 14px; border-radius:6px; border:1px solid rgba(43,2,13,.15); background:rgba(255,255,255,0.6); color:var(--ink); }
-#gateForm button{ font-family:var(--sans); font-weight:700; font-size:.95rem; padding:13px 22px; border-radius:6px; border:none; background:var(--wine); color:var(--paper); cursor:pointer; box-shadow: 0 4px 12px rgba(161, 29, 51, 0.15); }
+/* COLOR ADJUSTMENT FOR THE KISSING HEART AT THE ENTRY GATE */
+.kiss-heart{ position:absolute; top: 18px; left:50%; font-size:1.5rem; color:var(--wine); animation: kiss-heart-pop 3.6s ease-in-out infinite; z-index: 5; text-shadow: 0 2px 8px rgba(161, 29, 51, 0.3); }
+.gate-card.celebrating .kiss-heart { animation: kiss-heart-pop 0.8s infinite; }
+@keyframes kiss-heart-pop{ 0%,66%{ opacity:0; transform:translateX(-50%) scale(.4); } 78%{ opacity:1; transform:translateX(-50%) scale(1.2); } 100%{ opacity:0; transform:translateX(-50%) scale(.6); } }
+
+.gate-eyebrow{ font-family:var(--hand); color:var(--wine); font-size:1.75rem; font-weight: 700; display:block; margin-bottom:8px; }
+.gate-title{ font-size:clamp(1.5rem,5vw,2.2rem); color:var(--ink); font-style:italic; font-weight:600; margin-bottom:10px; font-family: var(--serif); letter-spacing: -0.01em; }
+.gate-hint{ font-size:.85rem; opacity:.75; margin-bottom:22px; color: var(--ink); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+#gateForm{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; width:100%; }
+#gateInput{ 
+  flex:1; 
+  min-width:0; 
+  max-width:200px; 
+  text-align:center; 
+  font-family:var(--sans); 
+  font-size:1.05rem; 
+  font-weight:700; 
+  padding:14px; 
+  border-radius:30px; 
+  border:1.5px solid rgba(161, 29, 51, 0.2); 
+  background:rgba(255,255,255,0.85); 
+  color:var(--ink); 
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+  letter-spacing: 0.05em;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+#gateInput:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(223, 177, 91, 0.25);
+}
+#gateForm button{ 
+  font-family:var(--sans); 
+  font-weight:800; 
+  font-size:.9rem; 
+  padding:14px 28px; 
+  border-radius:30px; 
+  border:none; 
+  background:var(--wine); 
+  color:var(--paper); 
+  cursor:pointer; 
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 16px rgba(161, 29, 51, 0.35); 
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+#gateForm button:hover {
+  background: #8b1427;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(161, 29, 51, 0.45);
+}
 .gate-card.shake{ animation:gate-shake .4s ease; }
 @keyframes gate-shake{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-6px); } 75%{ transform:translateX(6px); } }
 
@@ -500,7 +604,8 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
       <svg class="bunny bunny-left" viewBox="0 -15 100 120">
         <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
       </svg>
-      <span class="kiss-heart">💕</span>
+      <!-- HEART BOX CONTAINS PLAIN TEXT HEART THAT DYNAMICALLY APET THE ASSIGNED WINE CLASS SHADE -->
+      <span class="kiss-heart">❤</span>
       <svg class="bunny bunny-right" viewBox="0 -15 100 120">
         <ellipse cx="35" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="35" cy="22" rx="5" ry="18" fill="#f0b8c6"/><ellipse cx="63" cy="20" rx="10" ry="26" fill="#fdf3e7"/><ellipse cx="63" cy="22" rx="5" ry="18" fill="#f0b8c6"/><circle cx="49" cy="58" r="34" fill="#fffaf2"/><circle cx="35" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="63" cy="66" r="5.5" fill="#f0b8c6" opacity=".85"/><circle cx="39" cy="52" r="3.4" fill="#2a2620"/><circle cx="59" cy="52" r="3.4" fill="#2a2620"/><path d="M44,62 Q49,67 54,62" stroke="#2a2620" stroke-width="2.2" fill="none" stroke-linecap="round"/>
       </svg>
@@ -509,9 +614,9 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
       <div class="gate-form-wrap" id="gateFormWrap">
         <span class="gate-eyebrow">a little lock, just for you</span>
         <h2 class="gate-title">When did we become official?</h2>
-        <p class="gate-hint">Enter the date — dd/mm/yyyy</p>
+        <p class="gate-hint">Enter the date — dd/mm/yy</p>
         <form id="gateForm">
-          <input type="text" id="gateInput" placeholder="dd/mm/yyyy" inputmode="numeric" autocomplete="off">
+          <input type="text" id="gateInput" placeholder="dd/mm/yy" inputmode="numeric" autocomplete="off">
           <button type="submit">Unlock</button>
         </form>
         <p class="gate-error" id="gateError" role="alert"></p>
@@ -1066,7 +1171,9 @@ gateForm.addEventListener('submit', (e)=>{
   e.preventDefault();
   const digits = gateInput.value.replace(/[^0-9]/g,'');
   const [Y,M,D] = CONFIG.anniversaryStart.split('-');
-  if(digits === (D+M+Y) || digits === (D+M+Y.slice(2))){
+  
+  // Strictly allow only the ddmmyy format (e.g., 270724)
+  if(digits === (D + M + Y.slice(2))){
     gateCard.classList.add('celebrating');
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < 40; i++) {
