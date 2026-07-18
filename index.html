@@ -188,21 +188,29 @@ h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600;}
 #hero .hearts span{ position:absolute; bottom:-10%; font-size:1.2rem; color:var(--wine); opacity:.4; transform: translateZ(0); will-change: transform; animation:float-up linear infinite; }
 @keyframes float-up{ to{ transform:translateY(-120vh) rotate(20deg) translateZ(0); opacity:0; } }
 
-/* FANCY FONTS FOR HERO EYEBROW & COLOR CORRECTION FOR HERO NAMES */
+/* FIXED HERO INTERACTION AND SPACING LAYOUT */
 .hero-eyebrow{ 
   font-family:var(--serif); 
   font-weight:700; 
   font-style: italic; 
   letter-spacing:.05em; 
   color: var(--wine); 
-  font-size: clamp(1.5rem, 5vw, 2rem); 
-  margin-top: -60px;       /* Lift text higher up the screen */
-  margin-bottom: 90px;     /* Push the number 1 down away from this text */
+  font-size: clamp(1.3rem, 4.5vw, 1.8rem); 
+  margin-top: 0;
+  margin-bottom: 16.67px;    /* REDUCED BY 1/3 FROM 25px */
+  display: block;
   text-shadow: none;
 }
-.hero-num{ font-size:clamp(6.5rem,24vw,15rem); line-height:.85; color:var(--ink); font-weight:700; letter-spacing:-.02em; text-shadow: none; }
-.hero-sub{ font-size:clamp(1.5rem,4.5vw,2.6rem); margin-top:10px; font-family: var(--serif); font-weight: 600; color: var(--ink); text-shadow: none; }
-.hero-names{ margin-top:24px; font-family:var(--hand); font-size:clamp(3rem, 9vw, 4.2rem); color: var(--wine); font-weight:700; text-shadow: none; }
+.hero-num{ 
+  font-size: clamp(4.5rem, 16vw, 9.5rem); /* REDUCED SIZE FOR BETTER BREATHE SPACE */
+  line-height: 1.1;                        /* Stable box sizing */
+  color:var(--ink); 
+  font-weight:700; 
+  letter-spacing:-.02em; 
+  text-shadow: none; 
+}
+.hero-sub{ font-size:clamp(1.4rem,4vw,2.2rem); margin-top:5px; font-family: var(--serif); font-weight: 600; color: var(--ink); text-shadow: none; }
+.hero-names{ margin-top:20px; font-family:var(--hand); font-size:clamp(2.8rem, 8vw, 3.8rem); color: var(--wine); font-weight:700; text-shadow: none; }
 
 .counter{ margin-top:36px; display:flex; gap:clamp(12px,4vw,32px); flex-wrap:wrap; justify-content:center; }
 .counter div { min-width:80px; }
